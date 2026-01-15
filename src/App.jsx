@@ -669,33 +669,81 @@ export default function ScoutingTool() {
     return picks;
   };
 
-  const exportToExcel = () => {
+  const exportToWord = () => {
     const picks = exportPicks();
-    const rows = [['Category', 'Role', 'Player', 'Team', 'Region', 'Avg Rating', 'Peak', 'Floor', 'Trend', 'Twitter', 'Notes']];
+    const roleOrder = ['IGL', 'Entry', 'Flex', 'Sup/Anchor'];
+    const catColors = { WANT: '#22c55e', MAYBE: '#eab308', WATCH: '#3b82f6' };
+    const catLabels = { WANT: 'Want', MAYBE: 'Maybe', WATCH: 'Watch' };
+
+    let html = `
+      <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+      <head><meta charset="utf-8"><title>R6 Scouting Report</title>
+      <style>
+        body { font-family: Calibri, Arial, sans-serif; padding: 40px; color: #333; }
+        h1 { color: #1a1a1a; border-bottom: 3px solid #ff6a00; padding-bottom: 10px; margin-bottom: 30px; }
+        h2 { color: #fff; padding: 12px 20px; margin: 30px 0 20px 0; border-radius: 6px; }
+        h3 { color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 0; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        th { background: #f5f5f5; padding: 10px; text-align: left; font-size: 12px; color: #666; border-bottom: 2px solid #ddd; }
+        td { padding: 10px; border-bottom: 1px solid #eee; font-size: 13px; }
+        tr:hover { background: #fafafa; }
+        .player-name { font-weight: 600; color: #1a1a1a; }
+        .team { color: #666; }
+        .rating { font-weight: 600; }
+        .rating-good { color: #22c55e; }
+        .rating-avg { color: #666; }
+        .trend-up { color: #22c55e; }
+        .trend-down { color: #ef4444; }
+        .notes { font-size: 11px; color: #888; max-width: 300px; }
+      </style></head><body>
+      <h1>R6 Siege Scouting Report</h1>
+    `;
 
     Object.entries(picks).forEach(([cat, players]) => {
+      if (players.length === 0) return;
+
+      html += `<h2 style="background: ${catColors[cat]};">${catLabels[cat]} (${players.length} players)</h2>`;
+
+      const byRole = {};
+      roleOrder.forEach(r => byRole[r] = []);
       players.forEach(p => {
-        rows.push([
-          cat,
-          p.role,
-          p.name,
-          p.team,
-          p.region,
-          p.avg.toFixed(2),
-          p.peak.toFixed(2),
-          p.floor.toFixed(2),
-          (p.trend >= 0 ? '+' : '') + p.trend.toFixed(2),
-          p.twitter ? '@' + p.twitter : '',
-          p.note || ''
-        ]);
+        const role = p.role.replace('Star ', '');
+        if (byRole[role]) byRole[role].push(p);
+        else if (role.includes('Entry')) byRole['Entry'].push(p);
+        else if (role.includes('Flex')) byRole['Flex'].push(p);
+        else if (role.includes('Sup') || role.includes('Anchor')) byRole['Sup/Anchor'].push(p);
+        else if (role.includes('IGL')) byRole['IGL'].push(p);
+        else byRole['Flex'].push(p);
+      });
+
+      roleOrder.forEach(role => {
+        if (byRole[role].length === 0) return;
+        html += `<h3>${role}</h3>`;
+        html += `<table><tr><th>Player</th><th>Team</th><th>Region</th><th>Avg</th><th>Peak</th><th>Floor</th><th>Trend</th><th>Notes</th></tr>`;
+        byRole[role].forEach(p => {
+          const ratingClass = p.avg >= 1.10 ? 'rating-good' : 'rating-avg';
+          const trendClass = p.trend >= 0 ? 'trend-up' : 'trend-down';
+          html += `<tr>
+            <td class="player-name">${p.name}</td>
+            <td class="team">${p.team}</td>
+            <td>${p.region}</td>
+            <td class="rating ${ratingClass}">${p.avg.toFixed(2)}</td>
+            <td class="rating">${p.peak.toFixed(2)}</td>
+            <td>${p.floor.toFixed(2)}</td>
+            <td class="${trendClass}">${p.trend >= 0 ? '+' : ''}${p.trend.toFixed(2)}</td>
+            <td class="notes">${p.note || '-'}</td>
+          </tr>`;
+        });
+        html += `</table>`;
       });
     });
 
-    const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    html += `</body></html>`;
+
+    const blob = new Blob([html], { type: 'application/msword' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'r6-scouting-picks.csv';
+    link.download = 'r6-scouting-report.doc';
     link.click();
   };
 
@@ -990,8 +1038,8 @@ export default function ScoutingTool() {
             }} className="btn-primary">
               <span className="material-icons text-sm mr-1 align-middle">content_copy</span>Copy Text
             </button>
-            <button onClick={exportToExcel} className="btn-tactical bg-green-600 hover:bg-green-500 border-green-500">
-              <span className="material-icons text-sm mr-1 align-middle">table_chart</span>Export Excel
+            <button onClick={exportToWord} className="btn-tactical bg-blue-600 hover:bg-blue-500 border-blue-500">
+              <span className="material-icons text-sm mr-1 align-middle">description</span>Export Word
             </button>
           </div>
           <div className="grid grid-cols-3 gap-4 text-sm">
