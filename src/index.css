@@ -2,11 +2,309 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary: #ff6a00;
+  --primary-glow: rgba(255, 106, 0, 0.3);
+  --panel-dark: #161616;
+  --panel: #1a1a1a;
+  --panel-light: #222222;
+  --panel-border: #333333;
+}
+
+html, body, #root {
+  min-height: 100%;
+  height: auto;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
+  background-color: #0a0a0a;
+}
+
+/* Tactical Grid Background */
+.tactical-bg {
+  background-color: #0a0a0a;
+  background-image:
+    linear-gradient(rgba(255, 106, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 106, 0, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  position: relative;
+}
+
+.tactical-bg::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+}
+
+/* Scanline Effect */
+.scanlines::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.1) 0px,
+    rgba(0, 0, 0, 0.1) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 9999;
+  opacity: 0.3;
+}
+
+/* Panel Styles */
+.tactical-panel {
+  background: linear-gradient(135deg, #1a1a1a 0%, #161616 100%);
+  border: 1px solid #333333;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.tactical-panel-hover:hover {
+  border-color: rgba(255, 106, 0, 0.3);
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.1);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(135deg, #ff6a00 0%, #cc5500 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 20px rgba(255, 106, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+/* Tactical Button */
+.btn-tactical {
+  background: #222222;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-tactical:hover {
+  border-color: rgba(255, 106, 0, 0.5);
+  background: #2a2a2a;
+}
+
+.btn-tactical.active {
+  border-color: #ff6a00;
+  background: rgba(255, 106, 0, 0.1);
+  color: #ff6a00;
+}
+
+/* Glow Text */
+.text-glow {
+  text-shadow: 0 0 10px rgba(255, 106, 0, 0.5);
+}
+
+/* Status Badges */
+.badge-want {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+.badge-maybe {
+  background: rgba(234, 179, 8, 0.2);
+  border: 1px solid #eab308;
+  color: #eab308;
+}
+
+.badge-watch {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.badge-no {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+/* Region Badges */
+.badge-nal {
+  background: rgba(59, 130, 246, 0.2);
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+}
+
+.badge-eml {
+  background: rgba(168, 85, 247, 0.2);
+  border: 1px solid #a855f7;
+  color: #a855f7;
+}
+
+.badge-sal {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+.badge-apac {
+  background: rgba(249, 115, 22, 0.2);
+  border: 1px solid #f97316;
+  color: #f97316;
+}
+
+/* Rating Colors */
+.rating-elite {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid #22c55e;
+  color: #22c55e;
+}
+
+.rating-good {
+  background: rgba(234, 179, 8, 0.2);
+  border: 1px solid #eab308;
+  color: #eab308;
+}
+
+.rating-avg {
+  background: rgba(156, 163, 175, 0.2);
+  border: 1px solid #9ca3af;
+  color: #9ca3af;
+}
+
+.rating-low {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+/* Tactical Input */
+.input-tactical {
+  background: #161616;
+  border: 1px solid #333333;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.input-tactical:focus {
+  outline: none;
+  border-color: #ff6a00;
+  box-shadow: 0 0 0 2px rgba(255, 106, 0, 0.2);
+}
+
+.input-tactical::placeholder {
+  color: #666666;
+}
+
+/* Tactical Table */
+.table-tactical {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.table-tactical thead {
+  background: linear-gradient(135deg, #1a1a1a 0%, #161616 100%);
+}
+
+.table-tactical th {
+  padding: 0.75rem 1rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #888888;
+  border-bottom: 1px solid #333333;
+}
+
+.table-tactical tbody tr {
+  background: transparent;
+  transition: all 0.2s;
+}
+
+.table-tactical tbody tr:hover {
+  background: rgba(255, 106, 0, 0.05);
+}
+
+.table-tactical td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #222222;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #161616;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* Animations */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 106, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 106, 0, 0.5);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Live indicator */
+.live-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid #22c55e;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  color: #22c55e;
+}
+
+.live-indicator::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: pulse-glow 2s ease-in-out infinite;
 }

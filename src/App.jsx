@@ -735,57 +735,96 @@ export default function ScoutingTool() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <div className="min-h-screen tactical-bg scanlines text-white p-4 overflow-auto">
       {/* Header */}
-      <div className="text-center mb-6">
-        <div className="flex items-center justify-center gap-3">
-          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500">
-            R6 SIEGE ELITE SCOUTING TOOL
-          </h1>
-          <span className={`text-xs px-2 py-1 rounded-full ${
-            syncStatus === 'connected' ? 'bg-green-600' :
-            syncStatus === 'connecting' ? 'bg-yellow-600' :
-            'bg-red-600'
+      <div className="text-center mb-8 relative z-10">
+        <div className="flex items-center justify-center gap-4 mb-2">
+          <div className="flex items-center gap-3">
+            <span className="material-icons text-primary text-4xl">radar</span>
+            <h1 className="text-3xl font-bold tracking-wider">
+              <span className="text-white">R6</span>
+              <span className="text-primary text-glow"> TACTICAL</span>
+              <span className="text-white"> SCOUT</span>
+            </h1>
+          </div>
+          <div className={`live-indicator ${
+            syncStatus === 'connected' ? '' :
+            syncStatus === 'connecting' ? 'border-yellow-500 text-yellow-500' :
+            'border-red-500 text-red-500'
           }`}>
             {syncStatus === 'connected' ? 'LIVE SYNC' : syncStatus === 'connecting' ? 'CONNECTING...' : 'OFFLINE'}
-          </span>
+          </div>
         </div>
-        <p className="text-gray-400 text-sm">{playersData.length} Players | {stats.stars} Stars | Full Rosters</p>
-        <p className="text-gray-500 text-xs mt-1">Keyboard: 1-4 = Categorize | R = Add to Roster | Esc = Close</p>
+        <p className="text-gray-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
+        <p className="text-gray-600 text-xs mt-1 tracking-wider">KEYS: 1-4 CATEGORIZE | R ROSTER | ESC CLOSE</p>
       </div>
 
       {/* Stats Bar */}
-      <div className="flex justify-center gap-4 mb-4 flex-wrap">
-        <div className="bg-green-600 px-4 py-2 rounded-lg">Want: {stats.want}</div>
-        <div className="bg-yellow-500 text-black px-4 py-2 rounded-lg">Maybe: {stats.maybe}</div>
-        <div className="bg-blue-600 px-4 py-2 rounded-lg">Watch: {stats.watch}</div>
-        <div className="bg-red-600 px-4 py-2 rounded-lg">No: {stats.no}</div>
-        <div className="bg-purple-600 px-4 py-2 rounded-lg">Stars: {stats.stars}</div>
+      <div className="flex justify-center gap-3 mb-6 flex-wrap relative z-10">
+        <div className="badge-want px-4 py-2 rounded font-semibold tracking-wide">
+          <span className="material-icons text-sm mr-1 align-middle">check_circle</span>
+          WANT: {stats.want}
+        </div>
+        <div className="badge-maybe px-4 py-2 rounded font-semibold tracking-wide">
+          <span className="material-icons text-sm mr-1 align-middle">help</span>
+          MAYBE: {stats.maybe}
+        </div>
+        <div className="badge-watch px-4 py-2 rounded font-semibold tracking-wide">
+          <span className="material-icons text-sm mr-1 align-middle">visibility</span>
+          WATCH: {stats.watch}
+        </div>
+        <div className="badge-no px-4 py-2 rounded font-semibold tracking-wide">
+          <span className="material-icons text-sm mr-1 align-middle">cancel</span>
+          NO: {stats.no}
+        </div>
+        <div className="px-4 py-2 rounded font-semibold tracking-wide bg-purple-500/20 border border-purple-500 text-purple-400">
+          <span className="material-icons text-sm mr-1 align-middle">star</span>
+          ELITE: {stats.stars}
+        </div>
       </div>
 
       {/* View Toggles */}
-      <div className="flex justify-center gap-2 mb-4 flex-wrap">
-        <button onClick={() => setView('table')} className={`px-4 py-2 rounded ${view === 'table' ? 'bg-blue-600' : 'bg-gray-700'}`}>Table</button>
-        <button onClick={() => setView('teams')} className={`px-4 py-2 rounded ${view === 'teams' ? 'bg-blue-600' : 'bg-gray-700'}`}>Teams</button>
-        <button onClick={() => setView('summary')} className={`px-4 py-2 rounded ${view === 'summary' ? 'bg-blue-600' : 'bg-gray-700'}`}>My Picks</button>
-        <button onClick={() => setView('roster')} className={`px-4 py-2 rounded ${view === 'roster' ? 'bg-blue-600' : 'bg-gray-700'}`}>Team Builder ({roster.length}/5)</button>
-        <button onClick={() => setView('compare')} className={`px-4 py-2 rounded ${view === 'compare' ? 'bg-blue-600' : 'bg-gray-700'}`}>Compare ({compareList.length})</button>
-        <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`px-4 py-2 rounded ${filter.starOnly ? 'bg-purple-600' : 'bg-gray-700'}`}>Stars Only</button>
-        <button onClick={() => setShowExport(!showExport)} className="px-4 py-2 rounded bg-purple-600 hover:bg-purple-700">Export</button>
-        <button onClick={() => setShowFilters(!showFilters)} className={`px-4 py-2 rounded ${showFilters ? 'bg-orange-600' : 'bg-gray-700'}`}>Advanced</button>
+      <div className="flex justify-center gap-2 mb-4 flex-wrap relative z-10">
+        <button onClick={() => setView('table')} className={`btn-tactical ${view === 'table' ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">table_chart</span>TABLE
+        </button>
+        <button onClick={() => setView('teams')} className={`btn-tactical ${view === 'teams' ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">groups</span>TEAMS
+        </button>
+        <button onClick={() => setView('summary')} className={`btn-tactical ${view === 'summary' ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">playlist_add_check</span>MY PICKS
+        </button>
+        <button onClick={() => setView('roster')} className={`btn-tactical ${view === 'roster' ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">assignment_ind</span>ROSTER ({roster.length}/5)
+        </button>
+        <button onClick={() => setView('compare')} className={`btn-tactical ${view === 'compare' ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">compare_arrows</span>COMPARE ({compareList.length})
+        </button>
+        <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical ${filter.starOnly ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">star</span>ELITE ONLY
+        </button>
+        <button onClick={() => setShowExport(!showExport)} className="btn-primary">
+          <span className="material-icons text-sm mr-1 align-middle">file_download</span>EXPORT
+        </button>
+        <button onClick={() => setShowFilters(!showFilters)} className={`btn-tactical ${showFilters ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">tune</span>FILTERS
+        </button>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap justify-center gap-2 mb-4">
-        <input type="text" placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="bg-gray-800 border border-gray-600 rounded px-3 py-2 w-48" />
-        <select value={filter.region} onChange={e => setFilter({...filter, region: e.target.value})} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+      <div className="flex flex-wrap justify-center gap-2 mb-4 relative z-10">
+        <div className="relative">
+          <span className="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">search</span>
+          <input type="text" placeholder="Search operators..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="input-tactical pl-9 w-52" />
+        </div>
+        <select value={filter.region} onChange={e => setFilter({...filter, region: e.target.value})} className="input-tactical">
           <option value="ALL">All Regions</option>
           <option value="NAL">NAL</option>
           <option value="EML">EML</option>
           <option value="SAL">SAL</option>
           <option value="APAC">APAC</option>
         </select>
-        <select value={filter.role} onChange={e => setFilter({...filter, role: e.target.value})} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+        <select value={filter.role} onChange={e => setFilter({...filter, role: e.target.value})} className="input-tactical">
           <option value="ALL">All Roles</option>
           <option value="Entry">Entry</option>
           <option value="Flex">Flex</option>
@@ -797,16 +836,16 @@ export default function ScoutingTool() {
           <option value="Star Sup/Anchor">Star Sup/Anchor</option>
           <option value="Star IGL">Star IGL</option>
         </select>
-        <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+        <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="input-tactical">
           <option value="ALL">All Tiers</option>
           <option value="T1">T1 Only</option>
           <option value="T2">T2 Rising</option>
         </select>
-        <select value={filter.team} onChange={e => setFilter({...filter, team: e.target.value})} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+        <select value={filter.team} onChange={e => setFilter({...filter, team: e.target.value})} className="input-tactical">
           <option value="ALL">All Teams</option>
           {allTeams.map(team => <option key={team} value={team}>{team}</option>)}
         </select>
-        <select value={filter.category} onChange={e => setFilter({...filter, category: e.target.value})} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+        <select value={filter.category} onChange={e => setFilter({...filter, category: e.target.value})} className="input-tactical">
           <option value="ALL">All Status</option>
           <option value="WANT">Want</option>
           <option value="MAYBE">Maybe</option>
@@ -814,7 +853,7 @@ export default function ScoutingTool() {
           <option value="NO">No</option>
           <option value="UNCATEGORIZED">Uncategorized</option>
         </select>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="bg-gray-800 border border-gray-600 rounded px-3 py-2">
+        <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="input-tactical">
           <option value="avg">Sort: Avg</option>
           <option value="peak">Sort: Peak</option>
           <option value="trend">Sort: Trend</option>
@@ -824,36 +863,55 @@ export default function ScoutingTool() {
 
       {/* Advanced Stat Filters */}
       {showFilters && (
-        <div className="flex flex-wrap justify-center gap-2 mb-4 bg-gray-800 p-4 rounded-lg max-w-2xl mx-auto">
-          <div className="text-sm text-gray-400 w-full text-center mb-2">Stat Range Filters</div>
-          <input type="number" step="0.01" placeholder="Min Avg" value={statFilters.minAvg} onChange={e => setStatFilters({...statFilters, minAvg: e.target.value})} className="bg-gray-700 border border-gray-600 rounded px-2 py-1 w-24 text-sm" />
-          <input type="number" step="0.01" placeholder="Max Avg" value={statFilters.maxAvg} onChange={e => setStatFilters({...statFilters, maxAvg: e.target.value})} className="bg-gray-700 border border-gray-600 rounded px-2 py-1 w-24 text-sm" />
-          <input type="number" step="0.01" placeholder="Min Trend" value={statFilters.minTrend} onChange={e => setStatFilters({...statFilters, minTrend: e.target.value})} className="bg-gray-700 border border-gray-600 rounded px-2 py-1 w-24 text-sm" />
-          <input type="number" step="0.01" placeholder="Max Trend" value={statFilters.maxTrend} onChange={e => setStatFilters({...statFilters, maxTrend: e.target.value})} className="bg-gray-700 border border-gray-600 rounded px-2 py-1 w-24 text-sm" />
-          <button onClick={() => setStatFilters({ minAvg: '', maxAvg: '', minTrend: '', maxTrend: '' })} className="bg-red-600 px-3 py-1 rounded text-sm">Clear</button>
+        <div className="tactical-panel p-4 mb-4 max-w-2xl mx-auto relative z-10">
+          <div className="text-sm text-primary w-full text-center mb-3 font-semibold tracking-wide">
+            <span className="material-icons text-sm mr-1 align-middle">analytics</span>
+            STAT RANGE FILTERS
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            <input type="number" step="0.01" placeholder="Min Avg" value={statFilters.minAvg} onChange={e => setStatFilters({...statFilters, minAvg: e.target.value})} className="input-tactical w-24 text-sm" />
+            <input type="number" step="0.01" placeholder="Max Avg" value={statFilters.maxAvg} onChange={e => setStatFilters({...statFilters, maxAvg: e.target.value})} className="input-tactical w-24 text-sm" />
+            <input type="number" step="0.01" placeholder="Min Trend" value={statFilters.minTrend} onChange={e => setStatFilters({...statFilters, minTrend: e.target.value})} className="input-tactical w-24 text-sm" />
+            <input type="number" step="0.01" placeholder="Max Trend" value={statFilters.maxTrend} onChange={e => setStatFilters({...statFilters, maxTrend: e.target.value})} className="input-tactical w-24 text-sm" />
+            <button onClick={() => setStatFilters({ minAvg: '', maxAvg: '', minTrend: '', maxTrend: '' })} className="btn-tactical text-red-400 border-red-500/50 hover:border-red-500 text-sm">
+              <span className="material-icons text-sm mr-1 align-middle">clear</span>Clear
+            </button>
+          </div>
         </div>
       )}
 
       {/* Bulk Actions */}
       {selectedPlayers.size > 0 && (
-        <div className="flex justify-center gap-2 mb-4 bg-gray-800 p-3 rounded-lg">
-          <span className="text-gray-400">{selectedPlayers.size} selected:</span>
-          <button onClick={() => bulkSetCategory('WANT')} className="bg-green-600 px-3 py-1 rounded text-sm">Want All</button>
-          <button onClick={() => bulkSetCategory('MAYBE')} className="bg-yellow-500 text-black px-3 py-1 rounded text-sm">Maybe All</button>
-          <button onClick={() => bulkSetCategory('WATCH')} className="bg-blue-600 px-3 py-1 rounded text-sm">Watch All</button>
-          <button onClick={() => bulkSetCategory('NO')} className="bg-red-600 px-3 py-1 rounded text-sm">No All</button>
-          <button onClick={clearSelection} className="bg-gray-600 px-3 py-1 rounded text-sm">Clear</button>
+        <div className="tactical-panel p-3 mb-4 max-w-3xl mx-auto relative z-10">
+          <div className="flex justify-center items-center gap-3 flex-wrap">
+            <span className="text-primary font-semibold">
+              <span className="material-icons text-sm mr-1 align-middle">checklist</span>
+              {selectedPlayers.size} SELECTED:
+            </span>
+            <button onClick={() => bulkSetCategory('WANT')} className="badge-want px-3 py-1 rounded text-sm font-medium hover:opacity-80">Want All</button>
+            <button onClick={() => bulkSetCategory('MAYBE')} className="badge-maybe px-3 py-1 rounded text-sm font-medium hover:opacity-80">Maybe All</button>
+            <button onClick={() => bulkSetCategory('WATCH')} className="badge-watch px-3 py-1 rounded text-sm font-medium hover:opacity-80">Watch All</button>
+            <button onClick={() => bulkSetCategory('NO')} className="badge-no px-3 py-1 rounded text-sm font-medium hover:opacity-80">No All</button>
+            <button onClick={clearSelection} className="btn-tactical text-sm">
+              <span className="material-icons text-sm mr-1 align-middle">deselect</span>Clear
+            </button>
+          </div>
         </div>
       )}
 
       {/* Export Panel */}
       {showExport && (
-        <div className="bg-gray-800 rounded-lg p-4 mb-4 max-w-4xl mx-auto">
-          <h3 className="text-xl font-bold mb-2">Export / Import</h3>
-          <div className="flex gap-2 mb-4">
-            <button onClick={exportSession} className="bg-green-600 px-4 py-2 rounded">Download JSON</button>
-            <label className="bg-blue-600 px-4 py-2 rounded cursor-pointer">
-              Import JSON
+        <div className="tactical-panel p-5 mb-6 max-w-4xl mx-auto relative z-10">
+          <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
+            <span className="material-icons mr-2 align-middle">import_export</span>
+            EXPORT / IMPORT
+          </h3>
+          <div className="flex gap-3 mb-5">
+            <button onClick={exportSession} className="btn-tactical badge-want">
+              <span className="material-icons text-sm mr-1 align-middle">download</span>Download JSON
+            </button>
+            <label className="btn-tactical badge-watch cursor-pointer">
+              <span className="material-icons text-sm mr-1 align-middle">upload</span>Import JSON
               <input type="file" accept=".json" onChange={importSession} className="hidden" />
             </label>
             <button onClick={() => {
@@ -864,21 +922,28 @@ export default function ScoutingTool() {
               ).join('\n\n');
               navigator.clipboard.writeText(text);
               alert('Copied!');
-            }} className="bg-purple-600 px-4 py-2 rounded">Copy Text</button>
+            }} className="btn-primary">
+              <span className="material-icons text-sm mr-1 align-middle">content_copy</span>Copy Text
+            </button>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
             {Object.entries(exportPicks()).map(([cat, players]) => (
-              <div key={cat} className="bg-gray-700 p-3 rounded">
-                <div className="font-bold mb-2 text-lg border-b border-gray-600 pb-1">{categories[cat]?.label} ({players.length})</div>
+              <div key={cat} className="tactical-panel p-4">
+                <div className={`font-bold mb-3 text-lg border-b border-panel-border pb-2 badge-${cat.toLowerCase()} inline-block px-2 py-1 rounded`}>
+                  {categories[cat]?.label} ({players.length})
+                </div>
                 {players.map(p => (
-                  <div key={p.name} className="text-gray-300 mb-2 pb-2 border-b border-gray-600 last:border-0">
-                    <div className="font-semibold">{p.star ? '⭐ ' : ''}{p.name}</div>
-                    <div className="text-xs text-gray-400">{p.team} | {p.role}</div>
-                    <div className="text-xs">Avg: <span className="text-green-400">{p.avg.toFixed(2)}</span> | Peak: <span className="text-yellow-400">{p.peak.toFixed(2)}</span></div>
-                    {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-xs text-blue-400 hover:text-blue-300">@{p.twitter}</a>}
+                  <div key={p.name} className="text-gray-300 mb-3 pb-3 border-b border-panel-border last:border-0">
+                    <div className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                    <div className="text-xs text-gray-500">{p.team} | {p.role}</div>
+                    <div className="text-xs mt-1">
+                      Avg: <span className="text-status-want">{p.avg.toFixed(2)}</span> |
+                      Peak: <span className="text-status-maybe">{p.peak.toFixed(2)}</span>
+                    </div>
+                    {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:text-primary-light">@{p.twitter}</a>}
                   </div>
                 ))}
-                {players.length === 0 && <div className="text-gray-500">None</div>}
+                {players.length === 0 && <div className="text-gray-600">None</div>}
               </div>
             ))}
           </div>
@@ -887,45 +952,58 @@ export default function ScoutingTool() {
 
       {/* Team Builder View */}
       {view === 'roster' && (
-        <div className="max-w-4xl mx-auto mb-6">
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-xl font-bold mb-4">Team Builder</h3>
+        <div className="max-w-4xl mx-auto mb-6 relative z-10">
+          <div className="tactical-panel p-5">
+            <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
+              <span className="material-icons mr-2 align-middle">groups</span>
+              TEAM BUILDER
+            </h3>
 
             {roster.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">Click "+" on players to add them to your roster (max 5)</div>
+              <div className="text-center text-gray-500 py-8">
+                <span className="material-icons text-4xl mb-2 block text-gray-600">person_add</span>
+                Click "+" on players to add them to your roster (max 5)
+              </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-2 mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mb-4">
                   {roster.map((p, i) => (
-                    <div key={p.name} className="bg-gray-700 p-3 rounded text-center relative">
-                      <button onClick={() => toggleRoster(p)} className="absolute top-1 right-1 text-red-400 hover:text-red-300 text-sm">x</button>
-                      <div className="font-bold">{p.star ? '⭐ ' : ''}{p.name}</div>
-                      <div className="text-xs text-gray-400">{p.role}</div>
-                      <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-1 inline-block`}>{p.avg.toFixed(2)}</div>
+                    <div key={p.name} className="tactical-panel tactical-panel-hover p-3 text-center relative">
+                      <button onClick={() => toggleRoster(p)} className="absolute top-2 right-2 text-red-400 hover:text-red-300">
+                        <span className="material-icons text-sm">close</span>
+                      </button>
+                      <div className="font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                      <div className="text-xs text-gray-500 mt-1">{p.role}</div>
+                      <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-2 inline-block`}>{p.avg.toFixed(2)}</div>
                     </div>
                   ))}
                 </div>
 
                 {rosterAnalysis && (
-                  <div className="bg-gray-700 rounded p-3">
+                  <div className="tactical-panel p-4 border-primary/20">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-400">Avg Rating:</span>
-                        <span className={`ml-2 ${getRatingColor(rosterAnalysis.avgRating)} px-2 py-1 rounded`}>{rosterAnalysis.avgRating.toFixed(2)}</span>
+                        <span className="text-gray-500 uppercase text-xs tracking-wide">Avg Rating</span>
+                        <div className={`mt-1 ${getRatingColor(rosterAnalysis.avgRating)} px-2 py-1 rounded inline-block font-bold`}>{rosterAnalysis.avgRating.toFixed(2)}</div>
                       </div>
                       <div>
-                        <span className="text-gray-400">Avg Trend:</span>
-                        <span className={`ml-2 ${getTrendColor(rosterAnalysis.avgTrend)}`}>{rosterAnalysis.avgTrend >= 0 ? '+' : ''}{rosterAnalysis.avgTrend.toFixed(2)}</span>
+                        <span className="text-gray-500 uppercase text-xs tracking-wide">Avg Trend</span>
+                        <div className={`mt-1 font-bold ${getTrendColor(rosterAnalysis.avgTrend)}`}>{rosterAnalysis.avgTrend >= 0 ? '+' : ''}{rosterAnalysis.avgTrend.toFixed(2)}</div>
                       </div>
                       <div className="col-span-2">
-                        <span className="text-gray-400">Roles:</span>
-                        <span className={`ml-2 ${rosterAnalysis.hasIGL ? 'text-green-400' : 'text-red-400'}`}>{rosterAnalysis.hasIGL ? 'IGL' : 'No IGL'}</span>
-                        <span className={`ml-2 ${rosterAnalysis.hasEntry ? 'text-green-400' : 'text-red-400'}`}>{rosterAnalysis.hasEntry ? 'Entry' : 'No Entry'}</span>
-                        <span className={`ml-2 ${rosterAnalysis.hasSupport ? 'text-green-400' : 'text-red-400'}`}>{rosterAnalysis.hasSupport ? 'Sup/Anchor' : 'No Sup/Anchor'}</span>
+                        <span className="text-gray-500 uppercase text-xs tracking-wide">Role Coverage</span>
+                        <div className="mt-1 flex gap-2 flex-wrap">
+                          <span className={`px-2 py-1 rounded text-xs ${rosterAnalysis.hasIGL ? 'badge-want' : 'badge-no'}`}>IGL</span>
+                          <span className={`px-2 py-1 rounded text-xs ${rosterAnalysis.hasEntry ? 'badge-want' : 'badge-no'}`}>Entry</span>
+                          <span className={`px-2 py-1 rounded text-xs ${rosterAnalysis.hasSupport ? 'badge-want' : 'badge-no'}`}>Support</span>
+                        </div>
                       </div>
                     </div>
                     {rosterAnalysis.missing.length > 0 && (
-                      <div className="mt-2 text-yellow-400 text-sm">Missing: {rosterAnalysis.missing.join(', ')}</div>
+                      <div className="mt-3 badge-maybe px-3 py-2 rounded text-sm inline-block">
+                        <span className="material-icons text-sm mr-1 align-middle">warning</span>
+                        Missing: {rosterAnalysis.missing.join(', ')}
+                      </div>
                     )}
                   </div>
                 )}
@@ -937,66 +1015,74 @@ export default function ScoutingTool() {
 
       {/* Compare View */}
       {view === 'compare' && (
-        <div className="max-w-6xl mx-auto mb-6">
-          <div className="bg-gray-800 rounded-lg p-4">
-            <h3 className="text-xl font-bold mb-4">Compare Players (max 4)</h3>
+        <div className="max-w-6xl mx-auto mb-6 relative z-10">
+          <div className="tactical-panel p-5">
+            <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
+              <span className="material-icons mr-2 align-middle">compare_arrows</span>
+              COMPARE OPERATORS (max 4)
+            </h3>
 
             {compareList.length === 0 ? (
-              <div className="text-center text-gray-500 py-8">Click "Compare" on players to add them here</div>
+              <div className="text-center text-gray-500 py-8">
+                <span className="material-icons text-4xl mb-2 block text-gray-600">compare</span>
+                Click "Compare" on operators to analyze them side by side
+              </div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm">
+                <table className="table-tactical w-full text-sm">
                   <thead>
-                    <tr className="border-b border-gray-600">
-                      <th className="p-2 text-left">Stat</th>
+                    <tr>
+                      <th className="p-3 text-left text-primary">Stat</th>
                       {compareList.map(p => (
-                        <th key={p.name} className="p-2 text-center">
-                          {p.name}
-                          <button onClick={() => toggleCompare(p)} className="ml-2 text-red-400 text-xs">x</button>
+                        <th key={p.name} className="p-3 text-center text-white">
+                          {p.star ? '⭐ ' : ''}{p.name}
+                          <button onClick={() => toggleCompare(p)} className="ml-2 text-red-400 hover:text-red-300">
+                            <span className="material-icons text-sm align-middle">close</span>
+                          </button>
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Team</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center">{p.team}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Team</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center text-gray-300">{p.team}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Role</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center">{p.role}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Role</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center text-gray-300">{p.role}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Avg</td>
-                      {compareList.map(p => <td key={p.name} className={`p-2 text-center ${getRatingColor(p.avg)}`}>{p.avg.toFixed(2)}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Average</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span></td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Peak</td>
-                      {compareList.map(p => <td key={p.name} className={`p-2 text-center ${getRatingColor(p.peak)}`}>{p.peak.toFixed(2)}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Peak</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.peak >= 1.20 ? 'rating-elite' : p.peak >= 1.10 ? 'rating-good' : p.peak >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.peak.toFixed(2)}</span></td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Floor</td>
-                      {compareList.map(p => <td key={p.name} className={`p-2 text-center ${getRatingColor(p.floor)}`}>{p.floor.toFixed(2)}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Floor</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.floor >= 1.20 ? 'rating-elite' : p.floor >= 1.10 ? 'rating-good' : p.floor >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.floor.toFixed(2)}</span></td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Trend</td>
-                      {compareList.map(p => <td key={p.name} className={`p-2 text-center ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Trend</td>
+                      {compareList.map(p => <td key={p.name} className={`p-3 text-center font-bold ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">S1</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center">{p.s1?.toFixed(2) || '-'}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">S1</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center text-gray-300">{p.s1?.toFixed(2) || '-'}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">S2</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center">{p.s2?.toFixed(2) || '-'}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">S2</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center text-gray-300">{p.s2?.toFixed(2) || '-'}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Major Avg</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center">{p.majorAvg?.toFixed(2) || '-'}</td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Major Avg</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center text-gray-300">{p.majorAvg?.toFixed(2) || '-'}</td>)}
                     </tr>
-                    <tr className="border-b border-gray-700">
-                      <td className="p-2 text-gray-400">Trend</td>
-                      {compareList.map(p => <td key={p.name} className="p-2 text-center"><Sparkline s1={p.s1} s2={p.s2} majorAvg={p.majorAvg} /></td>)}
+                    <tr>
+                      <td className="p-3 text-gray-500">Chart</td>
+                      {compareList.map(p => <td key={p.name} className="p-3 text-center"><Sparkline s1={p.s1} s2={p.s2} majorAvg={p.majorAvg} /></td>)}
                     </tr>
                   </tbody>
                 </table>
@@ -1008,7 +1094,7 @@ export default function ScoutingTool() {
 
       {/* Teams View */}
       {view === 'teams' && (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto relative z-10">
           {['NAL', 'EML', 'SAL', 'APAC'].map(region => {
             if (filter.region !== 'ALL' && filter.region !== region) return null;
             const regionTeams = teamsByRegion[region];
@@ -1016,40 +1102,38 @@ export default function ScoutingTool() {
 
             return (
               <div key={region} className="mb-8">
-                <h2 className={`text-2xl font-bold mb-4 ${
-                  region === 'NAL' ? 'text-blue-400' :
-                  region === 'EML' ? 'text-purple-400' :
-                  region === 'SAL' ? 'text-green-400' :
-                  'text-orange-400'
-                }`}>{region}</h2>
+                <h2 className={`text-2xl font-bold mb-4 tracking-wide badge-${region.toLowerCase()} inline-block px-4 py-2 rounded`}>
+                  <span className="material-icons mr-2 align-middle">public</span>
+                  {region}
+                </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {regionTeams.map(team => (
-                    <div key={team.name} className="bg-gray-800 rounded-lg p-4">
-                      <div className="flex justify-between items-center mb-3">
-                        <h3 className="text-lg font-bold">{team.name}</h3>
-                        <span className={`px-2 py-1 rounded text-sm ${getRatingColor(team.avgRating)}`}>
-                          Avg: {team.avgRating.toFixed(2)}
+                    <div key={team.name} className="tactical-panel tactical-panel-hover p-4">
+                      <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
+                        <h3 className="text-lg font-bold text-white">{team.name}</h3>
+                        <span className={`px-2 py-1 rounded text-sm font-bold ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
+                          {team.avgRating.toFixed(2)}
                         </span>
                       </div>
                       <div className="space-y-2">
                         {team.players.map(p => (
                           <div
                             key={p.name}
-                            className="flex justify-between items-center p-2 bg-gray-700 rounded cursor-pointer hover:bg-gray-600"
+                            className="flex justify-between items-center p-2 bg-panel-dark rounded cursor-pointer hover:bg-primary/10 hover:border-l-2 hover:border-l-primary transition-all"
                             onClick={() => setSelectedPlayer(p)}
                           >
                             <div>
-                              <span className="font-medium">{p.star ? '⭐ ' : ''}{p.name}</span>
-                              <span className="text-xs text-gray-400 ml-2">{p.role}</span>
+                              <span className="font-medium text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
+                              <span className="text-xs text-gray-500 ml-2">{p.role}</span>
                               {playerCategories[p.name] && (
-                                <span className={`ml-2 px-1 py-0.5 rounded text-xs ${categories[playerCategories[p.name]].color} ${categories[playerCategories[p.name]].textColor}`}>
+                                <span className={`ml-2 px-1.5 py-0.5 rounded text-xs badge-${playerCategories[p.name].toLowerCase()}`}>
                                   {playerCategories[p.name][0]}
                                 </span>
                               )}
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded`}>{p.avg.toFixed(2)}</span>
-                              <span className={`text-xs ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                              <span className={`text-sm px-2 py-1 rounded font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                              <span className={`text-xs font-medium ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
                             </div>
                           </div>
                         ))}
@@ -1065,23 +1149,26 @@ export default function ScoutingTool() {
 
       {/* Summary View */}
       {view === 'summary' && (
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto relative z-10">
           {Object.entries(categories).map(([key, cat]) => {
             const players = playersData.filter(p => playerCategories[p.name] === key);
             if (players.length === 0) return null;
             return (
-              <div key={key} className="mb-6">
-                <h3 className={`text-xl font-bold mb-2 ${cat.color} ${cat.textColor} inline-block px-3 py-1 rounded`}>{cat.label} ({players.length})</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+              <div key={key} className="mb-8">
+                <h3 className={`text-xl font-bold mb-4 badge-${key.toLowerCase()} inline-block px-4 py-2 rounded tracking-wide`}>
+                  <span className="material-icons mr-2 align-middle text-lg">{key === 'WANT' ? 'check_circle' : key === 'MAYBE' ? 'help' : key === 'WATCH' ? 'visibility' : 'cancel'}</span>
+                  {cat.label} ({players.length})
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                   {players.sort((a,b) => b.avg - a.avg).map(p => (
-                    <div key={p.name} className="bg-gray-800 p-3 rounded flex justify-between items-center cursor-pointer hover:bg-gray-750" onClick={() => setSelectedPlayer(p)}>
+                    <div key={p.name} className="tactical-panel tactical-panel-hover p-4 flex justify-between items-center cursor-pointer" onClick={() => setSelectedPlayer(p)}>
                       <div>
-                        <div className="font-bold">{p.star ? '⭐ ' : ''}{p.name}</div>
-                        <div className="text-sm text-gray-400">{p.team} - {p.role}</div>
+                        <div className="font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                        <div className="text-sm text-gray-500">{p.team} - {p.role}</div>
                       </div>
                       <div className="text-right">
-                        <div className={getRatingColor(p.avg) + ' px-2 py-1 rounded text-sm'}>{p.avg.toFixed(2)}</div>
-                        <div className={`text-xs ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</div>
+                        <div className={`px-2 py-1 rounded text-sm font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</div>
+                        <div className={`text-xs font-medium mt-1 ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</div>
                       </div>
                     </div>
                   ))}
@@ -1089,165 +1176,204 @@ export default function ScoutingTool() {
               </div>
             );
           })}
-          {Object.keys(playerCategories).length === 0 && <div className="text-center text-gray-500 py-8">No players categorized yet</div>}
+          {Object.keys(playerCategories).length === 0 && (
+            <div className="text-center text-gray-500 py-12">
+              <span className="material-icons text-5xl mb-3 block text-gray-600">playlist_add</span>
+              <p>No operators categorized yet</p>
+              <p className="text-sm text-gray-600 mt-1">Use the Table view to categorize operators</p>
+            </div>
+          )}
         </div>
       )}
 
       {/* Table View */}
       {view === 'table' && (
-        <div className="overflow-x-auto">
-          <div className="flex justify-between items-center mb-2 max-w-7xl mx-auto">
-            <button onClick={selectAll} className="text-sm text-gray-400 hover:text-white">Select All ({filteredPlayers.length})</button>
-            <span className="text-gray-500 text-sm">Showing {filteredPlayers.length} of {playersData.length}</span>
+        <div className="overflow-x-auto relative z-10">
+          <div className="flex justify-between items-center mb-3 max-w-7xl mx-auto px-2">
+            <button onClick={selectAll} className="btn-tactical text-sm">
+              <span className="material-icons text-sm mr-1 align-middle">select_all</span>
+              Select All ({filteredPlayers.length})
+            </button>
+            <span className="text-gray-500 text-sm tracking-wide">
+              SHOWING <span className="text-primary">{filteredPlayers.length}</span> OF {playersData.length}
+            </span>
           </div>
-          <table className="w-full max-w-7xl mx-auto text-sm">
-            <thead className="bg-gray-800 sticky top-0">
-              <tr>
-                <th className="p-2 w-8"><input type="checkbox" onChange={(e) => e.target.checked ? selectAll() : clearSelection()} checked={selectedPlayers.size === filteredPlayers.length && filteredPlayers.length > 0} /></th>
-                <th className="p-2 text-left">Actions</th>
-                <th className="p-2 text-left">Player</th>
-                <th className="p-2 text-left">Team</th>
-                <th className="p-2">Region</th>
-                <th className="p-2">Role</th>
-                <th className="p-2">Avg</th>
-                <th className="p-2">Peak</th>
-                <th className="p-2">Trend</th>
-                <th className="p-2">Chart</th>
-                <th className="p-2">Social</th>
-                <th className="p-2 text-left">Note</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredPlayers.map((p, i) => (
-                <tr key={p.name} className={`border-b border-gray-700 hover:bg-gray-800 cursor-pointer ${selectedPlayers.has(p.name) ? 'bg-gray-750' : i % 2 === 0 ? 'bg-gray-850' : ''}`} onClick={() => setSelectedPlayer(p)}>
-                  <td className="p-2" onClick={e => e.stopPropagation()}>
-                    <input type="checkbox" checked={selectedPlayers.has(p.name)} onChange={() => toggleSelect(p.name)} />
-                  </td>
-                  <td className="p-2" onClick={e => e.stopPropagation()}>
-                    <div className="flex gap-1">
-                      {Object.entries(categories).map(([key, cat]) => (
-                        <button key={key} onClick={() => setCategory(p.name, key)} className={`w-7 h-7 rounded text-xs ${playerCategories[p.name] === key ? cat.color + ' ' + cat.textColor : 'bg-gray-700 hover:bg-gray-600'}`} title={`${cat.label} (${cat.key})`}>
-                          {key[0]}
-                        </button>
-                      ))}
-                      <button onClick={() => toggleCompare(p)} className={`w-7 h-7 rounded text-xs ${compareList.find(x => x.name === p.name) ? 'bg-cyan-600' : 'bg-gray-700 hover:bg-gray-600'}`} title="Compare">C</button>
-                      <button onClick={() => toggleRoster(p)} className={`w-7 h-7 rounded text-xs ${roster.find(x => x.name === p.name) ? 'bg-orange-600' : 'bg-gray-700 hover:bg-gray-600'}`} title="Add to Roster">+</button>
-                    </div>
-                  </td>
-                  <td className="p-2 font-bold">{p.star ? '⭐ ' : ''}{p.name}</td>
-                  <td className="p-2 text-gray-300">{p.team}</td>
-                  <td className="p-2 text-center"><span className={`px-2 py-1 rounded text-xs ${p.region === 'NAL' ? 'bg-blue-900' : p.region === 'EML' ? 'bg-purple-900' : p.region === 'SAL' ? 'bg-green-900' : 'bg-orange-900'}`}>{p.region}</span></td>
-                  <td className="p-2 text-center text-xs">{p.role}</td>
-                  <td className={`p-2 text-center ${getRatingColor(p.avg)} rounded`}>{p.avg.toFixed(2)}</td>
-                  <td className={`p-2 text-center ${getRatingColor(p.peak)} rounded`}>{p.peak.toFixed(2)}</td>
-                  <td className={`p-2 text-center ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
-                  <td className="p-2 text-center"><Sparkline s1={p.s1} s2={p.s2} majorAvg={p.majorAvg} /></td>
-                  <td className="p-2 text-center" onClick={e => e.stopPropagation()}>
-                    {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-xs">@{p.twitter}</a>}
-                  </td>
-                  <td className="p-2 text-xs text-gray-400 max-w-xs truncate" title={p.note}>{p.note}</td>
+          <div className="tactical-panel overflow-hidden max-w-7xl mx-auto">
+            <table className="table-tactical w-full text-sm">
+              <thead>
+                <tr>
+                  <th className="p-3 w-8"><input type="checkbox" onChange={(e) => e.target.checked ? selectAll() : clearSelection()} checked={selectedPlayers.size === filteredPlayers.length && filteredPlayers.length > 0} className="accent-primary" /></th>
+                  <th className="p-3 text-left">Actions</th>
+                  <th className="p-3 text-left">Operator</th>
+                  <th className="p-3 text-left">Team</th>
+                  <th className="p-3">Region</th>
+                  <th className="p-3">Role</th>
+                  <th className="p-3">Avg</th>
+                  <th className="p-3">Peak</th>
+                  <th className="p-3">Trend</th>
+                  <th className="p-3">Chart</th>
+                  <th className="p-3">Social</th>
+                  <th className="p-3 text-left">Intel</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          {filteredPlayers.length === 0 && <div className="text-center text-gray-500 py-8">No players match filters</div>}
+              </thead>
+              <tbody>
+                {filteredPlayers.map((p, i) => (
+                  <tr key={p.name} className={`cursor-pointer transition-all ${selectedPlayers.has(p.name) ? 'bg-primary/10 border-l-2 border-l-primary' : ''}`} onClick={() => setSelectedPlayer(p)}>
+                    <td className="p-3" onClick={e => e.stopPropagation()}>
+                      <input type="checkbox" checked={selectedPlayers.has(p.name)} onChange={() => toggleSelect(p.name)} className="accent-primary" />
+                    </td>
+                    <td className="p-3" onClick={e => e.stopPropagation()}>
+                      <div className="flex gap-1">
+                        {Object.entries(categories).map(([key, cat]) => (
+                          <button key={key} onClick={() => setCategory(p.name, key)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${playerCategories[p.name] === key ? `badge-${key.toLowerCase()}` : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title={`${cat.label} (${cat.key})`}>
+                            {key[0]}
+                          </button>
+                        ))}
+                        <button onClick={() => toggleCompare(p)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${compareList.find(x => x.name === p.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'bg-panel-light border border-panel-border hover:border-cyan-500/50'}`} title="Compare">C</button>
+                        <button onClick={() => toggleRoster(p)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
+                      </div>
+                    </td>
+                    <td className="p-3 font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</td>
+                    <td className="p-3 text-gray-400">{p.team}</td>
+                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
+                    <td className="p-3 text-center text-xs text-gray-400">{p.role}</td>
+                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span></td>
+                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.peak >= 1.20 ? 'rating-elite' : p.peak >= 1.10 ? 'rating-good' : p.peak >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.peak.toFixed(2)}</span></td>
+                    <td className={`p-3 text-center font-bold ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
+                    <td className="p-3 text-center"><Sparkline s1={p.s1} s2={p.s2} majorAvg={p.majorAvg} /></td>
+                    <td className="p-3 text-center" onClick={e => e.stopPropagation()}>
+                      {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light text-xs">@{p.twitter}</a>}
+                    </td>
+                    <td className="p-3 text-xs text-gray-500 max-w-xs truncate" title={p.note}>{p.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {filteredPlayers.length === 0 && <div className="text-center text-gray-500 py-8">No operators match filters</div>}
         </div>
       )}
 
       {/* Player Detail Modal */}
       {selectedPlayer && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50" onClick={() => setSelectedPlayer(null)}>
-          <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-            <div className="flex justify-between items-start mb-4">
+        <div className="fixed inset-0 bg-black/90 flex items-center justify-center p-4 z-50 backdrop-blur-sm" onClick={() => setSelectedPlayer(null)}>
+          <div className="tactical-panel p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border-primary/30" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-start mb-6">
               <div>
-                <h2 className="text-2xl font-bold">{selectedPlayer.star ? '⭐ ' : ''}{selectedPlayer.name}</h2>
-                <p className="text-gray-400">{selectedPlayer.team} - {selectedPlayer.region} - {selectedPlayer.tier}</p>
-                <p className="text-gray-500">{selectedPlayer.role}</p>
+                <h2 className="text-2xl font-bold text-white tracking-wide">
+                  {selectedPlayer.star ? <span className="text-yellow-400 mr-1">⭐</span> : ''}
+                  {selectedPlayer.name}
+                </h2>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className={`px-2 py-1 rounded text-xs font-medium badge-${selectedPlayer.region.toLowerCase()}`}>{selectedPlayer.region}</span>
+                  <span className="text-gray-500">|</span>
+                  <span className="text-gray-400">{selectedPlayer.team}</span>
+                  <span className="text-gray-500">|</span>
+                  <span className="text-gray-500">{selectedPlayer.tier}</span>
+                </div>
+                <p className="text-primary mt-1 font-medium">{selectedPlayer.role}</p>
                 {selectedPlayer.twitter && (
-                  <a href={`https://twitter.com/${selectedPlayer.twitter}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm">
+                  <a href={`https://twitter.com/${selectedPlayer.twitter}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light text-sm mt-1 inline-block">
+                    <span className="material-icons text-sm mr-1 align-middle">link</span>
                     @{selectedPlayer.twitter}
                   </a>
                 )}
               </div>
-              <button onClick={() => setSelectedPlayer(null)} className="text-gray-400 hover:text-white text-2xl">x</button>
+              <button onClick={() => setSelectedPlayer(null)} className="text-gray-400 hover:text-primary transition-colors">
+                <span className="material-icons">close</span>
+              </button>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">Average</div>
-                <div className={`text-xl font-bold ${getRatingColor(selectedPlayer.avg)} px-2 py-1 rounded`}>{selectedPlayer.avg.toFixed(2)}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Average</div>
+                <div className={`text-xl font-bold ${selectedPlayer.avg >= 1.20 ? 'rating-elite' : selectedPlayer.avg >= 1.10 ? 'rating-good' : selectedPlayer.avg >= 1.00 ? 'rating-avg' : 'rating-low'} px-2 py-1 rounded inline-block`}>{selectedPlayer.avg.toFixed(2)}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">Peak</div>
-                <div className={`text-xl font-bold ${getRatingColor(selectedPlayer.peak)} px-2 py-1 rounded`}>{selectedPlayer.peak.toFixed(2)}</div>
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Peak</div>
+                <div className={`text-xl font-bold ${selectedPlayer.peak >= 1.20 ? 'rating-elite' : selectedPlayer.peak >= 1.10 ? 'rating-good' : selectedPlayer.peak >= 1.00 ? 'rating-avg' : 'rating-low'} px-2 py-1 rounded inline-block`}>{selectedPlayer.peak.toFixed(2)}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">Floor</div>
-                <div className={`text-xl font-bold ${getRatingColor(selectedPlayer.floor)} px-2 py-1 rounded`}>{selectedPlayer.floor.toFixed(2)}</div>
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Floor</div>
+                <div className={`text-xl font-bold ${selectedPlayer.floor >= 1.20 ? 'rating-elite' : selectedPlayer.floor >= 1.10 ? 'rating-good' : selectedPlayer.floor >= 1.00 ? 'rating-avg' : 'rating-low'} px-2 py-1 rounded inline-block`}>{selectedPlayer.floor.toFixed(2)}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">Trend</div>
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Trend</div>
                 <div className={`text-xl font-bold ${getTrendColor(selectedPlayer.trend)}`}>{selectedPlayer.trend >= 0 ? '+' : ''}{selectedPlayer.trend.toFixed(2)}</div>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mb-4">
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">S1</div>
-                <div className="text-lg">{selectedPlayer.s1?.toFixed(2) || '-'}</div>
+            <div className="grid grid-cols-3 gap-3 mb-5">
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Season 1</div>
+                <div className="text-lg text-white font-semibold">{selectedPlayer.s1?.toFixed(2) || '-'}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">S2</div>
-                <div className="text-lg">{selectedPlayer.s2?.toFixed(2) || '-'}</div>
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Season 2</div>
+                <div className="text-lg text-white font-semibold">{selectedPlayer.s2?.toFixed(2) || '-'}</div>
               </div>
-              <div className="bg-gray-700 p-3 rounded text-center">
-                <div className="text-gray-400 text-sm">Major Avg</div>
-                <div className="text-lg">{selectedPlayer.majorAvg?.toFixed(2) || '-'}</div>
+              <div className="tactical-panel p-3 text-center">
+                <div className="text-gray-500 text-xs uppercase tracking-wide mb-1">Major Avg</div>
+                <div className="text-lg text-white font-semibold">{selectedPlayer.majorAvg?.toFixed(2) || '-'}</div>
               </div>
             </div>
 
-            <div className="bg-gray-700 p-3 rounded mb-4">
-              <div className="text-gray-400 text-sm mb-1">Performance Trend</div>
-              <div className="flex justify-center">
+            <div className="tactical-panel p-4 mb-5">
+              <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
+                <span className="material-icons text-sm mr-1 align-middle">trending_up</span>
+                Performance Trend
+              </div>
+              <div className="flex justify-center py-2">
                 <Sparkline s1={selectedPlayer.s1} s2={selectedPlayer.s2} majorAvg={selectedPlayer.majorAvg} />
               </div>
             </div>
 
-            <div className="bg-gray-700 p-3 rounded mb-4">
-              <div className="text-gray-400 text-sm mb-1">Note</div>
-              <p>{selectedPlayer.note}</p>
+            <div className="tactical-panel p-4 mb-5">
+              <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
+                <span className="material-icons text-sm mr-1 align-middle">info</span>
+                Intel Note
+              </div>
+              <p className="text-gray-300">{selectedPlayer.note}</p>
             </div>
 
-            <div className="bg-gray-700 p-3 rounded mb-4">
-              <div className="text-gray-400 text-sm mb-1">Your Notes</div>
+            <div className="tactical-panel p-4 mb-5">
+              <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
+                <span className="material-icons text-sm mr-1 align-middle">edit_note</span>
+                Your Notes
+              </div>
               <textarea
                 value={customNotes[selectedPlayer.name] || ''}
                 onChange={(e) => updateCustomNote(selectedPlayer.name, e.target.value)}
-                placeholder="Add your own notes..."
-                className="w-full bg-gray-600 rounded p-2 text-white"
+                placeholder="Add your own intel..."
+                className="input-tactical w-full"
                 rows={3}
               />
             </div>
 
             <div className="flex gap-2 flex-wrap">
               {Object.entries(categories).map(([key, cat]) => (
-                <button key={key} onClick={() => setCategory(selectedPlayer.name, key)} className={`px-4 py-2 rounded ${playerCategories[selectedPlayer.name] === key ? cat.color + ' ' + cat.textColor : 'bg-gray-700 hover:bg-gray-600'}`}>
+                <button key={key} onClick={() => setCategory(selectedPlayer.name, key)} className={`px-4 py-2 rounded font-medium transition-all ${playerCategories[selectedPlayer.name] === key ? `badge-${key.toLowerCase()}` : 'btn-tactical'}`}>
                   {cat.label} ({cat.key})
                 </button>
               ))}
-              <button onClick={() => toggleCompare(selectedPlayer)} className={`px-4 py-2 rounded ${compareList.find(x => x.name === selectedPlayer.name) ? 'bg-cyan-600' : 'bg-gray-700 hover:bg-gray-600'}`}>
-                {compareList.find(x => x.name === selectedPlayer.name) ? 'Remove from Compare' : 'Add to Compare'}
+              <button onClick={() => toggleCompare(selectedPlayer)} className={`px-4 py-2 rounded font-medium transition-all ${compareList.find(x => x.name === selectedPlayer.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'btn-tactical'}`}>
+                <span className="material-icons text-sm mr-1 align-middle">compare_arrows</span>
+                {compareList.find(x => x.name === selectedPlayer.name) ? 'Remove' : 'Compare'}
               </button>
-              <button onClick={() => toggleRoster(selectedPlayer)} className={`px-4 py-2 rounded ${roster.find(x => x.name === selectedPlayer.name) ? 'bg-orange-600' : 'bg-gray-700 hover:bg-gray-600'}`}>
-                {roster.find(x => x.name === selectedPlayer.name) ? 'Remove from Roster' : 'Add to Roster (R)'}
+              <button onClick={() => toggleRoster(selectedPlayer)} className={`px-4 py-2 rounded font-medium transition-all ${roster.find(x => x.name === selectedPlayer.name) ? 'bg-primary/20 border border-primary text-primary' : 'btn-tactical'}`}>
+                <span className="material-icons text-sm mr-1 align-middle">person_add</span>
+                {roster.find(x => x.name === selectedPlayer.name) ? 'Remove' : 'Roster (R)'}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="text-center text-gray-500 text-xs mt-8">
-        Data: siege.gg | Rosters: Liquipedia Jan 2026 | * = Star player | Auto-saves to browser
+      <div className="text-center text-gray-600 text-xs mt-8 tracking-wide relative z-10 pb-4">
+        <span className="text-primary">DATA:</span> siege.gg |
+        <span className="text-primary"> ROSTERS:</span> Liquipedia Jan 2026 |
+        <span className="text-primary"> ⭐</span> = Elite Player |
+        <span className="text-primary"> SYNC:</span> Real-time Supabase
       </div>
     </div>
   );
