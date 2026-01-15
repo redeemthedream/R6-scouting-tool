@@ -661,12 +661,42 @@ export default function ScoutingTool() {
   }, []);
 
   const exportPicks = () => {
-    const picks = { WANT: [], MAYBE: [], WATCH: [], NO: [] };
+    const picks = { WANT: [], MAYBE: [], WATCH: [] };
     Object.entries(playerCategories).forEach(([name, cat]) => {
       const player = playersData.find(p => p.name === name);
       if (player && picks[cat]) picks[cat].push(player);
     });
     return picks;
+  };
+
+  const exportToExcel = () => {
+    const picks = exportPicks();
+    const rows = [['Category', 'Role', 'Player', 'Team', 'Region', 'Avg Rating', 'Peak', 'Floor', 'Trend', 'Twitter', 'Notes']];
+
+    Object.entries(picks).forEach(([cat, players]) => {
+      players.forEach(p => {
+        rows.push([
+          cat,
+          p.role,
+          (p.star ? '⭐ ' : '') + p.name,
+          p.team,
+          p.region,
+          p.avg.toFixed(2),
+          p.peak.toFixed(2),
+          p.floor.toFixed(2),
+          (p.trend >= 0 ? '+' : '') + p.trend.toFixed(2),
+          p.twitter ? '@' + p.twitter : '',
+          p.note || ''
+        ]);
+      });
+    });
+
+    const csv = rows.map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'r6-scouting-picks.csv';
+    link.click();
   };
 
   const exportSession = () => {
@@ -955,8 +985,11 @@ export default function ScoutingTool() {
             }} className="btn-primary">
               <span className="material-icons text-sm mr-1 align-middle">content_copy</span>Copy Text
             </button>
+            <button onClick={exportToExcel} className="btn-tactical bg-green-600 hover:bg-green-500 border-green-500">
+              <span className="material-icons text-sm mr-1 align-middle">table_chart</span>Export Excel
+            </button>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-3 gap-4 text-sm">
             {Object.entries(exportPicks()).map(([cat, players]) => {
               const roleOrder = ['IGL', 'Entry', 'Flex', 'Sup/Anchor'];
               const byRole = {};
@@ -979,20 +1012,10 @@ export default function ScoutingTool() {
                     <div key={role} className="mb-3">
                       <div className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">{role}</div>
                       {byRole[role].map(p => (
-                        <div key={p.name} className="text-gray-300 mb-2 pb-2 border-b border-panel-border/50 last:border-0">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <span className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
-                              <span className="text-xs text-gray-500 ml-2">{p.team}</span>
-                              <span className="text-xs text-gray-600 ml-2">{p.avg.toFixed(2)}</span>
-                            </div>
-                            <div className="flex gap-1">
-                              {cat !== 'WANT' && <button onClick={() => setCategory(p.name, 'WANT')} className="px-2 py-0.5 text-xs rounded bg-green-600 hover:bg-green-500 text-white">W</button>}
-                              {cat !== 'MAYBE' && <button onClick={() => setCategory(p.name, 'MAYBE')} className="px-2 py-0.5 text-xs rounded bg-yellow-600 hover:bg-yellow-500 text-white">M</button>}
-                              {cat !== 'WATCH' && <button onClick={() => setCategory(p.name, 'WATCH')} className="px-2 py-0.5 text-xs rounded bg-blue-600 hover:bg-blue-500 text-white">?</button>}
-                              {cat !== 'NO' && <button onClick={() => setCategory(p.name, 'NO')} className="px-2 py-0.5 text-xs rounded bg-red-600 hover:bg-red-500 text-white">N</button>}
-                            </div>
-                          </div>
+                        <div key={p.name} className="text-gray-300 mb-1">
+                          <span className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
+                          <span className="text-xs text-gray-500 ml-2">{p.team}</span>
+                          <span className="text-xs text-gray-600 ml-2">{p.avg.toFixed(2)}</span>
                         </div>
                       ))}
                     </div>
