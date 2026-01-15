@@ -291,6 +291,7 @@ const categories = {
   MAYBE: { color: 'bg-yellow-400', label: 'MAYBE', textColor: 'text-black', key: '2' },
   WATCH: { color: 'bg-blue-500', label: 'WATCH', textColor: 'text-white', key: '3' },
   NO: { color: 'bg-red-500', label: 'NO', textColor: 'text-white', key: '4' },
+  UNAVAILABLE: { color: 'bg-gray-600', label: 'UNAVAILABLE', textColor: 'text-white', key: '5' },
 };
 
 const ROLE_REQUIREMENTS = ['Entry', 'Flex', 'Sup/Anchor', 'IGL'];
@@ -338,6 +339,7 @@ export default function ScoutingTool() {
   const [compareList, setCompareList] = useState([]);
   const [selectedPlayers, setSelectedPlayers] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
+  const [showUnavailable, setShowUnavailable] = useState(false);
 
   // Load initial data from Supabase and subscribe to real-time changes
   useEffect(() => {
@@ -447,6 +449,7 @@ export default function ScoutingTool() {
         if (e.key === '2') setCategory(selectedPlayer.name, 'MAYBE');
         if (e.key === '3') setCategory(selectedPlayer.name, 'WATCH');
         if (e.key === '4') setCategory(selectedPlayer.name, 'NO');
+        if (e.key === '5') setCategory(selectedPlayer.name, 'UNAVAILABLE');
         if (e.key === 'Escape') setSelectedPlayer(null);
         if (e.key === 'r' || e.key === 'R') toggleRoster(selectedPlayer);
       }
@@ -457,6 +460,7 @@ export default function ScoutingTool() {
         if (e.key === '@') bulkSetCategory('MAYBE');
         if (e.key === '#') bulkSetCategory('WATCH');
         if (e.key === '$') bulkSetCategory('NO');
+        if (e.key === '%') bulkSetCategory('UNAVAILABLE');
       }
     };
 
@@ -552,6 +556,9 @@ export default function ScoutingTool() {
   const filteredPlayers = useMemo(() => {
     return playersData
       .filter(p => {
+        // Hide unavailable players unless showUnavailable is true or specifically filtering for them
+        if (!showUnavailable && playerCategories[p.name] === 'UNAVAILABLE' && filter.category !== 'UNAVAILABLE') return false;
+
         if (filter.region !== 'ALL' && p.region !== filter.region) return false;
         if (filter.role !== 'ALL') {
           if (!p.role.includes(filter.role)) return false;
@@ -584,15 +591,16 @@ export default function ScoutingTool() {
         if (sortBy === 'team') return a.team.localeCompare(b.team);
         return 0;
       });
-  }, [filter, statFilters, sortBy, searchTerm, playerCategories]);
+  }, [filter, statFilters, sortBy, searchTerm, playerCategories, showUnavailable]);
 
   const stats = useMemo(() => {
     const want = Object.values(playerCategories).filter(c => c === 'WANT').length;
     const maybe = Object.values(playerCategories).filter(c => c === 'MAYBE').length;
     const no = Object.values(playerCategories).filter(c => c === 'NO').length;
     const watch = Object.values(playerCategories).filter(c => c === 'WATCH').length;
+    const unavailable = Object.values(playerCategories).filter(c => c === 'UNAVAILABLE').length;
     const stars = playersData.filter(p => p.star).length;
-    return { want, maybe, no, watch, total: playersData.length, stars };
+    return { want, maybe, no, watch, unavailable, total: playersData.length, stars };
   }, [playerCategories]);
 
   const rosterAnalysis = useMemo(() => {
@@ -734,6 +742,14 @@ export default function ScoutingTool() {
     return 'text-gray-500';
   };
 
+  const getRoleClass = (role) => {
+    if (role.includes('Entry')) return 'role-entry';
+    if (role.includes('Flex')) return 'role-flex';
+    if (role.includes('Sup') || role.includes('Anchor')) return 'role-support';
+    if (role.includes('IGL')) return 'role-igl';
+    return 'bg-gray-600/20 border border-gray-600 text-gray-400';
+  };
+
   return (
     <div className="min-h-screen tactical-bg scanlines text-white p-4 overflow-auto">
       {/* Header */}
@@ -756,7 +772,7 @@ export default function ScoutingTool() {
           </div>
         </div>
         <p className="text-gray-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
-        <p className="text-gray-600 text-xs mt-1 tracking-wider">KEYS: 1-4 CATEGORIZE | R ROSTER | ESC CLOSE</p>
+        <p className="text-gray-600 text-xs mt-1 tracking-wider">KEYS: 1-5 CATEGORIZE | R ROSTER | ESC CLOSE</p>
       </div>
 
       {/* Stats Bar */}
@@ -776,6 +792,10 @@ export default function ScoutingTool() {
         <div className="badge-no px-4 py-2 rounded font-semibold tracking-wide">
           <span className="material-icons text-sm mr-1 align-middle">cancel</span>
           NO: {stats.no}
+        </div>
+        <div className="badge-unavailable px-4 py-2 rounded font-semibold tracking-wide">
+          <span className="material-icons text-sm mr-1 align-middle">block</span>
+          N/A: {stats.unavailable}
         </div>
         <div className="px-4 py-2 rounded font-semibold tracking-wide bg-purple-500/20 border border-purple-500 text-purple-400">
           <span className="material-icons text-sm mr-1 align-middle">star</span>
@@ -802,6 +822,9 @@ export default function ScoutingTool() {
         </button>
         <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical ${filter.starOnly ? 'active' : ''}`}>
           <span className="material-icons text-sm mr-1 align-middle">star</span>ELITE ONLY
+        </button>
+        <button onClick={() => setShowUnavailable(!showUnavailable)} className={`btn-tactical ${showUnavailable ? 'active' : ''}`}>
+          <span className="material-icons text-sm mr-1 align-middle">block</span>SHOW N/A
         </button>
         <button onClick={() => setShowExport(!showExport)} className="btn-primary">
           <span className="material-icons text-sm mr-1 align-middle">file_download</span>EXPORT
@@ -851,6 +874,7 @@ export default function ScoutingTool() {
           <option value="MAYBE">Maybe</option>
           <option value="WATCH">Watch</option>
           <option value="NO">No</option>
+          <option value="UNAVAILABLE">Unavailable</option>
           <option value="UNCATEGORIZED">Uncategorized</option>
         </select>
         <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="input-tactical">
@@ -892,6 +916,7 @@ export default function ScoutingTool() {
             <button onClick={() => bulkSetCategory('MAYBE')} className="badge-maybe px-3 py-1 rounded text-sm font-medium hover:opacity-80">Maybe All</button>
             <button onClick={() => bulkSetCategory('WATCH')} className="badge-watch px-3 py-1 rounded text-sm font-medium hover:opacity-80">Watch All</button>
             <button onClick={() => bulkSetCategory('NO')} className="badge-no px-3 py-1 rounded text-sm font-medium hover:opacity-80">No All</button>
+            <button onClick={() => bulkSetCategory('UNAVAILABLE')} className="badge-unavailable px-3 py-1 rounded text-sm font-medium hover:opacity-80">N/A All</button>
             <button onClick={clearSelection} className="btn-tactical text-sm">
               <span className="material-icons text-sm mr-1 align-middle">deselect</span>Clear
             </button>
@@ -1156,7 +1181,7 @@ export default function ScoutingTool() {
             return (
               <div key={key} className="mb-8">
                 <h3 className={`text-xl font-bold mb-4 badge-${key.toLowerCase()} inline-block px-4 py-2 rounded tracking-wide`}>
-                  <span className="material-icons mr-2 align-middle text-lg">{key === 'WANT' ? 'check_circle' : key === 'MAYBE' ? 'help' : key === 'WATCH' ? 'visibility' : 'cancel'}</span>
+                  <span className="material-icons mr-2 align-middle text-lg">{key === 'WANT' ? 'check_circle' : key === 'MAYBE' ? 'help' : key === 'WATCH' ? 'visibility' : key === 'UNAVAILABLE' ? 'block' : 'cancel'}</span>
                   {cat.label} ({players.length})
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1198,53 +1223,59 @@ export default function ScoutingTool() {
               SHOWING <span className="text-primary">{filteredPlayers.length}</span> OF {playersData.length}
             </span>
           </div>
-          <div className="tactical-panel overflow-hidden max-w-7xl mx-auto">
+          <div className="tactical-panel overflow-hidden mx-auto" style={{maxWidth: '1600px'}}>
             <table className="table-tactical w-full text-sm">
               <thead>
                 <tr>
-                  <th className="p-3 w-8"><input type="checkbox" onChange={(e) => e.target.checked ? selectAll() : clearSelection()} checked={selectedPlayers.size === filteredPlayers.length && filteredPlayers.length > 0} className="accent-primary" /></th>
-                  <th className="p-3 text-left">Actions</th>
-                  <th className="p-3 text-left">Operator</th>
-                  <th className="p-3 text-left">Team</th>
-                  <th className="p-3">Region</th>
-                  <th className="p-3">Role</th>
-                  <th className="p-3">Avg</th>
-                  <th className="p-3">Peak</th>
-                  <th className="p-3">Trend</th>
-                  <th className="p-3">Chart</th>
-                  <th className="p-3">Social</th>
-                  <th className="p-3 text-left">Intel</th>
+                  <th className="p-2 w-8"><input type="checkbox" onChange={(e) => e.target.checked ? selectAll() : clearSelection()} checked={selectedPlayers.size === filteredPlayers.length && filteredPlayers.length > 0} className="accent-primary" /></th>
+                  <th className="p-2 text-left">Actions</th>
+                  <th className="p-2 text-left">Operator</th>
+                  <th className="p-2 text-left">Team</th>
+                  <th className="p-2">Region</th>
+                  <th className="p-2">Role</th>
+                  <th className="p-2">Avg</th>
+                  <th className="p-2">Peak</th>
+                  <th className="p-2">Floor</th>
+                  <th className="p-2">S1</th>
+                  <th className="p-2">S2</th>
+                  <th className="p-2">Major</th>
+                  <th className="p-2">Trend</th>
+                  <th className="p-2">Social</th>
+                  <th className="p-2 text-left" style={{minWidth: '200px'}}>Intel</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredPlayers.map((p, i) => (
                   <tr key={p.name} className={`cursor-pointer transition-all ${selectedPlayers.has(p.name) ? 'bg-primary/10 border-l-2 border-l-primary' : ''}`} onClick={() => setSelectedPlayer(p)}>
-                    <td className="p-3" onClick={e => e.stopPropagation()}>
+                    <td className="p-2" onClick={e => e.stopPropagation()}>
                       <input type="checkbox" checked={selectedPlayers.has(p.name)} onChange={() => toggleSelect(p.name)} className="accent-primary" />
                     </td>
-                    <td className="p-3" onClick={e => e.stopPropagation()}>
+                    <td className="p-2" onClick={e => e.stopPropagation()}>
                       <div className="flex gap-1">
                         {Object.entries(categories).map(([key, cat]) => (
-                          <button key={key} onClick={() => setCategory(p.name, key)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${playerCategories[p.name] === key ? `badge-${key.toLowerCase()}` : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title={`${cat.label} (${cat.key})`}>
+                          <button key={key} onClick={() => setCategory(p.name, key)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === key ? `badge-${key.toLowerCase()}` : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title={`${cat.label} (${cat.key})`}>
                             {key[0]}
                           </button>
                         ))}
-                        <button onClick={() => toggleCompare(p)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${compareList.find(x => x.name === p.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'bg-panel-light border border-panel-border hover:border-cyan-500/50'}`} title="Compare">C</button>
-                        <button onClick={() => toggleRoster(p)} className={`w-7 h-7 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
+                        <button onClick={() => toggleCompare(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${compareList.find(x => x.name === p.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'bg-panel-light border border-panel-border hover:border-cyan-500/50'}`} title="Compare">C</button>
+                        <button onClick={() => toggleRoster(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
                       </div>
                     </td>
-                    <td className="p-3 font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</td>
-                    <td className="p-3 text-gray-400">{p.team}</td>
-                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
-                    <td className="p-3 text-center text-xs text-gray-400">{p.role}</td>
-                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span></td>
-                    <td className="p-3 text-center"><span className={`px-2 py-1 rounded text-xs font-bold ${p.peak >= 1.20 ? 'rating-elite' : p.peak >= 1.10 ? 'rating-good' : p.peak >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.peak.toFixed(2)}</span></td>
-                    <td className={`p-3 text-center font-bold ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
-                    <td className="p-3 text-center"><Sparkline s1={p.s1} s2={p.s2} majorAvg={p.majorAvg} /></td>
-                    <td className="p-3 text-center" onClick={e => e.stopPropagation()}>
+                    <td className="p-2 font-bold text-white whitespace-nowrap">{p.star ? '⭐ ' : ''}{p.name}</td>
+                    <td className="p-2 text-gray-400 text-xs">{p.team}</td>
+                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
+                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getRoleClass(p.role)}`}>{p.role}</span></td>
+                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span></td>
+                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.peak >= 1.20 ? 'rating-elite' : p.peak >= 1.10 ? 'rating-good' : p.peak >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.peak.toFixed(2)}</span></td>
+                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.floor >= 1.00 ? 'rating-good' : p.floor >= 0.85 ? 'rating-avg' : 'rating-low'}`}>{p.floor.toFixed(2)}</span></td>
+                    <td className="p-2 text-center text-xs text-gray-400">{p.s1?.toFixed(2) || '-'}</td>
+                    <td className="p-2 text-center text-xs text-gray-400">{p.s2?.toFixed(2) || '-'}</td>
+                    <td className="p-2 text-center text-xs text-gray-400">{p.majorAvg?.toFixed(2) || '-'}</td>
+                    <td className={`p-2 text-center font-bold text-xs ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
+                    <td className="p-2 text-center" onClick={e => e.stopPropagation()}>
                       {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light text-xs">@{p.twitter}</a>}
                     </td>
-                    <td className="p-3 text-xs text-gray-500 max-w-xs truncate" title={p.note}>{p.note}</td>
+                    <td className="p-2 text-xs text-gray-400" style={{minWidth: '200px'}}>{p.note}</td>
                   </tr>
                 ))}
               </tbody>
