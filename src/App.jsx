@@ -1031,7 +1031,7 @@ export default function ScoutingTool() {
             <button onClick={() => {
               const text = Object.entries(exportPicks()).map(([cat, players]) =>
                 `═══════════════════════════════════════\n${categories[cat]?.label.toUpperCase()} (${players.length})\n═══════════════════════════════════════\n${players.map(p =>
-                  `${p.name}\n   Team: ${p.team}\n   Role: ${p.role}\n   Avg: ${p.avg.toFixed(2)} | Peak: ${p.peak.toFixed(2)}\n   Twitter: ${p.twitter ? '@' + p.twitter : 'N/A'}`
+                  `${p.name}\n   Team: ${p.team}\n   Role: ${p.role}\n   Avg: ${p.avg.toFixed(2)} | Peak: ${p.peak.toFixed(2)}`
                 ).join('\n\n') || '  None'}`
               ).join('\n\n');
               navigator.clipboard.writeText(text);
@@ -1353,7 +1353,6 @@ export default function ScoutingTool() {
                   <th className="p-2">S2</th>
                   <th className="p-2">Major</th>
                   <th className="p-2">Trend</th>
-                  <th className="p-2">Social</th>
                   <th className="p-2 text-left" style={{minWidth: '200px'}}>Intel</th>
                 </tr>
               </thead>
@@ -1394,9 +1393,6 @@ export default function ScoutingTool() {
                     <td className="p-2 text-center text-xs text-gray-400">{p.s2?.toFixed(2) || '-'}</td>
                     <td className="p-2 text-center text-xs text-gray-400">{p.majorAvg?.toFixed(2) || '-'}</td>
                     <td className={`p-2 text-center font-bold text-xs ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
-                    <td className="p-2 text-center" onClick={e => e.stopPropagation()}>
-                      {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light text-xs">@{p.twitter}</a>}
-                    </td>
                     <td className="p-2 text-xs text-gray-400" style={{minWidth: '200px'}}>{p.note}</td>
                   </tr>
                 ))}
@@ -1425,12 +1421,6 @@ export default function ScoutingTool() {
                   <span className="text-gray-500">{selectedPlayer.tier}</span>
                 </div>
                 <p className="text-primary mt-1 font-medium">{selectedPlayer.role}</p>
-                {selectedPlayer.twitter && (
-                  <a href={`https://twitter.com/${selectedPlayer.twitter}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary-light text-sm mt-1 inline-block">
-                    <span className="material-icons text-sm mr-1 align-middle">link</span>
-                    @{selectedPlayer.twitter}
-                  </a>
-                )}
               </div>
               <button onClick={() => setSelectedPlayer(null)} className="text-gray-400 hover:text-primary transition-colors">
                 <span className="material-icons">close</span>
