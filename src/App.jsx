@@ -6,7 +6,7 @@ const playersData = [
   // ============================================
   // NAL - SHOPIFY REBELLION
   // ============================================
-  { name: "Canadian", team: "Shopify Rebellion", region: "NAL", tier: "T1", role: "Star IGL", avg: 0.76, peak: 1.01, floor: 0.69, trend: -0.02, s1: 0.71, s2: 0.69, majorAvg: 0.87, events: 4, note: "0.76 yr | -29 entry | 0.70/0.81 ATK/DEF | Pure caller, DEF anchor", star: true, twitter: null },
+  { name: "Canadian", team: "Shopify Rebellion", region: "NAL", tier: "T1", role: "IGL", avg: 0.76, peak: 1.01, floor: 0.69, trend: -0.02, s1: 0.71, s2: 0.69, majorAvg: 0.87, events: 4, note: "0.76 yr | -29 entry | 0.70/0.81 ATK/DEF | Pure caller, DEF anchor", star: true, twitter: null },
   { name: "Spoit", team: "Shopify Rebellion", region: "NAL", tier: "T1", role: "Entry", avg: 1.12, peak: 1.22, floor: 0.70, trend: -0.04, s1: 1.22, s2: 1.18, majorAvg: 0.84, events: 4, note: "1.12 yr | +4 entry | 1.15/1.09 ATK/DEF | Balanced star", star: true, twitter: "SpoitR6" },
   { name: "Surf", team: "Shopify Rebellion", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 1.11, peak: 1.19, floor: 0.67, trend: 0.06, s1: 1.09, s2: 1.15, majorAvg: 0.93, events: 4, note: "1.11 yr | +8 entry | 1.11/1.11 ATK/DEF | PERFECTLY BALANCED - rare", star: true, twitter: "surfego" },
   { name: "Rexen", team: "Shopify Rebellion", region: "NAL", tier: "T1", role: "Flex", avg: 1.10, peak: 1.23, floor: 0.99, trend: -0.09, s1: 1.18, s2: 1.09, majorAvg: 1.12, events: 4, note: "1.10 yr | +8 entry | 1.02/1.17 ATK/DEF | DEF SPECIALIST", star: true, twitter: "RexenR6" },
@@ -16,7 +16,7 @@ const playersData = [
   // NAL - DARKZERO
   // ============================================
   { name: "Nafe", team: "DarkZero", region: "NAL", tier: "T1", role: "IGL", avg: 0.88, peak: 1.07, floor: 0.82, trend: -0.07, s1: 1.04, s2: 0.97, majorAvg: 0.93, events: 4, note: "0.88 yr | -10 entry | 0.81/0.96 ATK/DEF | IGL, struggles ATK", star: false, twitter: "Nafe_R6" },
-  { name: "CTZN", team: "DarkZero", region: "NAL", tier: "T1", role: "Star Flex", avg: 1.20, peak: 1.35, floor: 0.90, trend: -0.45, s1: 1.35, s2: 0.90, majorAvg: 1.16, events: 4, note: "1.20 yr | +11 entry | 1.25/1.14 ATK/DEF | ATK MONSTER - creates openings", star: true, twitter: "CtznR6" },
+  { name: "CTZN", team: "DarkZero", region: "NAL", tier: "T1", role: "Flex", avg: 1.20, peak: 1.35, floor: 0.90, trend: -0.45, s1: 1.35, s2: 0.90, majorAvg: 1.16, events: 4, note: "1.20 yr | +11 entry | 1.25/1.14 ATK/DEF | ATK MONSTER - creates openings", star: true, twitter: "CtznR6" },
   { name: "njr", team: "DarkZero", region: "NAL", tier: "T1", role: "Flex", avg: 1.10, peak: 1.31, floor: 0.97, trend: -0.25, s1: 1.22, s2: 0.97, majorAvg: 1.15, events: 4, note: "1.10 yr | -5 entry | 1.14/1.06 ATK/DEF | NEGATIVE entry - trader not opener", star: true, twitter: "njrR6S" },
   { name: "SpiriTz", team: "DarkZero", region: "NAL", tier: "T1", role: "Flex", avg: 0.95, peak: 0.98, floor: 0.82, trend: 0.00, s1: 0.95, s2: 0.95, majorAvg: 0.98, events: 4, note: "0.95 yr | +3 entry | 1.00/0.89 ATK/DEF | ATK only - DEF liability (0.89)", star: false, twitter: "SpiriTzR6" },
   { name: "Pamba", team: "DarkZero", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 0.88, peak: 0.95, floor: 0.80, trend: -0.05, s1: 0.92, s2: 0.87, majorAvg: 0.85, events: 4, note: "Support player, high KOST", star: false, twitter: null },
@@ -24,7 +24,7 @@ const playersData = [
   // ============================================
   // NAL - SSG (Spacestation Gaming)
   // ============================================
-  { name: "Fultz", team: "SSG", region: "NAL", tier: "T1", role: "Star IGL", avg: 0.92, peak: 0.97, floor: 0.81, trend: 0.01, s1: 0.96, s2: 0.97, majorAvg: 0.88, events: 4, note: "0.92 yr | +17 entry | 0.81/1.04 ATK/DEF | RARE +entry IGL, DEF anchor", star: true, twitter: "Fultz" },
+  { name: "Fultz", team: "SSG", region: "NAL", tier: "T1", role: "IGL", avg: 0.92, peak: 0.97, floor: 0.81, trend: 0.01, s1: 0.96, s2: 0.97, majorAvg: 0.88, events: 4, note: "0.92 yr | +17 entry | 0.81/1.04 ATK/DEF | RARE +entry IGL, DEF anchor", star: true, twitter: "Fultz" },
   { name: "Nuers", team: "SSG", region: "NAL", tier: "T1", role: "Flex", avg: 1.09, peak: 1.32, floor: 0.99, trend: 0.07, s1: 1.09, s2: 1.16, majorAvg: 1.02, events: 4, note: "1.09 yr | +11 entry | 1.00/1.19 ATK/DEF | DEF GOD (1.19) - anchor star", star: true, twitter: "Nuersss" },
   { name: "J9O", team: "SSG", region: "NAL", tier: "T1", role: "Flex", avg: 1.10, peak: 1.27, floor: 0.97, trend: -0.14, s1: 1.20, s2: 1.06, majorAvg: 1.02, events: 4, note: "1.10 yr | +14 entry | 1.09/1.10 ATK/DEF | Perfectly balanced flex", star: true, twitter: "J9Or6" },
   { name: "Benjamaster", team: "SSG", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 0.97, peak: 1.33, floor: 0.70, trend: -0.12, s1: 0.99, s2: 0.87, majorAvg: 0.98, events: 4, note: "0.97 yr | +2 entry | 0.88/1.06 ATK/DEF | DEF support", star: false, twitter: "Benjamaster2k" },
@@ -33,17 +33,17 @@ const playersData = [
   // ============================================
   // NAL - M80
   // ============================================
-  { name: "Hotancold", team: "M80", region: "NAL", tier: "T1", role: "Star IGL", avg: 0.98, peak: 0.99, floor: 0.74, trend: -0.10, s1: 0.96, s2: 0.86, majorAvg: 0.87, events: 4, note: "0.98 yr | -2 entry | 0.85/1.12 ATK/DEF | IGL DEF anchor (1.12)", star: true, twitter: "Hotancold" },
-  { name: "Dfuzr", team: "M80", region: "NAL", tier: "T1", role: "Star Entry", avg: 1.15, peak: 1.22, floor: 0.94, trend: 0.13, s1: 1.09, s2: 1.22, majorAvg: 1.03, events: 4, note: "1.15 yr | +13 entry | 1.12/1.18 ATK/DEF | Balanced star, DEF-leaning", star: true, twitter: "dfuzrR6S" },
+  { name: "Hotancold", team: "M80", region: "NAL", tier: "T1", role: "IGL", avg: 0.98, peak: 0.99, floor: 0.74, trend: -0.10, s1: 0.96, s2: 0.86, majorAvg: 0.87, events: 4, note: "0.98 yr | -2 entry | 0.85/1.12 ATK/DEF | IGL DEF anchor (1.12)", star: true, twitter: "Hotancold" },
+  { name: "Dfuzr", team: "M80", region: "NAL", tier: "T1", role: "Entry", avg: 1.15, peak: 1.22, floor: 0.94, trend: 0.13, s1: 1.09, s2: 1.22, majorAvg: 1.03, events: 4, note: "1.15 yr | +13 entry | 1.12/1.18 ATK/DEF | Balanced star, DEF-leaning", star: true, twitter: "dfuzrR6S" },
   { name: "Gunnar", team: "M80", region: "NAL", tier: "T1", role: "Entry", avg: 1.09, peak: 1.26, floor: 0.98, trend: 0.14, s1: 0.98, s2: 1.12, majorAvg: 1.18, events: 4, note: "1.09 yr | +34 entry | 1.05/1.13 ATK/DEF | BEST ENTRY CREATOR NAL", star: true, twitter: "Gunnar_r6" },
-  { name: "Gaveni", team: "M80", region: "NAL", tier: "T1", role: "Star Flex", avg: 1.13, peak: 1.23, floor: 1.01, trend: 0.17, s1: 1.06, s2: 1.23, majorAvg: 1.05, events: 4, note: "1.13 yr | +6 entry | 1.18/1.07 ATK/DEF | ATK playmaker (1.18)", star: true, twitter: "GaveniPanini" },
+  { name: "Gaveni", team: "M80", region: "NAL", tier: "T1", role: "Flex", avg: 1.13, peak: 1.23, floor: 1.01, trend: 0.17, s1: 1.06, s2: 1.23, majorAvg: 1.05, events: 4, note: "1.13 yr | +6 entry | 1.18/1.07 ATK/DEF | ATK playmaker (1.18)", star: true, twitter: "GaveniPanini" },
   { name: "Kyno", team: "M80", region: "NAL", tier: "T1", role: "Flex", avg: 1.03, peak: 1.10, floor: 0.82, trend: 0.20, s1: 0.90, s2: 1.10, majorAvg: 0.94, events: 4, note: "1.03 yr | +9 entry | 1.00/1.06 ATK/DEF | Balanced, improving", star: false, twitter: "kynor6" },
 
   // ============================================
   // NAL - OXYGEN ESPORTS
   // ============================================
   { name: "Forrest", team: "Oxygen", region: "NAL", tier: "T1", role: "IGL", avg: 0.79, peak: 1.04, floor: 0.78, trend: 0.05, s1: 0.93, s2: 0.98, majorAvg: 0.88, events: 4, note: "0.79 yr | -18 entry | 0.59/0.98 ATK/DEF | TERRIBLE ATK (0.59) - liability", star: false, twitter: "forrest_r6" },
-  { name: "Gryxr", team: "Oxygen", region: "NAL", tier: "T1", role: "Star Flex", avg: 1.11, peak: 1.18, floor: 1.02, trend: -0.16, s1: 1.18, s2: 1.02, majorAvg: 1.11, events: 4, note: "1.11 yr | +2 entry | 1.13/1.09 ATK/DEF | Balanced star, low entry", star: true, twitter: "GryxrPR" },
+  { name: "Gryxr", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 1.11, peak: 1.18, floor: 1.02, trend: -0.16, s1: 1.18, s2: 1.02, majorAvg: 1.11, events: 4, note: "1.11 yr | +2 entry | 1.13/1.09 ATK/DEF | Balanced star, low entry", star: true, twitter: "GryxrPR" },
   { name: "Yoggah", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 1.02, peak: 1.12, floor: 0.81, trend: 0.07, s1: 1.05, s2: 1.12, majorAvg: 0.85, events: 4, note: "1.02 yr | +1 entry | 1.00/1.04 ATK/DEF | Average, no standout", star: false, twitter: "Yoggah_" },
   { name: "Atom", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 1.07, peak: 1.29, floor: 0.75, trend: 0.26, s1: 1.03, s2: 1.29, majorAvg: 0.90, events: 4, note: "1.07 yr | -2 entry | 1.02/1.12 ATK/DEF | DEF anchor not star fragger", star: false, twitter: "AtomR6S" },
   { name: "GMZ", team: "Oxygen", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 0.97, peak: 1.16, floor: 0.81, trend: 0.27, s1: 0.89, s2: 1.16, majorAvg: 0.81, events: 4, note: "0.97 yr | -12 entry | 0.93/1.01 ATK/DEF | Support, negative entry", star: false, twitter: "GMZR6" },
@@ -51,8 +51,8 @@ const playersData = [
   // ============================================
   // NAL - WILDCARD
   // ============================================
-  { name: "Spiker", team: "Wildcard", region: "NAL", tier: "T1", role: "Star IGL", avg: 1.01, peak: 1.05, floor: 0.93, trend: 0.05, s1: 1.00, s2: 1.05, majorAvg: 0.99, events: 4, note: "1.01 yr | +3 entry | 0.88/1.14 ATK/DEF | Elite fragging IGL, DEF anchor", star: true, twitter: "SpikerR6" },
-  { name: "Bae", team: "Wildcard", region: "NAL", tier: "T1", role: "Star Entry", avg: 1.03, peak: 1.39, floor: 0.92, trend: 0.01, s1: 1.08, s2: 1.09, majorAvg: 1.16, events: 4, note: "1.03 yr | +7 entry | 1.07/1.00 ATK/DEF | Weak entry diff for role", star: true, twitter: "BaeR6S" },
+  { name: "Spiker", team: "Wildcard", region: "NAL", tier: "T1", role: "IGL", avg: 1.01, peak: 1.05, floor: 0.93, trend: 0.05, s1: 1.00, s2: 1.05, majorAvg: 0.99, events: 4, note: "1.01 yr | +3 entry | 0.88/1.14 ATK/DEF | Elite fragging IGL, DEF anchor", star: true, twitter: "SpikerR6" },
+  { name: "Bae", team: "Wildcard", region: "NAL", tier: "T1", role: "Entry", avg: 1.03, peak: 1.39, floor: 0.92, trend: 0.01, s1: 1.08, s2: 1.09, majorAvg: 1.16, events: 4, note: "1.03 yr | +7 entry | 1.07/1.00 ATK/DEF | Weak entry diff for role", star: true, twitter: "BaeR6S" },
   { name: "Kanzen", team: "Wildcard", region: "NAL", tier: "T1", role: "Entry", avg: 1.13, peak: 1.16, floor: 0.59, trend: -0.14, s1: 1.14, s2: 1.00, majorAvg: 0.88, events: 4, note: "1.13 yr | -2 entry | 1.10/1.15 ATK/DEF | TRADER not opener - DEF star", star: true, twitter: "KanzenR6" },
   { name: "BBYSharkk", team: "Wildcard", region: "NAL", tier: "T1", role: "Flex", avg: 1.01, peak: 1.07, floor: 0.88, trend: 0.19, s1: 0.88, s2: 1.07, majorAvg: 0.99, events: 4, note: "1.01 yr | +18 entry | 0.97/1.04 ATK/DEF | HIDDEN entry talent", star: true, twitter: "BBYSharkk" },
   { name: "Dash", team: "Wildcard", region: "NAL", tier: "T1", role: "Flex", avg: 0.91, peak: 1.00, floor: 0.61, trend: 0.16, s1: 0.84, s2: 1.00, majorAvg: 0.61, events: 4, note: "0.91 yr | -9 entry | 0.79/1.03 ATK/DEF | DEF ONLY - 0.79 ATK liability", star: false, twitter: "d4shR6" },
@@ -87,7 +87,7 @@ const playersData = [
   // ============================================
   // NAL - TEAM CRUELTY
   // ============================================
-  { name: "Pyroxz", team: "Team Cruelty", region: "NAL", tier: "T1", role: "Star Flex", avg: 0.98, peak: 1.02, floor: 0.90, trend: 0.07, s1: 0.95, s2: 1.02, majorAvg: null, events: 2, note: "0.98 yr | +6 entry | 0.99/0.97 ATK/DEF | Team STAR - balanced, consistent", star: true, twitter: "PyroxzR6" },
+  { name: "Pyroxz", team: "Team Cruelty", region: "NAL", tier: "T1", role: "Flex", avg: 0.98, peak: 1.02, floor: 0.90, trend: 0.07, s1: 0.95, s2: 1.02, majorAvg: null, events: 2, note: "0.98 yr | +6 entry | 0.99/0.97 ATK/DEF | Team STAR - balanced, consistent", star: true, twitter: "PyroxzR6" },
   { name: "Fatal", team: "Team Cruelty", region: "NAL", tier: "T1", role: "Flex", avg: 0.85, peak: 1.11, floor: 0.63, trend: -0.41, s1: 1.04, s2: 0.63, majorAvg: null, events: 2, note: "0.85 yr | +2 entry | 0.88/0.82 ATK/DEF | S1 STAR crashed S2 (-0.41)", star: false, twitter: "FatalR6S" },
   { name: "Rovi", team: "Team Cruelty", region: "NAL", tier: "T1", role: "Flex", avg: 0.69, peak: 0.69, floor: 0.69, trend: 0, s1: null, s2: 0.69, majorAvg: null, events: 1, note: "0.69 yr | -8 entry | 0.62/0.76 ATK/DEF | New S2 - struggling", star: false, twitter: "RoviR6" },
   { name: "Motumbo", team: "Team Cruelty", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 0.67, peak: 0.73, floor: 0.59, trend: -0.14, s1: 0.73, s2: 0.59, majorAvg: null, events: 2, note: "0.67 yr | -4 entry | 0.58/0.76 ATK/DEF | Plant specialist 19%, DEF only", star: false, twitter: "MotumboR6" },
@@ -96,27 +96,27 @@ const playersData = [
   // ============================================
   // EML - G2 ESPORTS
   // ============================================
-  { name: "Alem4o", team: "G2 Esports", region: "EML", tier: "T1", role: "Star IGL", avg: 0.95, peak: 1.04, floor: 0.89, trend: -0.08, s1: 1.04, s2: 0.96, majorAvg: 0.90, events: 4, note: "0.95 yr | -4 entry | 0.89/1.01 ATK/DEF | IGL legend, DEF anchor", star: true, twitter: "Alem4oR6" },
-  { name: "Stompn", team: "G2 Esports", region: "EML", tier: "T1", role: "Star Flex", avg: 1.24, peak: 1.28, floor: 1.19, trend: -0.02, s1: 1.21, s2: 1.19, majorAvg: 1.26, events: 4, note: "1.24 yr | +15 entry | 1.27/1.21 ATK/DEF | ELITE CONSISTENT - best flex EML", star: true, twitter: "StompnR6" },
+  { name: "Alem4o", team: "G2 Esports", region: "EML", tier: "T1", role: "IGL", avg: 0.95, peak: 1.04, floor: 0.89, trend: -0.08, s1: 1.04, s2: 0.96, majorAvg: 0.90, events: 4, note: "0.95 yr | -4 entry | 0.89/1.01 ATK/DEF | IGL legend, DEF anchor", star: true, twitter: "Alem4oR6" },
+  { name: "Stompn", team: "G2 Esports", region: "EML", tier: "T1", role: "Flex", avg: 1.24, peak: 1.28, floor: 1.19, trend: -0.02, s1: 1.21, s2: 1.19, majorAvg: 1.26, events: 4, note: "1.24 yr | +15 entry | 1.27/1.21 ATK/DEF | ELITE CONSISTENT - best flex EML", star: true, twitter: "StompnR6" },
   { name: "Doki", team: "G2 Esports", region: "EML", tier: "T1", role: "Flex", avg: 1.05, peak: 1.23, floor: 0.89, trend: -0.19, s1: 1.13, s2: 0.94, majorAvg: 1.06, events: 4, note: "1.05 yr | +3 entry | 1.08/1.02 ATK/DEF | Munich flash, S2 slump", star: false, twitter: "DokiR6S" },
-  { name: "Loira", team: "G2 Esports", region: "EML", tier: "T1", role: "Star Entry", avg: 1.09, peak: 1.22, floor: 0.92, trend: -0.05, s1: 1.14, s2: 1.09, majorAvg: 1.07, events: 4, note: "1.09 yr | +19 entry | 1.15/1.03 ATK/DEF | ATK MONSTER - entry creator", star: true, twitter: "LoiraR6" },
+  { name: "Loira", team: "G2 Esports", region: "EML", tier: "T1", role: "Entry", avg: 1.09, peak: 1.22, floor: 0.92, trend: -0.05, s1: 1.14, s2: 1.09, majorAvg: 1.07, events: 4, note: "1.09 yr | +19 entry | 1.15/1.03 ATK/DEF | ATK MONSTER - entry creator", star: true, twitter: "LoiraR6" },
   { name: "BlaZ", team: "G2 Esports", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 0.95, peak: 1.13, floor: 0.80, trend: 0.11, s1: 1.02, s2: 1.13, majorAvg: 0.83, events: 4, note: "0.95 yr | -2 entry | 0.87/1.03 ATK/DEF | Support improving, DEF focus", star: false, twitter: "BlaZR6S" },
 
   // ============================================
   // EML - TEAM FALCONS
   // ============================================
-  { name: "BriD", team: "Team Falcons", region: "EML", tier: "T1", role: "Star IGL", avg: 1.01, peak: 1.10, floor: 0.94, trend: 0.08, s1: 0.94, s2: 1.02, majorAvg: 1.10, events: 4, note: "1.01 yr | +8 entry | 0.94/1.08 ATK/DEF | IGL plant king - DEF ANCHOR", star: true, twitter: "BriDR6S" },
-  { name: "Shaiiko", team: "Team Falcons", region: "EML", tier: "T1", role: "Star Flex", avg: 1.17, peak: 1.31, floor: 1.11, trend: 0.20, s1: 1.11, s2: 1.31, majorAvg: 1.19, events: 4, note: "1.17 yr | +22 entry | 1.21/1.13 ATK/DEF | GOAT - ATK playmaker", star: true, twitter: "ShaikkoR6" },
-  { name: "Solotov", team: "Team Falcons", region: "EML", tier: "T1", role: "Star Entry", avg: 1.05, peak: 1.35, floor: 0.71, trend: 0.03, s1: 1.06, s2: 1.09, majorAvg: 1.03, events: 4, note: "1.05 yr | +28 entry | 1.12/0.98 ATK/DEF | ELITE ENTRY creator - ATK god", star: true, twitter: "SolotovR6" },
+  { name: "BriD", team: "Team Falcons", region: "EML", tier: "T1", role: "IGL", avg: 1.01, peak: 1.10, floor: 0.94, trend: 0.08, s1: 0.94, s2: 1.02, majorAvg: 1.10, events: 4, note: "1.01 yr | +8 entry | 0.94/1.08 ATK/DEF | IGL plant king - DEF ANCHOR", star: true, twitter: "BriDR6S" },
+  { name: "Shaiiko", team: "Team Falcons", region: "EML", tier: "T1", role: "Flex", avg: 1.17, peak: 1.31, floor: 1.11, trend: 0.20, s1: 1.11, s2: 1.31, majorAvg: 1.19, events: 4, note: "1.17 yr | +22 entry | 1.21/1.13 ATK/DEF | GOAT - ATK playmaker", star: true, twitter: "ShaikkoR6" },
+  { name: "Solotov", team: "Team Falcons", region: "EML", tier: "T1", role: "Entry", avg: 1.05, peak: 1.35, floor: 0.71, trend: 0.03, s1: 1.06, s2: 1.09, majorAvg: 1.03, events: 4, note: "1.05 yr | +28 entry | 1.12/0.98 ATK/DEF | ELITE ENTRY creator - ATK god", star: true, twitter: "SolotovR6" },
   { name: "LikEfac", team: "Team Falcons", region: "EML", tier: "T1", role: "Entry", avg: 1.05, peak: 1.16, floor: 0.72, trend: 0.18, s1: 0.98, s2: 1.16, majorAvg: 0.88, events: 4, note: "1.05 yr | +12 entry | 1.09/1.01 ATK/DEF | Captain trending UP S2 breakout", star: true, twitter: "LikEfacR6" },
   { name: "Yuzus", team: "Team Falcons", region: "EML", tier: "T1", role: "Flex", avg: 1.10, peak: 1.19, floor: 0.90, trend: 0.06, s1: 1.13, s2: 1.19, majorAvg: 0.99, events: 4, note: "1.10 yr | +4 entry | 1.07/1.13 ATK/DEF | Clutch specialist, DEF anchor", star: true, twitter: "YuzusR6" },
 
   // ============================================
   // EML - TEAM SECRET
   // ============================================
-  { name: "Savage", team: "Team Secret", region: "EML", tier: "T1", role: "Star IGL", avg: 1.05, peak: 1.16, floor: 0.99, trend: 0.03, s1: 0.99, s2: 1.02, majorAvg: 1.09, events: 4, note: "1.05 yr | +5 entry | 0.95/1.15 ATK/DEF | IGL DEF GOD (1.67 EWC)", star: true, twitter: "SavageR6S" },
-  { name: "Jume", team: "Team Secret", region: "EML", tier: "T1", role: "Star Flex", avg: 1.17, peak: 1.39, floor: 1.08, trend: 0.17, s1: 1.22, s2: 1.39, majorAvg: 1.12, events: 4, note: "1.17 yr | +18 entry | 1.22/1.12 ATK/DEF | S2 MVP - ELITE ATK", star: true, twitter: "JumeR6" },
-  { name: "Adrian", team: "Team Secret", region: "EML", tier: "T1", role: "Star Sup/Anchor", avg: 1.12, peak: 1.35, floor: 0.94, trend: -0.02, s1: 1.10, s2: 1.08, majorAvg: 1.15, events: 4, note: "1.12 yr | +3 entry | 1.05/1.19 ATK/DEF | ELITE support - DEF anchor", star: true, twitter: "AdrianR6S" },
+  { name: "Savage", team: "Team Secret", region: "EML", tier: "T1", role: "IGL", avg: 1.05, peak: 1.16, floor: 0.99, trend: 0.03, s1: 0.99, s2: 1.02, majorAvg: 1.09, events: 4, note: "1.05 yr | +5 entry | 0.95/1.15 ATK/DEF | IGL DEF GOD (1.67 EWC)", star: true, twitter: "SavageR6S" },
+  { name: "Jume", team: "Team Secret", region: "EML", tier: "T1", role: "Flex", avg: 1.17, peak: 1.39, floor: 1.08, trend: 0.17, s1: 1.22, s2: 1.39, majorAvg: 1.12, events: 4, note: "1.17 yr | +18 entry | 1.22/1.12 ATK/DEF | S2 MVP - ELITE ATK", star: true, twitter: "JumeR6" },
+  { name: "Adrian", team: "Team Secret", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 1.12, peak: 1.35, floor: 0.94, trend: -0.02, s1: 1.10, s2: 1.08, majorAvg: 1.15, events: 4, note: "1.12 yr | +3 entry | 1.05/1.19 ATK/DEF | ELITE support - DEF anchor", star: true, twitter: "AdrianR6S" },
   { name: "Mowwwgli", team: "Team Secret", region: "EML", tier: "T1", role: "Entry", avg: 0.96, peak: 1.05, floor: 0.81, trend: -0.10, s1: 1.05, s2: 0.95, majorAvg: 0.92, events: 4, note: "0.96 yr | +16 entry | 1.00/0.92 ATK/DEF | High entry but declining form", star: false, twitter: "MowwwgliR6" },
   { name: "Noa", team: "Team Secret", region: "EML", tier: "T1", role: "Flex", avg: 1.03, peak: 1.18, floor: 0.96, trend: -0.21, s1: 1.17, s2: 0.96, majorAvg: 1.09, events: 4, note: "1.03 yr | +7 entry | 1.06/1.00 ATK/DEF | S1 star CRASHED S2", star: false, twitter: "NoaR6S" },
 
@@ -124,15 +124,15 @@ const playersData = [
   // EML - VIRTUS.PRO
   // ============================================
   { name: "Always", team: "Virtus.pro", region: "EML", tier: "T1", role: "IGL", avg: 0.93, peak: 0.98, floor: 0.85, trend: -0.12, s1: 0.97, s2: 0.85, majorAvg: 0.98, events: 3, note: "0.93 yr | -6 entry | 0.85/1.01 ATK/DEF | IGL captain, DEF focus", star: false, twitter: "AlwaysR6S" },
-  { name: "dan", team: "Virtus.pro", region: "EML", tier: "T1", role: "Star Entry", avg: 1.06, peak: 1.47, floor: 0.95, trend: 0.13, s1: 0.95, s2: 1.08, majorAvg: 1.47, events: 3, note: "1.06 yr | +31 entry | 1.15/0.97 ATK/DEF | BIG STAGE MONSTER - Munich MVP", star: true, twitter: "danR6S" },
-  { name: "p4sh4", team: "Virtus.pro", region: "EML", tier: "T1", role: "Star Flex", avg: 1.20, peak: 1.23, floor: 1.07, trend: -0.16, s1: 1.23, s2: 1.07, majorAvg: 1.16, events: 3, note: "1.20 yr | +14 entry | 1.24/1.16 ATK/DEF | ELITE FLEX - ATK dominant", star: true, twitter: "p4sh4R6" },
+  { name: "dan", team: "Virtus.pro", region: "EML", tier: "T1", role: "Entry", avg: 1.06, peak: 1.47, floor: 0.95, trend: 0.13, s1: 0.95, s2: 1.08, majorAvg: 1.47, events: 3, note: "1.06 yr | +31 entry | 1.15/0.97 ATK/DEF | BIG STAGE MONSTER - Munich MVP", star: true, twitter: "danR6S" },
+  { name: "p4sh4", team: "Virtus.pro", region: "EML", tier: "T1", role: "Flex", avg: 1.20, peak: 1.23, floor: 1.07, trend: -0.16, s1: 1.23, s2: 1.07, majorAvg: 1.16, events: 3, note: "1.20 yr | +14 entry | 1.24/1.16 ATK/DEF | ELITE FLEX - ATK dominant", star: true, twitter: "p4sh4R6" },
   { name: "ShepparD", team: "Virtus.pro", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 0.99, peak: 1.45, floor: 0.76, trend: -0.25, s1: 1.01, s2: 0.76, majorAvg: 1.11, events: 4, note: "0.99 yr | +2 entry | 0.92/1.06 ATK/DEF | High peaks but S2 CRASH", star: false, twitter: "ShepparDR6S" },
   { name: "JoyStiCK", team: "Virtus.pro", region: "EML", tier: "T1", role: "Flex", avg: 0.91, peak: 1.03, floor: 0.75, trend: -0.19, s1: 0.94, s2: 0.75, majorAvg: 1.03, events: 3, note: "0.91 yr | -3 entry | 0.88/0.94 ATK/DEF | EWC flash, S2 slump", star: false, twitter: "JoyStiCKR6" },
 
   // ============================================
   // EML - GEN.G ESPORTS
   // ============================================
-  { name: "Nayqo", team: "Gen.G Esports", region: "EML", tier: "T1", role: "Star IGL", avg: 1.09, peak: 1.22, floor: 1.03, trend: 0.05, s1: 1.03, s2: 1.08, majorAvg: 1.22, events: 3, note: "1.09 yr | +8 entry | 1.06/1.12 ATK/DEF | FRAGGING IGL - EWC 1.22", star: true, twitter: "NayqoR6" },
+  { name: "Nayqo", team: "Gen.G Esports", region: "EML", tier: "T1", role: "IGL", avg: 1.09, peak: 1.22, floor: 1.03, trend: 0.05, s1: 1.03, s2: 1.08, majorAvg: 1.22, events: 3, note: "1.09 yr | +8 entry | 1.06/1.12 ATK/DEF | FRAGGING IGL - EWC 1.22", star: true, twitter: "NayqoR6" },
   { name: "DEADSHT", team: "Gen.G Esports", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 0.90, peak: 1.11, floor: 0.85, trend: 0.26, s1: 0.85, s2: 1.11, majorAvg: null, events: 2, note: "0.90 yr | -4 entry | 0.82/0.98 ATK/DEF | S2 BREAKOUT (+0.26)", star: false, twitter: "DEADSHTR6" },
   { name: "SkyZs", team: "Gen.G Esports", region: "EML", tier: "T1", role: "Entry", avg: 1.02, peak: 1.15, floor: 0.90, trend: 0.08, s1: 0.94, s2: 1.02, majorAvg: 1.15, events: 3, note: "1.02 yr | +11 entry | 1.08/0.96 ATK/DEF | Good entry creator - ATK focus", star: true, twitter: "SkyZsR6" },
   { name: "Asa", team: "Gen.G Esports", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 0.94, peak: 1.05, floor: 0.85, trend: 0.05, s1: 0.89, s2: 0.94, majorAvg: 1.05, events: 3, note: "0.94 yr | -2 entry | 0.88/1.00 ATK/DEF | Solid support, DEF focus", star: false, twitter: "AsaR6S" },
@@ -141,8 +141,8 @@ const playersData = [
   // ============================================
   // EML - FNATIC (T1) - formerly Heroic
   // ============================================
-  { name: "Sarks", team: "Fnatic", region: "EML", tier: "T1", role: "Star Flex", avg: 1.17, peak: 1.21, floor: 1.13, trend: 0.08, s1: 1.13, s2: 1.21, majorAvg: null, events: 2, note: "1.17 yr | +13 entry | 1.20/1.14 ATK/DEF | T1 READY - elite consistent", star: true, twitter: "SarksR6" },
-  { name: "Wizaardv", team: "Fnatic", region: "EML", tier: "T1", role: "Star Entry", avg: 1.05, peak: 1.07, floor: 1.03, trend: 0.04, s1: 1.03, s2: 1.07, majorAvg: null, events: 2, note: "1.05 yr | +21 entry | 1.12/0.98 ATK/DEF | ELITE ENTRY creator", star: true, twitter: "WizaardvR6" },
+  { name: "Sarks", team: "Fnatic", region: "EML", tier: "T1", role: "Flex", avg: 1.17, peak: 1.21, floor: 1.13, trend: 0.08, s1: 1.13, s2: 1.21, majorAvg: null, events: 2, note: "1.17 yr | +13 entry | 1.20/1.14 ATK/DEF | T1 READY - elite consistent", star: true, twitter: "SarksR6" },
+  { name: "Wizaardv", team: "Fnatic", region: "EML", tier: "T1", role: "Entry", avg: 1.05, peak: 1.07, floor: 1.03, trend: 0.04, s1: 1.03, s2: 1.07, majorAvg: null, events: 2, note: "1.05 yr | +21 entry | 1.12/0.98 ATK/DEF | ELITE ENTRY creator", star: true, twitter: "WizaardvR6" },
   { name: "Deapek", team: "Fnatic", region: "EML", tier: "T1", role: "Flex", avg: 1.02, peak: 1.08, floor: 0.96, trend: 0.05, s1: 0.98, s2: 1.03, majorAvg: null, events: 2, note: "1.02 yr | +5 entry | 1.01/1.03 ATK/DEF | Balanced flex", star: false, twitter: "DeapekR6" },
   { name: "Jeggz", team: "Fnatic", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 1.03, peak: 1.10, floor: 0.96, trend: -0.14, s1: 1.10, s2: 0.96, majorAvg: null, events: 2, note: "1.03 yr | +2 entry | 0.95/1.11 ATK/DEF | DEF ANCHOR (1.11)", star: false, twitter: "JeggzR6" },
   { name: "croqson", team: "Fnatic", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 1.16, peak: 0.98, floor: 0.86, trend: 0.04, s1: 0.88, s2: 0.92, majorAvg: null, events: 2, note: "1.16 yr | +7 entry | 1.08/1.24 ATK/DEF | ELITE support - fragger stats", star: true, twitter: "croqsonR6" },
@@ -151,7 +151,7 @@ const playersData = [
   // EML - TEAM BDS (T1) - formerly Shifters
   // ============================================
   { name: "P4", team: "Team BDS", region: "EML", tier: "T1", role: "IGL", avg: 0.88, peak: 0.95, floor: 0.80, trend: 0.02, s1: 0.87, s2: 0.89, majorAvg: 0.85, events: 3, note: "0.88 yr | -5 entry | 0.80/0.96 ATK/DEF | IGL - DEF anchor", star: false, twitter: "P4R6S" },
-  { name: "Freq", team: "Team BDS", region: "EML", tier: "T1", role: "Star Flex", avg: 1.06, peak: 1.21, floor: 0.91, trend: -0.16, s1: 1.21, s2: 1.05, majorAvg: 0.91, events: 3, note: "1.06 yr | +9 entry | 1.10/1.02 ATK/DEF | S1 elite - high ceiling", star: true, twitter: "FreqR6" },
+  { name: "Freq", team: "Team BDS", region: "EML", tier: "T1", role: "Flex", avg: 1.06, peak: 1.21, floor: 0.91, trend: -0.16, s1: 1.21, s2: 1.05, majorAvg: 0.91, events: 3, note: "1.06 yr | +9 entry | 1.10/1.02 ATK/DEF | S1 elite - high ceiling", star: true, twitter: "FreqR6" },
   { name: "Lasmooo", team: "Team BDS", region: "EML", tier: "T1", role: "Entry", avg: 0.95, peak: 1.02, floor: 0.89, trend: -0.09, s1: 1.02, s2: 0.93, majorAvg: 0.89, events: 3, note: "0.95 yr | +15 entry | 1.02/0.88 ATK/DEF | Good entry creation - ATK only", star: false, twitter: "LasmoooR6" },
   { name: "Robby", team: "Team BDS", region: "EML", tier: "T1", role: "Sup/Anchor", avg: 0.98, peak: 1.07, floor: 0.89, trend: 0.17, s1: 0.89, s2: 1.06, majorAvg: 1.07, events: 3, note: "0.98 yr | +2 entry | 0.90/1.06 ATK/DEF | Support improving, DEF anchor", star: false, twitter: "RobbyR6S" },
   { name: "Virtue", team: "Team BDS", region: "EML", tier: "T1", role: "Flex", avg: 0.91, peak: 1.00, floor: 0.86, trend: 0.12, s1: 0.88, s2: 1.00, majorAvg: 0.86, events: 3, note: "0.91 yr | +3 entry | 0.89/0.93 ATK/DEF | Improving steadily", star: false, twitter: "VirtueR6" },
@@ -186,8 +186,8 @@ const playersData = [
   // ============================================
   // SAL - TEAM LIQUID
   // ============================================
-  { name: "Maia", team: "Team Liquid", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.20, peak: 1.28, floor: 1.08, trend: 0.20, s1: 1.08, s2: 1.28, majorAvg: null, events: 2, note: "1.20 yr | +25 entry | 1.28/1.12 ATK/DEF | ELITE ENTRY - SAL best opener", star: true, twitter: "MaiaR6S" },
-  { name: "Dias", team: "Team Liquid", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.17, peak: 1.25, floor: 1.12, trend: 0.13, s1: 1.12, s2: 1.25, majorAvg: null, events: 2, note: "1.17 yr | +12 entry | 1.20/1.14 ATK/DEF | ELITE flex - ATK dominant", star: true, twitter: "DiasR6S" },
+  { name: "Maia", team: "Team Liquid", region: "SAL", tier: "T1", role: "Entry", avg: 1.20, peak: 1.28, floor: 1.08, trend: 0.20, s1: 1.08, s2: 1.28, majorAvg: null, events: 2, note: "1.20 yr | +25 entry | 1.28/1.12 ATK/DEF | ELITE ENTRY - SAL best opener", star: true, twitter: "MaiaR6S" },
+  { name: "Dias", team: "Team Liquid", region: "SAL", tier: "T1", role: "Flex", avg: 1.17, peak: 1.25, floor: 1.12, trend: 0.13, s1: 1.12, s2: 1.25, majorAvg: null, events: 2, note: "1.17 yr | +12 entry | 1.20/1.14 ATK/DEF | ELITE flex - ATK dominant", star: true, twitter: "DiasR6S" },
   { name: "Daffo", team: "Team Liquid", region: "SAL", tier: "T1", role: "Flex", avg: 1.00, peak: 1.00, floor: 1.00, trend: 0, s1: null, s2: 1.00, majorAvg: null, events: 1, note: "1.00 yr | +3 entry | 0.98/1.02 ATK/DEF | Joined from LOUD - balanced", star: false, twitter: "DaffoR6" },
   { name: "NESKWGA", team: "Team Liquid", region: "SAL", tier: "T1", role: "Flex", avg: 0.94, peak: 0.97, floor: 0.90, trend: 0.07, s1: 0.90, s2: 0.97, majorAvg: null, events: 2, note: "0.94 yr | +1 entry | 0.91/0.97 ATK/DEF | Steady flex - DEF lean", star: false, twitter: "NESKWGAR6" },
   { name: "Lenda", team: "Team Liquid", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 0.85, peak: 0.85, floor: 0.85, trend: 0, s1: null, s2: 0.85, majorAvg: null, events: 1, note: "0.85 yr | -5 entry | 0.77/0.93 ATK/DEF | New support - DEF anchor", star: false, twitter: "LendaR6" },
@@ -196,7 +196,7 @@ const playersData = [
   // SAL - FAZE CLAN
   // ============================================
   { name: "VITAKING", team: "FaZe Clan", region: "SAL", tier: "T1", role: "IGL", avg: 0.95, peak: 1.00, floor: 0.91, trend: -0.09, s1: 1.00, s2: 0.91, majorAvg: 0.95, events: 4, note: "0.95 yr | -2 entry | 0.87/1.03 ATK/DEF | IGL captain - DEF anchor", star: false, twitter: "VITAKINGR6" },
-  { name: "Cyber", team: "FaZe Clan", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.09, peak: 1.37, floor: 0.97, trend: -0.19, s1: 1.24, s2: 1.05, majorAvg: 1.17, events: 4, note: "1.09 yr | +21 entry | 1.18/1.00 ATK/DEF | BIG STAGE player - ATK god", star: true, twitter: "CyberR6S" },
+  { name: "Cyber", team: "FaZe Clan", region: "SAL", tier: "T1", role: "Entry", avg: 1.09, peak: 1.37, floor: 0.97, trend: -0.19, s1: 1.24, s2: 1.05, majorAvg: 1.17, events: 4, note: "1.09 yr | +21 entry | 1.18/1.00 ATK/DEF | BIG STAGE player - ATK god", star: true, twitter: "CyberR6S" },
   { name: "handyy", team: "FaZe Clan", region: "SAL", tier: "T1", role: "Entry", avg: 1.04, peak: 1.09, floor: 1.03, trend: -0.01, s1: 1.09, s2: 1.08, majorAvg: 1.03, events: 3, note: "1.04 yr | +14 entry | 1.10/0.98 ATK/DEF | Consistent entry - ATK focus", star: true, twitter: "handyyR6" },
   { name: "Kds", team: "FaZe Clan", region: "SAL", tier: "T1", role: "Flex", avg: 1.04, peak: 1.17, floor: 0.96, trend: -0.13, s1: 1.17, s2: 1.04, majorAvg: 1.03, events: 4, note: "1.04 yr | +6 entry | 1.06/1.02 ATK/DEF | Solid balanced flex", star: true, twitter: "KdsR6S" },
   { name: "soulz1", team: "FaZe Clan", region: "SAL", tier: "T1", role: "Flex", avg: 1.02, peak: 1.20, floor: 0.77, trend: -0.13, s1: 1.20, s2: 1.07, majorAvg: 0.90, events: 4, note: "1.02 yr | +4 entry | 1.03/1.01 ATK/DEF | Big stage struggles (0.90)", star: false, twitter: "soulz1R6" },
@@ -204,10 +204,10 @@ const playersData = [
   // ============================================
   // SAL - FURIA
   // ============================================
-  { name: "FelipoX", team: "FURIA", region: "SAL", tier: "T1", role: "Star IGL", avg: 1.03, peak: 1.19, floor: 0.85, trend: 0.23, s1: 0.85, s2: 1.08, majorAvg: 1.13, events: 4, note: "1.03 yr | +5 entry | 0.96/1.10 ATK/DEF | IGL clutch god - Munich 1.19", star: true, twitter: "FelipoXR6" },
-  { name: "Jv92", team: "FURIA", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.18, peak: 1.32, floor: 0.95, trend: 0.17, s1: 1.15, s2: 1.32, majorAvg: 0.99, events: 4, note: "1.18 yr | +27 entry | 1.26/1.10 ATK/DEF | ELITE ENTRY - SAL star", star: true, twitter: "Jv92R6" },
-  { name: "Kheyze", team: "FURIA", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.07, peak: 1.20, floor: 0.84, trend: 0.06, s1: 1.14, s2: 1.20, majorAvg: 0.85, events: 4, note: "1.07 yr | +18 entry | 1.14/1.00 ATK/DEF | Aggressive entry - ATK focus", star: true, twitter: "KheyzeR6" },
-  { name: "HerdsZ", team: "FURIA", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.05, peak: 1.19, floor: 0.86, trend: 0.17, s1: 1.02, s2: 1.19, majorAvg: 0.96, events: 4, note: "1.05 yr | +8 entry | 1.08/1.02 ATK/DEF | S2 BREAKOUT star", star: true, twitter: "HerdsZR6" },
+  { name: "FelipoX", team: "FURIA", region: "SAL", tier: "T1", role: "IGL", avg: 1.03, peak: 1.19, floor: 0.85, trend: 0.23, s1: 0.85, s2: 1.08, majorAvg: 1.13, events: 4, note: "1.03 yr | +5 entry | 0.96/1.10 ATK/DEF | IGL clutch god - Munich 1.19", star: true, twitter: "FelipoXR6" },
+  { name: "Jv92", team: "FURIA", region: "SAL", tier: "T1", role: "Entry", avg: 1.18, peak: 1.32, floor: 0.95, trend: 0.17, s1: 1.15, s2: 1.32, majorAvg: 0.99, events: 4, note: "1.18 yr | +27 entry | 1.26/1.10 ATK/DEF | ELITE ENTRY - SAL star", star: true, twitter: "Jv92R6" },
+  { name: "Kheyze", team: "FURIA", region: "SAL", tier: "T1", role: "Entry", avg: 1.07, peak: 1.20, floor: 0.84, trend: 0.06, s1: 1.14, s2: 1.20, majorAvg: 0.85, events: 4, note: "1.07 yr | +18 entry | 1.14/1.00 ATK/DEF | Aggressive entry - ATK focus", star: true, twitter: "KheyzeR6" },
+  { name: "HerdsZ", team: "FURIA", region: "SAL", tier: "T1", role: "Flex", avg: 1.05, peak: 1.19, floor: 0.86, trend: 0.17, s1: 1.02, s2: 1.19, majorAvg: 0.96, events: 4, note: "1.05 yr | +8 entry | 1.08/1.02 ATK/DEF | S2 BREAKOUT star", star: true, twitter: "HerdsZR6" },
   { name: "nade", team: "FURIA", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 1.07, peak: 1.15, floor: 0.98, trend: -0.09, s1: 1.07, s2: 0.98, majorAvg: 1.13, events: 4, note: "1.07 yr | +3 entry | 0.99/1.15 ATK/DEF | ELITE support - DEF anchor", star: true, twitter: "nadeR6S" },
 
   // ============================================
@@ -215,15 +215,15 @@ const playersData = [
   // ============================================
   { name: "pino", team: "NiP", region: "SAL", tier: "T1", role: "IGL", avg: 1.02, peak: 1.11, floor: 0.98, trend: -0.06, s1: 1.04, s2: 0.98, majorAvg: 1.05, events: 4, note: "1.02 yr | +2 entry | 0.95/1.09 ATK/DEF | IGL high KOST - DEF focus", star: false, twitter: "pinoR6S" },
   { name: "Fntzy", team: "NiP", region: "SAL", tier: "T1", role: "Entry", avg: 1.04, peak: 1.11, floor: 0.99, trend: -0.01, s1: 1.06, s2: 1.05, majorAvg: 1.05, events: 4, note: "1.04 yr | +12 entry | 1.10/0.98 ATK/DEF | Consistent entry - ATK focus", star: true, twitter: "FntzyR6" },
-  { name: "Hatez", team: "NiP", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.03, peak: 1.15, floor: 0.94, trend: 0.11, s1: 1.04, s2: 1.15, majorAvg: 1.04, events: 4, note: "1.03 yr | +7 entry | 1.05/1.01 ATK/DEF | Balanced flex - improving", star: true, twitter: "HatezR6" },
+  { name: "Hatez", team: "NiP", region: "SAL", tier: "T1", role: "Flex", avg: 1.03, peak: 1.15, floor: 0.94, trend: 0.11, s1: 1.04, s2: 1.15, majorAvg: 1.04, events: 4, note: "1.03 yr | +7 entry | 1.05/1.01 ATK/DEF | Balanced flex - improving", star: true, twitter: "HatezR6" },
   { name: "Wizard", team: "NiP", region: "SAL", tier: "T1", role: "Flex", avg: 1.04, peak: 1.10, floor: 1.00, trend: 0.06, s1: 1.04, s2: 1.10, majorAvg: 1.05, events: 4, note: "1.04 yr | +4 entry | 1.02/1.06 ATK/DEF | Clutch god - balanced", star: true, twitter: "WizardR6S" },
   { name: "Kondz", team: "NiP", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 0.94, peak: 1.05, floor: 0.84, trend: 0.18, s1: 0.84, s2: 1.02, majorAvg: 0.95, events: 4, note: "0.94 yr | -3 entry | 0.85/1.03 ATK/DEF | Plant king 22 S2 - DEF anchor", star: false, twitter: "KondzR6" },
 
   // ============================================
   // SAL - W7M ESPORTS
   // ============================================
-  { name: "Paluh", team: "w7m esports", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.21, peak: 1.33, floor: 1.14, trend: -0.04, s1: 1.27, s2: 1.23, majorAvg: 1.14, events: 4, note: "1.21 yr | +19 entry | 1.27/1.15 ATK/DEF | BRAZILIAN GOAT - ATK playmaker", star: true, twitter: "PaluhR6" },
-  { name: "Dodez", team: "w7m esports", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.15, peak: 1.26, floor: 1.14, trend: -0.04, s1: 1.24, s2: 1.20, majorAvg: 1.14, events: 4, note: "1.15 yr | +24 entry | 1.22/1.08 ATK/DEF | ELITE ENTRY - ATK god", star: true, twitter: "DodezR6" },
+  { name: "Paluh", team: "w7m esports", region: "SAL", tier: "T1", role: "Flex", avg: 1.21, peak: 1.33, floor: 1.14, trend: -0.04, s1: 1.27, s2: 1.23, majorAvg: 1.14, events: 4, note: "1.21 yr | +19 entry | 1.27/1.15 ATK/DEF | BRAZILIAN GOAT - ATK playmaker", star: true, twitter: "PaluhR6" },
+  { name: "Dodez", team: "w7m esports", region: "SAL", tier: "T1", role: "Entry", avg: 1.15, peak: 1.26, floor: 1.14, trend: -0.04, s1: 1.24, s2: 1.20, majorAvg: 1.14, events: 4, note: "1.15 yr | +24 entry | 1.22/1.08 ATK/DEF | ELITE ENTRY - ATK god", star: true, twitter: "DodezR6" },
   { name: "volpz", team: "w7m esports", region: "SAL", tier: "T1", role: "Flex", avg: 1.01, peak: 1.10, floor: 0.74, trend: -0.04, s1: 1.10, s2: 1.06, majorAvg: 0.74, events: 4, note: "1.01 yr | +5 entry | 1.04/0.98 ATK/DEF | Major struggles (0.74)", star: false, twitter: "volpzR6" },
   { name: "lobin", team: "w7m esports", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 0.96, peak: 0.96, floor: 0.91, trend: 0.01, s1: 0.95, s2: 0.96, majorAvg: 0.91, events: 4, note: "0.96 yr | -1 entry | 0.88/1.04 ATK/DEF | Steady support - DEF anchor", star: false, twitter: "lobinR6S" },
   { name: "Dotz", team: "w7m esports", region: "SAL", tier: "T1", role: "IGL", avg: 0.92, peak: 0.93, floor: 0.73, trend: -0.03, s1: 0.93, s2: 0.90, majorAvg: 0.73, events: 4, note: "0.92 yr | -4 entry | 0.84/1.00 ATK/DEF | IGL plant king - DEF focus", star: false, twitter: "DotzR6S" },
@@ -231,9 +231,9 @@ const playersData = [
   // ============================================
   // SAL - LOUD (T1)
   // ============================================
-  { name: "peres", team: "LOUD", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.21, peak: 1.21, floor: 1.21, trend: 0, s1: 1.21, s2: null, majorAvg: null, events: 1, note: "1.21 yr | +18 entry | 1.28/1.14 ATK/DEF | ELITE ENTRY - S1 standout", star: true, twitter: "peresR6" },
+  { name: "peres", team: "LOUD", region: "SAL", tier: "T1", role: "Entry", avg: 1.21, peak: 1.21, floor: 1.21, trend: 0, s1: 1.21, s2: null, majorAvg: null, events: 1, note: "1.21 yr | +18 entry | 1.28/1.14 ATK/DEF | ELITE ENTRY - S1 standout", star: true, twitter: "peresR6" },
   { name: "Stk", team: "LOUD", region: "SAL", tier: "T1", role: "Entry", avg: 1.15, peak: 1.15, floor: 1.15, trend: 0, s1: 1.15, s2: null, majorAvg: null, events: 1, note: "1.15 yr | +14 entry | 1.20/1.10 ATK/DEF | Strong S1 entry", star: true, twitter: "StkR6S" },
-  { name: "Flastry", team: "LOUD", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.07, peak: 1.14, floor: 0.99, trend: 0.15, s1: 0.99, s2: 1.14, majorAvg: null, events: 2, note: "1.07 yr | +9 entry | 1.10/1.04 ATK/DEF | S2 breakout star +0.15", star: true, twitter: "FlastryR6" },
+  { name: "Flastry", team: "LOUD", region: "SAL", tier: "T1", role: "Flex", avg: 1.07, peak: 1.14, floor: 0.99, trend: 0.15, s1: 0.99, s2: 1.14, majorAvg: null, events: 2, note: "1.07 yr | +9 entry | 1.10/1.04 ATK/DEF | S2 breakout star +0.15", star: true, twitter: "FlastryR6" },
   { name: "live", team: "LOUD", region: "SAL", tier: "T1", role: "Flex", avg: 0.96, peak: 0.96, floor: 0.96, trend: 0, s1: 0.96, s2: null, majorAvg: null, events: 1, note: "0.96 yr | +2 entry | 0.94/0.98 ATK/DEF | Flex - balanced", star: false, twitter: "liveR6S" },
   { name: "Bassetto", team: "LOUD", region: "SAL", tier: "T1", role: "IGL", avg: 0.63, peak: 0.63, floor: 0.63, trend: 0, s1: 0.63, s2: null, majorAvg: null, events: 1, note: "0.63 yr | -12 entry | 0.52/0.74 ATK/DEF | IGL pure caller - low frag", star: false, twitter: "BassettoR6" },
 
@@ -249,7 +249,7 @@ const playersData = [
   // ============================================
   // SAL - ENX TEAM
   // ============================================
-  { name: "Bokzera", team: "ENX Team", region: "SAL", tier: "T1", role: "Star Entry", avg: 1.04, peak: 1.19, floor: 1.19, trend: 0, s1: 1.19, s2: null, majorAvg: null, events: 1, note: "1.04 yr | +16 entry | 1.12/0.96 ATK/DEF | Team STAR entry - ATK focus", star: true, twitter: "BokzeraR6" },
+  { name: "Bokzera", team: "ENX Team", region: "SAL", tier: "T1", role: "Entry", avg: 1.04, peak: 1.19, floor: 1.19, trend: 0, s1: 1.19, s2: null, majorAvg: null, events: 1, note: "1.04 yr | +16 entry | 1.12/0.96 ATK/DEF | Team STAR entry - ATK focus", star: true, twitter: "BokzeraR6" },
   { name: "Florio", team: "ENX Team", region: "SAL", tier: "T1", role: "Flex", avg: 1.03, peak: 1.04, floor: 1.04, trend: 0, s1: 1.04, s2: null, majorAvg: null, events: 1, note: "1.03 yr | +6 entry | 1.05/1.01 ATK/DEF | Team star flex - balanced", star: true, twitter: "FlorioR6" },
   { name: "SexyCake", team: "ENX Team", region: "SAL", tier: "T1", role: "Entry", avg: 0.90, peak: 0.90, floor: 0.90, trend: 0, s1: 0.90, s2: null, majorAvg: null, events: 1, note: "0.90 yr | +4 entry | 0.95/0.85 ATK/DEF | Entry - ATK lean", star: false, twitter: "SexyCakeR6" },
   { name: "AngelzZ", team: "ENX Team", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 0.73, peak: 0.73, floor: 0.73, trend: 0, s1: 0.73, s2: null, majorAvg: null, events: 1, note: "0.73 yr | -4 entry | 0.66/0.80 ATK/DEF | Support - DEF focus", star: false, twitter: "AngelzZR6" },
@@ -258,7 +258,7 @@ const playersData = [
   // ============================================
   // SAL - BLACK DRAGONS
   // ============================================
-  { name: "R4re", team: "Black Dragons", region: "SAL", tier: "T1", role: "Star Flex", avg: 1.04, peak: 1.11, floor: 0.96, trend: 0.15, s1: 0.96, s2: 1.11, majorAvg: null, events: 2, note: "1.04 yr | +8 entry | 1.08/1.00 ATK/DEF | Team STAR captain - improving", star: true, twitter: "R4reR6" },
+  { name: "R4re", team: "Black Dragons", region: "SAL", tier: "T1", role: "Flex", avg: 1.04, peak: 1.11, floor: 0.96, trend: 0.15, s1: 0.96, s2: 1.11, majorAvg: null, events: 2, note: "1.04 yr | +8 entry | 1.08/1.00 ATK/DEF | Team STAR captain - improving", star: true, twitter: "R4reR6" },
   { name: "AsK", team: "Black Dragons", region: "SAL", tier: "T1", role: "Flex", avg: 0.84, peak: 0.84, floor: 0.84, trend: 0, s1: 0.84, s2: null, majorAvg: null, events: 1, note: "0.84 yr | +1 entry | 0.83/0.85 ATK/DEF | Lower table flex - balanced", star: false, twitter: "AsKR6" },
   { name: "Hornet", team: "Black Dragons", region: "SAL", tier: "T1", role: "Entry", avg: 0.92, peak: 0.92, floor: 0.92, trend: 0, s1: 0.92, s2: null, majorAvg: null, events: 1, note: "0.92 yr | +7 entry | 0.98/0.86 ATK/DEF | Entry - ATK focus", star: true, twitter: "HornetR6S" },
   { name: "Miracle", team: "Black Dragons", region: "SAL", tier: "T1", role: "Sup/Anchor", avg: 0.85, peak: 0.85, floor: 0.85, trend: 0, s1: null, s2: 0.85, majorAvg: null, events: 1, note: "0.85 yr | -3 entry | 0.78/0.92 ATK/DEF | Support - DEF focus", star: false, twitter: "MiracleR6" },
@@ -274,7 +274,7 @@ const playersData = [
   // ============================================
   // APAC - Notable Players
   // ============================================
-  { name: "Arcully", team: "Elevate", region: "APAC", tier: "T1", role: "Star Flex", avg: 1.35, peak: 1.35, floor: 1.35, trend: 0, s1: null, s2: null, majorAvg: 1.35, events: 1, note: "Munich co-MVP 1.35 - APAC star", star: true, twitter: "ArcullyR6" },
+  { name: "Arcully", team: "Elevate", region: "APAC", tier: "T1", role: "Flex", avg: 1.35, peak: 1.35, floor: 1.35, trend: 0, s1: null, s2: null, majorAvg: 1.35, events: 1, note: "Munich co-MVP 1.35 - APAC star", star: true, twitter: "ArcullyR6" },
   { name: "Tuhan", team: "SANDBOX", region: "APAC", tier: "T1", role: "Entry", avg: 1.02, peak: 1.25, floor: 0.80, trend: 0, s1: null, s2: null, majorAvg: 1.02, events: 2, note: "Munich 1.25", star: false, twitter: "TuhanR6" },
   { name: "SpeakEasy", team: "Elevate", region: "APAC", tier: "T1", role: "IGL", avg: 0.95, peak: 1.05, floor: 0.85, trend: 0, s1: null, s2: null, majorAvg: 0.95, events: 1, note: "IGL Elevate", star: false, twitter: "SpeakEasyR6" },
   { name: "Faallz", team: "Elevate", region: "APAC", tier: "T1", role: "Entry", avg: 1.08, peak: 1.15, floor: 1.00, trend: 0, s1: null, s2: null, majorAvg: 1.08, events: 1, note: "Entry for Elevate", star: false, twitter: "FaallzR6" },
