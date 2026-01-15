@@ -78,8 +78,8 @@ const playersData = [
   // ============================================
   // NAL - LFO
   // ============================================
-  { name: "Eddy", team: "LFO", region: "NAL", tier: "T1", role: "Entry", avg: 0.91, peak: 1.04, floor: 0.78, trend: -0.25, s1: 1.03, s2: 0.78, majorAvg: null, events: 2, note: "0.91 yr | +4 entry | 0.93/0.89 ATK/DEF | S1 star CRASHED S2 (-0.25)", star: false, twitter: "EddyR6S" },
-  { name: "Fenz", team: "LFO", region: "NAL", tier: "T1", role: "Flex", avg: 0.88, peak: 1.04, floor: 0.82, trend: -0.11, s1: 0.93, s2: 0.82, majorAvg: null, events: 2, note: "0.88 yr | +1 entry | 0.87/0.89 ATK/DEF | Declining, avg both", star: false, twitter: "FenzR6" },
+  { name: "Eddy", team: "LFO", region: "NAL", tier: "T1", role: "Entry", avg: 0.91, peak: 1.12, floor: 0.78, trend: -0.25, s1: 1.03, s2: 0.78, majorAvg: null, events: 3, note: "0.91 yr | LCQ 1.12 BOUNCE BACK | 1.34/0.90 ATK/DEF at LCQ", star: false, twitter: null },
+  { name: "Fenz", team: "LFO", region: "NAL", tier: "T1", role: "Flex", avg: 0.88, peak: 1.32, floor: 0.82, trend: -0.11, s1: 0.93, s2: 0.82, majorAvg: null, events: 3, note: "0.88 yr | LCQ 1.32 ELITE | 1.35/1.28 ATK/DEF - LCQ star performance", star: true, twitter: null },
   { name: "Epic", team: "LFO", region: "NAL", tier: "T1", role: "Flex", avg: 0.83, peak: 1.10, floor: 0.67, trend: -0.07, s1: 0.87, s2: 0.80, majorAvg: null, events: 2, note: "0.83 yr | -5 entry | 0.75/0.91 ATK/DEF | DEF ONLY - ATK liability", star: false, twitter: "EpicR6S" },
   { name: "Kixhro", team: "LFO", region: "NAL", tier: "T1", role: "Flex", avg: 0.80, peak: 1.10, floor: 0.67, trend: -0.24, s1: 0.91, s2: 0.67, majorAvg: null, events: 2, note: "0.80 yr | -2 entry | 0.85/0.75 ATK/DEF | ATK only - CRASHED S2", star: false, twitter: "KixhroR6" },
   { name: "Beeno", team: "LFO", region: "NAL", tier: "T1", role: "IGL", avg: 0.80, peak: 0.91, floor: 0.57, trend: 0.15, s1: 0.73, s2: 0.88, majorAvg: null, events: 2, note: "0.80 yr | -7 entry | 0.71/0.89 ATK/DEF | IGL plant king 14%, improving", star: false, twitter: "BeenoR6" },
@@ -288,10 +288,6 @@ const playersData = [
   // ============================================
   // NA LCQ T2 TEAMS
   // ============================================
-  // LFO
-  { name: "Fenz", team: "LFO", region: "NAL", tier: "T2", role: "Entry", avg: 1.32, peak: 1.32, floor: 1.32, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.32 | +6 entry | 1.35/1.28 ATK/DEF | LCQ STAR - top performer", star: true, twitter: null },
-  { name: "Eddy", team: "LFO", region: "NAL", tier: "T2", role: "Flex", avg: 1.12, peak: 1.12, floor: 1.12, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.12 | +2 entry | 1.34/0.90 ATK/DEF | ATK heavy flex", star: false, twitter: null },
-
   // JJ and Co
   { name: "Packer", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.13, peak: 1.13, floor: 1.13, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.13 | +7 entry | 1.39/0.89 ATK/DEF | Pure ATK entry", star: true, twitter: null },
   { name: "ATKRival", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.12, peak: 1.12, floor: 1.12, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.12 | +7 entry | 1.50/0.78 ATK/DEF | INSANE ATK (1.50) - entry god", star: true, twitter: null },
