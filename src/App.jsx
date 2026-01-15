@@ -1282,10 +1282,21 @@ export default function ScoutingTool() {
                     </td>
                     <td className="p-2" onClick={e => e.stopPropagation()}>
                       <div className="flex gap-1">
-                        <button onClick={() => setCategory(p.name, 'WANT')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WANT' ? 'bg-green-500 text-white ring-2 ring-green-300' : 'bg-green-600/30 text-green-400 hover:bg-green-600/50'}`} title="Want (1)">W</button>
-                        <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'MAYBE' ? 'bg-yellow-500 text-black ring-2 ring-yellow-300' : 'bg-yellow-600/30 text-yellow-400 hover:bg-yellow-600/50'}`} title="Maybe (2)">M</button>
-                        <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WATCH' ? 'bg-blue-500 text-white ring-2 ring-blue-300' : 'bg-blue-600/30 text-blue-400 hover:bg-blue-600/50'}`} title="Watch (3)">?</button>
-                        <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300' : 'bg-red-600/30 text-red-400 hover:bg-red-600/50'}`} title="No (4)">N</button>
+                        {filter.category !== 'ALL' ? (
+                          <>
+                            <button onClick={() => setCategory(p.name, 'WANT')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WANT' ? 'bg-green-500 text-white ring-2 ring-green-300' : 'bg-green-600 text-white hover:bg-green-500'}`} title="Want (1)">W</button>
+                            <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'MAYBE' ? 'bg-yellow-500 text-black ring-2 ring-yellow-300' : 'bg-yellow-600 text-white hover:bg-yellow-500'}`} title="Maybe (2)">M</button>
+                            <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WATCH' ? 'bg-blue-500 text-white ring-2 ring-blue-300' : 'bg-blue-600 text-white hover:bg-blue-500'}`} title="Watch (3)">?</button>
+                            <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300' : 'bg-red-600 text-white hover:bg-red-500'}`} title="No (4)">N</button>
+                          </>
+                        ) : (
+                          <>
+                            <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WANT' ? 'badge-want' : 'bg-panel-light border border-panel-border hover:border-green-500/50 text-gray-400 hover:text-green-400'}`} title="Want (1)">W</button>
+                            <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'MAYBE' ? 'badge-maybe' : 'bg-panel-light border border-panel-border hover:border-yellow-500/50 text-gray-400 hover:text-yellow-400'}`} title="Maybe (2)">M</button>
+                            <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WATCH' ? 'badge-watch' : 'bg-panel-light border border-panel-border hover:border-blue-500/50 text-gray-400 hover:text-blue-400'}`} title="Watch (3)">?</button>
+                            <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'NO' ? 'badge-no' : 'bg-panel-light border border-panel-border hover:border-red-500/50 text-gray-400 hover:text-red-400'}`} title="No (4)">N</button>
+                          </>
+                        )}
                         <button onClick={() => toggleRoster(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
                       </div>
                     </td>
