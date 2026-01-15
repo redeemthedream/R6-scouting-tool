@@ -678,7 +678,7 @@ export default function ScoutingTool() {
         rows.push([
           cat,
           p.role,
-          (p.star ? '⭐ ' : '') + p.name,
+          p.name,
           p.team,
           p.region,
           p.avg.toFixed(2),
@@ -977,7 +977,7 @@ export default function ScoutingTool() {
             <button onClick={() => {
               const text = Object.entries(exportPicks()).map(([cat, players]) =>
                 `═══════════════════════════════════════\n${categories[cat]?.label.toUpperCase()} (${players.length})\n═══════════════════════════════════════\n${players.map(p =>
-                  `${p.star ? '⭐ ' : ''}${p.name}\n   Team: ${p.team}\n   Role: ${p.role}\n   Avg: ${p.avg.toFixed(2)} | Peak: ${p.peak.toFixed(2)}\n   Twitter: ${p.twitter ? '@' + p.twitter : 'N/A'}`
+                  `${p.name}\n   Team: ${p.team}\n   Role: ${p.role}\n   Avg: ${p.avg.toFixed(2)} | Peak: ${p.peak.toFixed(2)}\n   Twitter: ${p.twitter ? '@' + p.twitter : 'N/A'}`
                 ).join('\n\n') || '  None'}`
               ).join('\n\n');
               navigator.clipboard.writeText(text);
@@ -1013,7 +1013,7 @@ export default function ScoutingTool() {
                       <div className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">{role}</div>
                       {byRole[role].map(p => (
                         <div key={p.name} className="text-gray-300 mb-1">
-                          <span className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
+                          <span className="font-semibold text-white">{p.name}</span>
                           <span className="text-xs text-gray-500 ml-2">{p.team}</span>
                           <span className="text-xs text-gray-600 ml-2">{p.avg.toFixed(2)}</span>
                         </div>
