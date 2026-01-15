@@ -661,7 +661,7 @@ export default function ScoutingTool() {
             </label>
             <button onClick={() => {
               const text = Object.entries(exportPicks()).map(([cat, players]) =>
-                `${cat}:\n${players.map(p => `  ${p.star ? '* ' : ''}${p.name} (${p.team}) - ${p.avg.toFixed(2)}`).join('\n') || '  None'}`
+                `${cat}:\n${players.map(p => `  ${p.star ? '⭐ ' : ''}${p.name} (${p.team}) - ${p.avg.toFixed(2)}`).join('\n') || '  None'}`
               ).join('\n\n');
               navigator.clipboard.writeText(text);
               alert('Copied!');
@@ -671,7 +671,7 @@ export default function ScoutingTool() {
             {Object.entries(exportPicks()).map(([cat, players]) => (
               <div key={cat} className="bg-gray-700 p-2 rounded">
                 <div className="font-bold mb-1">{categories[cat]?.label} ({players.length})</div>
-                {players.map(p => <div key={p.name} className="text-gray-300">{p.star ? '* ' : ''}{p.name} ({p.team}) - {p.avg.toFixed(2)}</div>)}
+                {players.map(p => <div key={p.name} className="text-gray-300">{p.star ? '⭐ ' : ''}{p.name} ({p.team}) - {p.avg.toFixed(2)}</div>)}
                 {players.length === 0 && <div className="text-gray-500">None</div>}
               </div>
             ))}
@@ -693,7 +693,7 @@ export default function ScoutingTool() {
                   {roster.map((p, i) => (
                     <div key={p.name} className="bg-gray-700 p-3 rounded text-center relative">
                       <button onClick={() => toggleRoster(p)} className="absolute top-1 right-1 text-red-400 hover:text-red-300 text-sm">x</button>
-                      <div className="font-bold">{p.star ? '* ' : ''}{p.name}</div>
+                      <div className="font-bold">{p.star ? '⭐ ' : ''}{p.name}</div>
                       <div className="text-xs text-gray-400">{p.role}</div>
                       <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-1 inline-block`}>{p.avg.toFixed(2)}</div>
                     </div>
@@ -833,7 +833,7 @@ export default function ScoutingTool() {
                             onClick={() => setSelectedPlayer(p)}
                           >
                             <div>
-                              <span className="font-medium">{p.star ? '* ' : ''}{p.name}</span>
+                              <span className="font-medium">{p.star ? '⭐ ' : ''}{p.name}</span>
                               <span className="text-xs text-gray-400 ml-2">{p.role}</span>
                               {playerCategories[p.name] && (
                                 <span className={`ml-2 px-1 py-0.5 rounded text-xs ${categories[playerCategories[p.name]].color} ${categories[playerCategories[p.name]].textColor}`}>
@@ -870,7 +870,7 @@ export default function ScoutingTool() {
                   {players.sort((a,b) => b.avg - a.avg).map(p => (
                     <div key={p.name} className="bg-gray-800 p-3 rounded flex justify-between items-center cursor-pointer hover:bg-gray-750" onClick={() => setSelectedPlayer(p)}>
                       <div>
-                        <div className="font-bold">{p.star ? '* ' : ''}{p.name}</div>
+                        <div className="font-bold">{p.star ? '⭐ ' : ''}{p.name}</div>
                         <div className="text-sm text-gray-400">{p.team} - {p.role}</div>
                       </div>
                       <div className="text-right">
@@ -927,7 +927,7 @@ export default function ScoutingTool() {
                       <button onClick={() => toggleRoster(p)} className={`w-7 h-7 rounded text-xs ${roster.find(x => x.name === p.name) ? 'bg-orange-600' : 'bg-gray-700 hover:bg-gray-600'}`} title="Add to Roster">+</button>
                     </div>
                   </td>
-                  <td className="p-2 font-bold">{p.star ? '* ' : ''}{p.name}</td>
+                  <td className="p-2 font-bold">{p.star ? '⭐ ' : ''}{p.name}</td>
                   <td className="p-2 text-gray-300">{p.team}</td>
                   <td className="p-2 text-center"><span className={`px-2 py-1 rounded text-xs ${p.region === 'NAL' ? 'bg-blue-900' : p.region === 'EML' ? 'bg-purple-900' : p.region === 'SAL' ? 'bg-green-900' : 'bg-orange-900'}`}>{p.region}</span></td>
                   <td className="p-2 text-center text-xs">{p.role}</td>
@@ -950,7 +950,7 @@ export default function ScoutingTool() {
           <div className="bg-gray-800 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-start mb-4">
               <div>
-                <h2 className="text-2xl font-bold">{selectedPlayer.star ? '* ' : ''}{selectedPlayer.name}</h2>
+                <h2 className="text-2xl font-bold">{selectedPlayer.star ? '⭐ ' : ''}{selectedPlayer.name}</h2>
                 <p className="text-gray-400">{selectedPlayer.team} - {selectedPlayer.region} - {selectedPlayer.tier}</p>
                 <p className="text-gray-500">{selectedPlayer.role}</p>
                 {selectedPlayer.twitter && (
