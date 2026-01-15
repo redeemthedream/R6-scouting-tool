@@ -1282,12 +1282,10 @@ export default function ScoutingTool() {
                     </td>
                     <td className="p-2" onClick={e => e.stopPropagation()}>
                       <div className="flex gap-1">
-                        {Object.entries(categories).map(([key, cat]) => (
-                          <button key={key} onClick={() => setCategory(p.name, key)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === key ? `badge-${key.toLowerCase()}` : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title={`${cat.label} (${cat.key})`}>
-                            {key[0]}
-                          </button>
-                        ))}
-                        <button onClick={() => toggleCompare(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${compareList.find(x => x.name === p.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'bg-panel-light border border-panel-border hover:border-cyan-500/50'}`} title="Compare">C</button>
+                        <button onClick={() => setCategory(p.name, 'WANT')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WANT' ? 'bg-green-500 text-white ring-2 ring-green-300' : 'bg-green-600/30 text-green-400 hover:bg-green-600/50'}`} title="Want (1)">W</button>
+                        <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'MAYBE' ? 'bg-yellow-500 text-black ring-2 ring-yellow-300' : 'bg-yellow-600/30 text-yellow-400 hover:bg-yellow-600/50'}`} title="Maybe (2)">M</button>
+                        <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'WATCH' ? 'bg-blue-500 text-white ring-2 ring-blue-300' : 'bg-blue-600/30 text-blue-400 hover:bg-blue-600/50'}`} title="Watch (3)">?</button>
+                        <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${playerCategories[p.name] === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300' : 'bg-red-600/30 text-red-400 hover:bg-red-600/50'}`} title="No (4)">N</button>
                         <button onClick={() => toggleRoster(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
                       </div>
                     </td>
