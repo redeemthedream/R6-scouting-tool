@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
+import { supabase } from './supabaseClient';
 
 // COMPLETE player database - ALL players from ALL teams with star markers and Twitter handles
 const playersData = [
@@ -323,27 +324,11 @@ const Sparkline = ({ s1, s2, majorAvg }) => {
 };
 
 export default function ScoutingTool() {
-  // Load from localStorage
-  const [playerCategories, setPlayerCategories] = useState(() => {
-    try {
-      const saved = localStorage.getItem('r6-scouting-categories');
-      return saved ? JSON.parse(saved) : {};
-    } catch { return {}; }
-  });
-
-  const [customNotes, setCustomNotes] = useState(() => {
-    try {
-      const saved = localStorage.getItem('r6-scouting-notes');
-      return saved ? JSON.parse(saved) : {};
-    } catch { return {}; }
-  });
-
-  const [roster, setRoster] = useState(() => {
-    try {
-      const saved = localStorage.getItem('r6-scouting-roster');
-      return saved ? JSON.parse(saved) : [];
-    } catch { return []; }
-  });
+  // Shared state - synced with Supabase
+  const [playerCategories, setPlayerCategories] = useState({});
+  const [customNotes, setCustomNotes] = useState({});
+  const [roster, setRoster] = useState([]);
+  const [syncStatus, setSyncStatus] = useState('connecting');
 
   const [filter, setFilter] = useState({ region: 'ALL', role: 'ALL', tier: 'ALL', category: 'ALL', team: 'ALL', starOnly: false });
   const [statFilters, setStatFilters] = useState({ minAvg: '', maxAvg: '', minTrend: '', maxTrend: '' });
@@ -356,18 +341,103 @@ export default function ScoutingTool() {
   const [selectedPlayers, setSelectedPlayers] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
 
-  // Save to localStorage
+  // Load initial data from Supabase and subscribe to real-time changes
   useEffect(() => {
-    localStorage.setItem('r6-scouting-categories', JSON.stringify(playerCategories));
-  }, [playerCategories]);
+    const loadData = async () => {
+      try {
+        // Load categories
+        const { data: catData } = await supabase
+          .from('scouting_categories')
+          .select('player_name, category');
+        if (catData) {
+          const cats = {};
+          catData.forEach(row => { cats[row.player_name] = row.category; });
+          setPlayerCategories(cats);
+        }
 
-  useEffect(() => {
-    localStorage.setItem('r6-scouting-notes', JSON.stringify(customNotes));
-  }, [customNotes]);
+        // Load notes
+        const { data: notesData } = await supabase
+          .from('scouting_notes')
+          .select('player_name, note');
+        if (notesData) {
+          const notes = {};
+          notesData.forEach(row => { notes[row.player_name] = row.note; });
+          setCustomNotes(notes);
+        }
 
-  useEffect(() => {
-    localStorage.setItem('r6-scouting-roster', JSON.stringify(roster));
-  }, [roster]);
+        // Load roster
+        const { data: rosterData } = await supabase
+          .from('scouting_rosters')
+          .select('player_name, position')
+          .order('position');
+        if (rosterData) {
+          const rosterPlayers = rosterData.map(row =>
+            playersData.find(p => p.name === row.player_name)
+          ).filter(Boolean);
+          setRoster(rosterPlayers);
+        }
+
+        setSyncStatus('connected');
+      } catch (err) {
+        console.error('Failed to load from Supabase:', err);
+        setSyncStatus('error');
+      }
+    };
+
+    loadData();
+
+    // Real-time subscriptions
+    const categoriesChannel = supabase
+      .channel('categories-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_categories' }, (payload) => {
+        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+          setPlayerCategories(prev => ({ ...prev, [payload.new.player_name]: payload.new.category }));
+        } else if (payload.eventType === 'DELETE') {
+          setPlayerCategories(prev => {
+            const { [payload.old.player_name]: _, ...rest } = prev;
+            return rest;
+          });
+        }
+      })
+      .subscribe();
+
+    const notesChannel = supabase
+      .channel('notes-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_notes' }, (payload) => {
+        if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+          setCustomNotes(prev => ({ ...prev, [payload.new.player_name]: payload.new.note }));
+        } else if (payload.eventType === 'DELETE') {
+          setCustomNotes(prev => {
+            const { [payload.old.player_name]: _, ...rest } = prev;
+            return rest;
+          });
+        }
+      })
+      .subscribe();
+
+    const rosterChannel = supabase
+      .channel('roster-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_rosters' }, async () => {
+        // Reload full roster on any change
+        const { data: rosterData } = await supabase
+          .from('scouting_rosters')
+          .select('player_name, position')
+          .order('position');
+        if (rosterData) {
+          const rosterPlayers = rosterData.map(row =>
+            playersData.find(p => p.name === row.player_name)
+          ).filter(Boolean);
+          setRoster(rosterPlayers);
+        }
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(categoriesChannel);
+      supabase.removeChannel(notesChannel);
+      supabase.removeChannel(rosterChannel);
+    };
+  }, []);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -396,17 +466,27 @@ export default function ScoutingTool() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedPlayer, selectedPlayers]);
 
-  const setCategory = (playerName, category) => {
-    setPlayerCategories(prev => {
-      if (prev[playerName] === category) {
+  const setCategory = async (playerName, category) => {
+    const currentCategory = playerCategories[playerName];
+    if (currentCategory === category) {
+      // Remove category
+      setPlayerCategories(prev => {
         const { [playerName]: _, ...rest } = prev;
         return rest;
-      }
-      return { ...prev, [playerName]: category };
-    });
+      });
+      await supabase.from('scouting_categories').delete().eq('player_name', playerName);
+    } else {
+      // Set category
+      setPlayerCategories(prev => ({ ...prev, [playerName]: category }));
+      await supabase.from('scouting_categories').upsert({ player_name: playerName, category }, { onConflict: 'player_name' });
+    }
   };
 
-  const bulkSetCategory = (category) => {
+  const bulkSetCategory = async (category) => {
+    const updates = [];
+    selectedPlayers.forEach(name => {
+      updates.push({ player_name: name, category });
+    });
     setPlayerCategories(prev => {
       const updated = { ...prev };
       selectedPlayers.forEach(name => {
@@ -415,6 +495,10 @@ export default function ScoutingTool() {
       return updated;
     });
     setSelectedPlayers(new Set());
+    // Save all to Supabase
+    if (updates.length > 0) {
+      await supabase.from('scouting_categories').upsert(updates, { onConflict: 'player_name' });
+    }
   };
 
   const toggleSelect = (playerName) => {
@@ -444,18 +528,27 @@ export default function ScoutingTool() {
     });
   };
 
-  const toggleRoster = (player) => {
-    setRoster(prev => {
-      if (prev.find(p => p.name === player.name)) {
-        return prev.filter(p => p.name !== player.name);
-      }
-      if (prev.length >= 5) return prev;
-      return [...prev, player];
-    });
+  const toggleRoster = async (player) => {
+    const isInRoster = roster.find(p => p.name === player.name);
+    if (isInRoster) {
+      // Remove from roster
+      setRoster(prev => prev.filter(p => p.name !== player.name));
+      await supabase.from('scouting_rosters').delete().eq('player_name', player.name);
+    } else if (roster.length < 5) {
+      // Add to roster
+      const newRoster = [...roster, player];
+      setRoster(newRoster);
+      await supabase.from('scouting_rosters').insert({ player_name: player.name, position: newRoster.length - 1 });
+    }
   };
 
-  const updateCustomNote = (playerName, note) => {
+  const updateCustomNote = async (playerName, note) => {
     setCustomNotes(prev => ({ ...prev, [playerName]: note }));
+    if (note.trim()) {
+      await supabase.from('scouting_notes').upsert({ player_name: playerName, note }, { onConflict: 'player_name' });
+    } else {
+      await supabase.from('scouting_notes').delete().eq('player_name', playerName);
+    }
   };
 
   const filteredPlayers = useMemo(() => {
@@ -585,21 +678,46 @@ export default function ScoutingTool() {
     URL.revokeObjectURL(url);
   };
 
-  const importSession = (e) => {
+  const importSession = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
         const data = JSON.parse(event.target?.result);
+
+        // Update local state
         if (data.categories) setPlayerCategories(data.categories);
         if (data.notes) setCustomNotes(data.notes);
         if (data.roster) {
           const rosterPlayers = data.roster.map(name => playersData.find(p => p.name === name)).filter(Boolean);
           setRoster(rosterPlayers);
         }
-        alert('Session imported successfully!');
+
+        // Sync to Supabase
+        if (data.categories) {
+          const catEntries = Object.entries(data.categories).map(([player_name, category]) => ({ player_name, category }));
+          if (catEntries.length > 0) {
+            await supabase.from('scouting_categories').upsert(catEntries, { onConflict: 'player_name' });
+          }
+        }
+        if (data.notes) {
+          const noteEntries = Object.entries(data.notes).filter(([_, note]) => note.trim()).map(([player_name, note]) => ({ player_name, note }));
+          if (noteEntries.length > 0) {
+            await supabase.from('scouting_notes').upsert(noteEntries, { onConflict: 'player_name' });
+          }
+        }
+        if (data.roster) {
+          // Clear existing roster and insert new
+          await supabase.from('scouting_rosters').delete().neq('id', 0);
+          const rosterEntries = data.roster.map((name, idx) => ({ player_name: name, position: idx }));
+          if (rosterEntries.length > 0) {
+            await supabase.from('scouting_rosters').insert(rosterEntries);
+          }
+        }
+
+        alert('Session imported and synced!');
       } catch (err) {
         alert('Failed to import session. Invalid file format.');
       }
@@ -626,9 +744,18 @@ export default function ScoutingTool() {
     <div className="min-h-screen bg-gray-900 text-white p-4">
       {/* Header */}
       <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500">
-          R6 SIEGE ELITE SCOUTING TOOL
-        </h1>
+        <div className="flex items-center justify-center gap-3">
+          <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-yellow-500">
+            R6 SIEGE ELITE SCOUTING TOOL
+          </h1>
+          <span className={`text-xs px-2 py-1 rounded-full ${
+            syncStatus === 'connected' ? 'bg-green-600' :
+            syncStatus === 'connecting' ? 'bg-yellow-600' :
+            'bg-red-600'
+          }`}>
+            {syncStatus === 'connected' ? 'LIVE SYNC' : syncStatus === 'connecting' ? 'CONNECTING...' : 'OFFLINE'}
+          </span>
+        </div>
         <p className="text-gray-400 text-sm">{playersData.length} Players | {stats.stars} Stars | Full Rosters</p>
         <p className="text-gray-500 text-xs mt-1">Keyboard: 1-4 = Categorize | R = Add to Roster | Esc = Close</p>
       </div>
