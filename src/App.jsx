@@ -54,7 +54,7 @@ const playersData = [
   { name: "Bae", team: "Wildcard", region: "NAL", tier: "T1", role: "Star Entry", avg: 1.12, peak: 1.39, floor: 0.92, trend: 0.01, s1: 1.08, s2: 1.09, majorAvg: 1.16, events: 4, note: "NAL Finals MVP 1.39 - clutch player", star: true, twitter: "BaeR6S" },
   { name: "Kanzen", team: "Wildcard", region: "NAL", tier: "T1", role: "Entry", avg: 0.97, peak: 1.16, floor: 0.59, trend: -0.14, s1: 1.14, s2: 1.00, majorAvg: 0.88, events: 4, note: "Munich 1.16 but inconsistent", star: false, twitter: "KanzenR6" },
   { name: "BBYSharkk", team: "Wildcard", region: "NAL", tier: "T1", role: "Flex", avg: 1.00, peak: 1.07, floor: 0.88, trend: 0.19, s1: 0.88, s2: 1.07, majorAvg: 0.99, events: 4, note: "S2 improvement", star: false, twitter: "BBYSharkk" },
-  { name: "Stl2", team: "Wildcard", region: "NAL", tier: "T1", role: "Flex", avg: 0.94, peak: 1.02, floor: 0.85, trend: 0.08, s1: 0.90, s2: 0.98, majorAvg: 0.92, events: 4, note: "Solid support flex", star: false, twitter: "Stl2R6" },
+  { name: "Dash", team: "Wildcard", region: "NAL", tier: "T1", role: "Flex", avg: 0.92, peak: 1.00, floor: 0.61, trend: 0.16, s1: 0.84, s2: 1.00, majorAvg: 0.61, events: 4, note: "Big S2 improvement, struggled at Finals", star: false, twitter: "d4shR6" },
 
   // ============================================
   // EML - G2 ESPORTS
