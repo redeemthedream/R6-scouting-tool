@@ -962,10 +962,15 @@ export default function ScoutingTool() {
       {/* Export Panel */}
       {showExport && (
         <div className="tactical-panel p-5 mb-6 max-w-4xl mx-auto relative z-10">
-          <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
-            <span className="material-icons mr-2 align-middle">import_export</span>
-            EXPORT / IMPORT
-          </h3>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-bold text-primary tracking-wide">
+              <span className="material-icons mr-2 align-middle">import_export</span>
+              EXPORT / IMPORT
+            </h3>
+            <button onClick={() => setShowExport(false)} className="text-gray-400 hover:text-white">
+              <span className="material-icons">close</span>
+            </button>
+          </div>
           <div className="flex gap-3 mb-5">
             <button onClick={exportSession} className="btn-tactical badge-want">
               <span className="material-icons text-sm mr-1 align-middle">download</span>Download JSON
