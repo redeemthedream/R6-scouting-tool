@@ -283,7 +283,55 @@ const playersData = [
   { name: "yass", team: "SANDBOX", region: "APAC", tier: "T1", role: "IGL", avg: 0.88, peak: 0.95, floor: 0.80, trend: 0, s1: null, s2: null, majorAvg: 0.88, events: 2, note: "IGL SANDBOX", star: false, twitter: "yassR6" },
   { name: "Bullet1", team: "DWG KIA", region: "APAC", tier: "T1", role: "Entry", avg: 1.02, peak: 1.12, floor: 0.92, trend: 0, s1: null, s2: null, majorAvg: 1.02, events: 1, note: "Entry DWG", star: false, twitter: "Bullet1R6" },
   { name: "Hoven", team: "DWG KIA", region: "APAC", tier: "T1", role: "Flex", avg: 1.03, peak: 1.10, floor: 0.95, trend: 0, s1: null, s2: null, majorAvg: 1.03, events: 1, note: "Flex DWG", star: false, twitter: "HovenR6" },
-  { name: "Ape", team: "DWG KIA", region: "APAC", tier: "T1", role: "Sup/Anchor", avg: 0.92, peak: 1.00, floor: 0.85, trend: 0, s1: null, s2: null, majorAvg: 0.92, events: 1, note: "Support DWG", star: false, twitter: "ApeR6S" },
+  { name: "Ape", team: "DWG KIA", region: "APAC", tier: "T1", role: "Sup/Anchor", avg: 0.92, peak: 1.00, floor: 0.85, trend: 0, s1: null, s2: null, majorAvg: 0.92, events: 1, note: "Support DWG", star: false, twitter: null },
+
+  // ============================================
+  // NA LCQ T2 TEAMS
+  // ============================================
+  // LFO
+  { name: "Fenz", team: "LFO", region: "NAL", tier: "T2", role: "Entry", avg: 1.32, peak: 1.32, floor: 1.32, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.32 | +6 entry | 1.35/1.28 ATK/DEF | LCQ STAR - top performer", star: true, twitter: null },
+  { name: "Eddy", team: "LFO", region: "NAL", tier: "T2", role: "Flex", avg: 1.12, peak: 1.12, floor: 1.12, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.12 | +2 entry | 1.34/0.90 ATK/DEF | ATK heavy flex", star: false, twitter: null },
+
+  // JJ and Co
+  { name: "Packer", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.13, peak: 1.13, floor: 1.13, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.13 | +7 entry | 1.39/0.89 ATK/DEF | Pure ATK entry", star: true, twitter: null },
+  { name: "ATKRival", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.12, peak: 1.12, floor: 1.12, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.12 | +7 entry | 1.50/0.78 ATK/DEF | INSANE ATK (1.50) - entry god", star: true, twitter: null },
+  { name: "MikeW", team: "JJ and Co", region: "NAL", tier: "T2", role: "Sup/Anchor", avg: 1.09, peak: 1.09, floor: 1.09, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.09 | -5 entry | 0.93/1.25 ATK/DEF | DEF anchor solid", star: false, twitter: null },
+
+  // Karn & Co
+  { name: "Raidbullys", team: "Karn & Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.19, peak: 1.19, floor: 1.19, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.19 | +9 entry | 1.42/0.94 ATK/DEF | Elite ATK entry", star: true, twitter: null },
+
+  // ============================================
+  // EU LCQ T2 TEAMS
+  // ============================================
+  // Project Zero
+  { name: "oscr", team: "Project Zero", region: "EML", tier: "T2", role: "Entry", avg: 1.34, peak: 1.34, floor: 1.34, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.34 | +14 entry | LCQ MVP - ELITE prospect", star: true, twitter: null },
+  { name: "Gruby", team: "Project Zero", region: "EML", tier: "T2", role: "Flex", avg: 1.23, peak: 1.23, floor: 1.23, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.23 | +1 entry | T2 star flex", star: true, twitter: null },
+  { name: "Eupor", team: "Project Zero", region: "EML", tier: "T2", role: "Flex", avg: 1.05, peak: 1.05, floor: 1.05, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.05 | +1 entry | Solid flex", star: false, twitter: null },
+  { name: "Flexy", team: "Project Zero", region: "EML", tier: "T2", role: "Sup/Anchor", avg: 0.96, peak: 0.96, floor: 0.96, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.96 | -3 entry | Support player", star: false, twitter: null },
+  { name: "Skeptic", team: "Project Zero", region: "EML", tier: "T2", role: "IGL", avg: 0.83, peak: 0.83, floor: 0.83, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.83 | +3 entry | IGL - low frag caller", star: false, twitter: null },
+
+  // Shifters
+  { name: "Robby", team: "Shifters", region: "EML", tier: "T2", role: "Entry", avg: 1.32, peak: 1.32, floor: 1.32, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.32 | +11 entry | ELITE entry - T1 ready", star: true, twitter: null },
+  { name: "Virtue", team: "Shifters", region: "EML", tier: "T2", role: "Flex", avg: 0.99, peak: 0.99, floor: 0.99, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.99 | -6 entry | Flex player", star: false, twitter: null },
+  { name: "Lasmooo", team: "Shifters", region: "EML", tier: "T2", role: "Sup/Anchor", avg: 0.95, peak: 0.95, floor: 0.95, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.95 | 0 entry | Support", star: false, twitter: null },
+  { name: "P4", team: "Shifters", region: "EML", tier: "T2", role: "Flex", avg: 0.87, peak: 0.87, floor: 0.87, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.87 | -3 entry | Flex", star: false, twitter: null },
+  { name: "Freq", team: "Shifters", region: "EML", tier: "T2", role: "IGL", avg: 0.84, peak: 0.84, floor: 0.84, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.84 | -2 entry | IGL", star: false, twitter: null },
+
+  // Twisted Minds (MENA)
+  { name: "jlaD", team: "Twisted Minds", region: "EML", tier: "T2", role: "Entry", avg: 1.17, peak: 1.17, floor: 1.17, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.17 | +3 entry | MENA star entry", star: true, twitter: null },
+  { name: "P9", team: "Twisted Minds", region: "EML", tier: "T2", role: "Flex", avg: 1.14, peak: 1.14, floor: 1.14, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.14 | +5 entry | MENA star flex", star: true, twitter: null },
+  { name: "hashom", team: "Twisted Minds", region: "EML", tier: "T2", role: "Flex", avg: 1.04, peak: 1.04, floor: 1.04, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.04 | +2 entry | Solid flex", star: false, twitter: null },
+  { name: "Tr1ixd", team: "Twisted Minds", region: "EML", tier: "T2", role: "Entry", avg: 0.99, peak: 0.99, floor: 0.99, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.99 | -2 entry | Secondary entry", star: false, twitter: null },
+  { name: "Guardz", team: "Twisted Minds", region: "EML", tier: "T2", role: "IGL", avg: 0.83, peak: 0.83, floor: 0.83, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.83 | -2 entry | IGL caller", star: false, twitter: null },
+
+  // Pannuhuone (Finnish)
+  { name: "Hauva", team: "Pannuhuone", region: "EML", tier: "T2", role: "Entry", avg: 1.17, peak: 1.17, floor: 1.17, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.17 | +2 entry | Finnish talent", star: true, twitter: null },
+  { name: "NikkeS", team: "Pannuhuone", region: "EML", tier: "T2", role: "Sup/Anchor", avg: 1.10, peak: 1.10, floor: 1.10, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.10 | +1 entry | Finnish support star", star: false, twitter: null },
+  { name: "Raastin", team: "Pannuhuone", region: "EML", tier: "T2", role: "Flex", avg: 0.96, peak: 0.96, floor: 0.96, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.96 | +2 entry | Finnish flex", star: false, twitter: null },
+
+  // Geekay Esports (MENA)
+  { name: "RORICK", team: "Geekay Esports", region: "EML", tier: "T2", role: "Entry", avg: 1.10, peak: 1.10, floor: 1.10, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.10 | +9 entry | MENA entry talent", star: true, twitter: null },
+  { name: "Rexhun", team: "Geekay Esports", region: "EML", tier: "T2", role: "Flex", avg: 0.94, peak: 0.94, floor: 0.94, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 0.94 | -2 entry | MENA flex", star: false, twitter: null },
 ];
 
 const categories = {
