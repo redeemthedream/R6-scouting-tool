@@ -265,13 +265,11 @@ const playersData = [
   { name: "Maquina", team: "Black Dragons", region: "SAL", tier: "T2", role: "IGL", avg: 0.79, peak: 0.79, floor: 0.79, trend: 0, s1: 0.79, s2: null, majorAvg: null, events: 1, note: "IGL", star: false, twitter: "MaquinaR6" },
 
   // ============================================
-  // SAL - LOS (T2)
+  // SAL - LOS (T2) - Flastry/Hornet moved to LOUD/Black Dragons
   // ============================================
   { name: "Ar7hr", team: "LOS", region: "SAL", tier: "T2", role: "IGL", avg: 0.90, peak: 0.98, floor: 0.82, trend: 0.05, s1: 0.88, s2: 0.93, majorAvg: null, events: 2, note: "IGL LOS", star: false, twitter: "Ar7hrR6" },
-  { name: "Flastry", team: "LOS", region: "SAL", tier: "T2", role: "Star Flex", avg: 1.06, peak: 1.14, floor: 0.99, trend: 0.15, s1: 0.99, s2: 1.14, majorAvg: null, events: 2, note: "SAL T2 standout - improving fast", star: true, twitter: "FlastryR6" },
   { name: "Legacy", team: "LOS", region: "SAL", tier: "T2", role: "Entry", avg: 0.98, peak: 1.08, floor: 0.88, trend: 0.08, s1: 0.90, s2: 0.98, majorAvg: null, events: 2, note: "Entry player", star: false, twitter: "LegacyR6S" },
   { name: "Kurtz", team: "LOS", region: "SAL", tier: "T2", role: "Flex", avg: 0.95, peak: 1.05, floor: 0.85, trend: 0.05, s1: 0.90, s2: 0.95, majorAvg: null, events: 2, note: "Flex player", star: false, twitter: "KurtzR6" },
-  { name: "Hornet", team: "LOS", region: "SAL", tier: "T2", role: "Sup/Anchor", avg: 0.88, peak: 0.95, floor: 0.80, trend: 0.02, s1: 0.87, s2: 0.89, majorAvg: null, events: 2, note: "Anchor player", star: false, twitter: "HornetR6S" },
 
   // ============================================
   // APAC - Notable Players
