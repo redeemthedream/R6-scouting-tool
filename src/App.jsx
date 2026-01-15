@@ -18,7 +18,7 @@ const playersData = [
   { name: "CTZN", team: "DarkZero", region: "NAL", tier: "T1", role: "Star Flex", avg: 1.09, peak: 1.35, floor: 0.90, trend: -0.45, s1: 1.35, s2: 0.90, majorAvg: 1.16, events: 4, note: "S1 monster but massive S2 drop - concerning", star: true, twitter: "CABORZAN" },
   { name: "njr", team: "DarkZero", region: "NAL", tier: "T1", role: "Flex", avg: 1.12, peak: 1.31, floor: 0.97, trend: -0.25, s1: 1.22, s2: 0.97, majorAvg: 1.15, events: 4, note: "EWC 1.31 but big S2 drop", star: false, twitter: "njrR6" },
   { name: "SpiriTz", team: "DarkZero", region: "NAL", tier: "T1", role: "Flex", avg: 0.93, peak: 0.98, floor: 0.82, trend: 0.00, s1: 0.95, s2: 0.95, majorAvg: 0.98, events: 4, note: "Steady, no peaks no valleys", star: false, twitter: "SpiriTzR6" },
-  { name: "Panba", team: "DarkZero", region: "NAL", tier: "T1", role: "Support", avg: 0.88, peak: 0.95, floor: 0.80, trend: -0.05, s1: 0.92, s2: 0.87, majorAvg: 0.85, events: 4, note: "Support player, high KOST", star: false, twitter: "PanbaR6" },
+  { name: "Pamba", team: "DarkZero", region: "NAL", tier: "T1", role: "Support", avg: 0.88, peak: 0.95, floor: 0.80, trend: -0.05, s1: 0.92, s2: 0.87, majorAvg: 0.85, events: 4, note: "Support player, high KOST", star: false, twitter: "PambaR6" },
 
   // ============================================
   // NAL - SSG (Spacestation Gaming)
