@@ -1250,17 +1250,18 @@ export default function ScoutingTool() {
                         {team.players.map(p => (
                           <div
                             key={p.name}
-                            className="flex justify-between items-center p-2 bg-panel-dark rounded cursor-pointer hover:bg-primary/10 hover:border-l-2 hover:border-l-primary transition-all"
+                            className="flex justify-between items-center p-2 bg-panel-dark rounded cursor-pointer hover:bg-primary/10 transition-all"
                             onClick={() => setSelectedPlayer(p)}
                           >
-                            <div>
+                            <div className="flex items-center gap-2">
+                              <div className="flex gap-1" onClick={e => e.stopPropagation()}>
+                                <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'WANT' ? 'bg-green-500 text-white' : 'bg-green-600/30 text-green-400 hover:bg-green-600/50'}`}>W</button>
+                                <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'MAYBE' ? 'bg-yellow-500 text-black' : 'bg-yellow-600/30 text-yellow-400 hover:bg-yellow-600/50'}`}>M</button>
+                                <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'WATCH' ? 'bg-blue-500 text-white' : 'bg-blue-600/30 text-blue-400 hover:bg-blue-600/50'}`}>?</button>
+                                <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'NO' ? 'bg-red-500 text-white' : 'bg-red-600/30 text-red-400 hover:bg-red-600/50'}`}>N</button>
+                              </div>
                               <span className="font-medium text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
-                              <span className="text-xs text-gray-500 ml-2">{p.role}</span>
-                              {playerCategories[p.name] && (
-                                <span className={`ml-2 px-1.5 py-0.5 rounded text-xs badge-${playerCategories[p.name].toLowerCase()}`}>
-                                  {playerCategories[p.name][0]}
-                                </span>
-                              )}
+                              <span className="text-xs text-gray-500">{p.role}</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <span className={`text-sm px-2 py-1 rounded font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
