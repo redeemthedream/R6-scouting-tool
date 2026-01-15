@@ -957,35 +957,50 @@ export default function ScoutingTool() {
             </button>
           </div>
           <div className="grid grid-cols-2 gap-4 text-sm">
-            {Object.entries(exportPicks()).map(([cat, players]) => (
-              <div key={cat} className="tactical-panel p-4">
-                <div className={`font-bold mb-3 text-lg border-b border-panel-border pb-2 badge-${cat.toLowerCase()} inline-block px-2 py-1 rounded`}>
-                  {categories[cat]?.label} ({players.length})
-                </div>
-                {players.map(p => (
-                  <div key={p.name} className="text-gray-300 mb-3 pb-3 border-b border-panel-border last:border-0">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
-                        <div className="text-xs text-gray-500">{p.team} | {p.role}</div>
-                      </div>
-                      <div className="flex gap-1">
-                        {cat !== 'WANT' && <button onClick={() => setCategory(p.name, 'WANT')} className="px-2 py-0.5 text-xs rounded bg-green-600 hover:bg-green-500 text-white">W</button>}
-                        {cat !== 'MAYBE' && <button onClick={() => setCategory(p.name, 'MAYBE')} className="px-2 py-0.5 text-xs rounded bg-yellow-600 hover:bg-yellow-500 text-white">M</button>}
-                        {cat !== 'WATCH' && <button onClick={() => setCategory(p.name, 'WATCH')} className="px-2 py-0.5 text-xs rounded bg-blue-600 hover:bg-blue-500 text-white">?</button>}
-                        {cat !== 'NO' && <button onClick={() => setCategory(p.name, 'NO')} className="px-2 py-0.5 text-xs rounded bg-red-600 hover:bg-red-500 text-white">N</button>}
-                      </div>
-                    </div>
-                    <div className="text-xs mt-1">
-                      Avg: <span className="text-status-want">{p.avg.toFixed(2)}</span> |
-                      Peak: <span className="text-status-maybe">{p.peak.toFixed(2)}</span>
-                    </div>
-                    {p.twitter && <a href={`https://twitter.com/${p.twitter}`} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:text-primary-light">@{p.twitter}</a>}
+            {Object.entries(exportPicks()).map(([cat, players]) => {
+              const roleOrder = ['IGL', 'Entry', 'Flex', 'Sup/Anchor'];
+              const byRole = {};
+              roleOrder.forEach(r => byRole[r] = []);
+              players.forEach(p => {
+                const role = p.role.replace('Star ', '');
+                if (byRole[role]) byRole[role].push(p);
+                else if (role.includes('Entry')) byRole['Entry'].push(p);
+                else if (role.includes('Flex')) byRole['Flex'].push(p);
+                else if (role.includes('Sup') || role.includes('Anchor')) byRole['Sup/Anchor'].push(p);
+                else if (role.includes('IGL')) byRole['IGL'].push(p);
+                else byRole['Flex'].push(p);
+              });
+              return (
+                <div key={cat} className="tactical-panel p-4">
+                  <div className={`font-bold mb-3 text-lg border-b border-panel-border pb-2 badge-${cat.toLowerCase()} inline-block px-2 py-1 rounded`}>
+                    {categories[cat]?.label} ({players.length})
                   </div>
-                ))}
-                {players.length === 0 && <div className="text-gray-600">None</div>}
-              </div>
-            ))}
+                  {roleOrder.map(role => byRole[role].length > 0 && (
+                    <div key={role} className="mb-3">
+                      <div className="text-xs font-bold text-gray-400 uppercase tracking-wide mb-2">{role}</div>
+                      {byRole[role].map(p => (
+                        <div key={p.name} className="text-gray-300 mb-2 pb-2 border-b border-panel-border/50 last:border-0">
+                          <div className="flex justify-between items-center">
+                            <div>
+                              <span className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
+                              <span className="text-xs text-gray-500 ml-2">{p.team}</span>
+                              <span className="text-xs text-gray-600 ml-2">{p.avg.toFixed(2)}</span>
+                            </div>
+                            <div className="flex gap-1">
+                              {cat !== 'WANT' && <button onClick={() => setCategory(p.name, 'WANT')} className="px-2 py-0.5 text-xs rounded bg-green-600 hover:bg-green-500 text-white">W</button>}
+                              {cat !== 'MAYBE' && <button onClick={() => setCategory(p.name, 'MAYBE')} className="px-2 py-0.5 text-xs rounded bg-yellow-600 hover:bg-yellow-500 text-white">M</button>}
+                              {cat !== 'WATCH' && <button onClick={() => setCategory(p.name, 'WATCH')} className="px-2 py-0.5 text-xs rounded bg-blue-600 hover:bg-blue-500 text-white">?</button>}
+                              {cat !== 'NO' && <button onClick={() => setCategory(p.name, 'NO')} className="px-2 py-0.5 text-xs rounded bg-red-600 hover:bg-red-500 text-white">N</button>}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                  {players.length === 0 && <div className="text-gray-600">None</div>}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
