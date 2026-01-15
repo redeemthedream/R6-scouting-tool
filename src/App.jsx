@@ -964,8 +964,18 @@ export default function ScoutingTool() {
                 </div>
                 {players.map(p => (
                   <div key={p.name} className="text-gray-300 mb-3 pb-3 border-b border-panel-border last:border-0">
-                    <div className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
-                    <div className="text-xs text-gray-500">{p.team} | {p.role}</div>
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="font-semibold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                        <div className="text-xs text-gray-500">{p.team} | {p.role}</div>
+                      </div>
+                      <div className="flex gap-1">
+                        {cat !== 'WANT' && <button onClick={() => setCategory(p.name, 'WANT')} className="px-2 py-0.5 text-xs rounded bg-green-600 hover:bg-green-500 text-white">W</button>}
+                        {cat !== 'MAYBE' && <button onClick={() => setCategory(p.name, 'MAYBE')} className="px-2 py-0.5 text-xs rounded bg-yellow-600 hover:bg-yellow-500 text-white">M</button>}
+                        {cat !== 'WATCH' && <button onClick={() => setCategory(p.name, 'WATCH')} className="px-2 py-0.5 text-xs rounded bg-blue-600 hover:bg-blue-500 text-white">?</button>}
+                        {cat !== 'NO' && <button onClick={() => setCategory(p.name, 'NO')} className="px-2 py-0.5 text-xs rounded bg-red-600 hover:bg-red-500 text-white">N</button>}
+                      </div>
+                    </div>
                     <div className="text-xs mt-1">
                       Avg: <span className="text-status-want">{p.avg.toFixed(2)}</span> |
                       Peak: <span className="text-status-maybe">{p.peak.toFixed(2)}</span>
