@@ -1247,28 +1247,32 @@ export default function ScoutingTool() {
                         </span>
                       </div>
                       <div className="space-y-2">
-                        {team.players.map(p => (
+                        {team.players.map(p => {
+                          const cat = playerCategories[p.name];
+                          const isUnavailable = cat === 'UNAVAILABLE';
+                          return (
                           <div
                             key={p.name}
-                            className="flex justify-between items-center p-2 bg-panel-dark rounded cursor-pointer hover:bg-primary/10 transition-all"
+                            className={`flex justify-between items-center p-2 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
                             onClick={() => setSelectedPlayer(p)}
                           >
                             <div className="flex items-center gap-2">
                               <div className="flex gap-1" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'WANT' ? 'bg-green-500 text-white' : 'bg-green-600/30 text-green-400 hover:bg-green-600/50'}`}>W</button>
-                                <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'MAYBE' ? 'bg-yellow-500 text-black' : 'bg-yellow-600/30 text-yellow-400 hover:bg-yellow-600/50'}`}>M</button>
-                                <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'WATCH' ? 'bg-blue-500 text-white' : 'bg-blue-600/30 text-blue-400 hover:bg-blue-600/50'}`}>?</button>
-                                <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold ${playerCategories[p.name] === 'NO' ? 'bg-red-500 text-white' : 'bg-red-600/30 text-red-400 hover:bg-red-600/50'}`}>N</button>
+                                <button onClick={() => setCategory(p.name, 'WANT')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-2 ring-green-300 scale-110 shadow-lg shadow-green-500/50' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
+                                <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-2 ring-yellow-300 scale-110 shadow-lg shadow-yellow-500/50' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
+                                <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-2 ring-blue-300 scale-110 shadow-lg shadow-blue-500/50' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
+                                <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300 scale-110 shadow-lg shadow-red-500/50' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
+                                <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-2 ring-gray-300 scale-110' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
                               </div>
-                              <span className="font-medium text-white">{p.star ? '⭐ ' : ''}{p.name}</span>
+                              <span className={`font-medium ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{p.star ? '⭐ ' : ''}{p.name}</span>
                               <span className="text-xs text-gray-500">{p.role}</span>
                             </div>
                             <div className="flex items-center gap-2">
-                              <span className={`text-sm px-2 py-1 rounded font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                              <span className={`text-xs font-medium ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                              <span className={`text-sm px-2 py-1 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                              <span className={`text-xs font-medium ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
                             </div>
                           </div>
-                        ))}
+                        );})}
                       </div>
                     </div>
                   ))}
