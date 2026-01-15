@@ -664,7 +664,7 @@ export default function ScoutingTool() {
     const picks = { WANT: [], MAYBE: [], WATCH: [], NO: [] };
     Object.entries(playerCategories).forEach(([name, cat]) => {
       const player = playersData.find(p => p.name === name);
-      if (player) picks[cat].push(player);
+      if (player && picks[cat]) picks[cat].push(player);
     });
     return picks;
   };
