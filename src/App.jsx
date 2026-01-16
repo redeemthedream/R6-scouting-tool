@@ -1512,26 +1512,27 @@ export default function ScoutingTool() {
                           <div className="space-y-1.5">
                             {team.players.map(p => {
                               const cat = playerCategories[p.name];
-                              const isUnavailable = cat === 'UNAVAILABLE';
+                              const isGreyedOut = cat === 'UNAVAILABLE' || cat === 'NO';
+                              const hasCategory = !!cat;
                               return (
                               <div
                                 key={p.name}
-                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
+                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isGreyedOut ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
                                 onClick={() => setSelectedPlayer(p)}
                               >
                                 <div className="flex items-center gap-1.5 min-w-0 flex-1">
                                   <div className="flex gap-0.5 flex-shrink-0" onClick={e => e.stopPropagation()}>
-                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
-                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
-                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
-                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
-                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-1 ring-gray-300' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
+                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
+                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
+                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
+                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
+                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'UNAVAILABLE' ? 'bg-gray-500 text-white ring-1 ring-gray-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
                                   </div>
-                                  <span className={`text-sm font-medium truncate ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
+                                  <span className={`text-sm font-medium truncate ${isGreyedOut ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
-                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                                  <span className={`text-xs font-medium w-10 text-right ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                                  <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
                                 </div>
                               </div>
                             );})}
@@ -1558,26 +1559,27 @@ export default function ScoutingTool() {
                           <div className="space-y-1.5">
                             {team.players.map(p => {
                               const cat = playerCategories[p.name];
-                              const isUnavailable = cat === 'UNAVAILABLE';
+                              const isGreyedOut = cat === 'UNAVAILABLE' || cat === 'NO';
+                              const hasCategory = !!cat;
                               return (
                               <div
                                 key={p.name}
-                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
+                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isGreyedOut ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
                                 onClick={() => setSelectedPlayer(p)}
                               >
                                 <div className="flex items-center gap-1.5 min-w-0 flex-1">
                                   <div className="flex gap-0.5 flex-shrink-0" onClick={e => e.stopPropagation()}>
-                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
-                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
-                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
-                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
-                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-1 ring-gray-300' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
+                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
+                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
+                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
+                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
+                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'UNAVAILABLE' ? 'bg-gray-500 text-white ring-1 ring-gray-300' : hasCategory ? 'bg-gray-700 text-gray-500 hover:bg-gray-600' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
                                   </div>
-                                  <span className={`text-sm font-medium truncate ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
+                                  <span className={`text-sm font-medium truncate ${isGreyedOut ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
-                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                                  <span className={`text-xs font-medium w-10 text-right ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                                  <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
                                 </div>
                               </div>
                             );})}
