@@ -272,20 +272,6 @@ const playersData = [
   { name: "Kurtz", team: "LOS", region: "SAL", tier: "T1", role: "Flex", avg: 0.95, peak: 1.05, floor: 0.85, trend: 0.05, s1: 0.90, s2: 0.95, majorAvg: null, events: 2, note: "0.95 yr | +4 entry | 0.97/0.93 ATK/DEF | Flex - balanced", star: false, twitter: "KurtzR6" },
 
   // ============================================
-  // APAC - Notable Players
-  // ============================================
-  { name: "Arcully", team: "Elevate", region: "APAC", tier: "T1", role: "Flex", avg: 1.35, peak: 1.35, floor: 1.35, trend: 0, s1: null, s2: null, majorAvg: 1.35, events: 1, note: "Munich co-MVP 1.35 - APAC star", star: true, twitter: "ArcullyR6" },
-  { name: "Tuhan", team: "SANDBOX", region: "APAC", tier: "T1", role: "Entry", avg: 1.02, peak: 1.25, floor: 0.80, trend: 0, s1: null, s2: null, majorAvg: 1.02, events: 2, note: "Munich 1.25", star: false, twitter: "TuhanR6" },
-  { name: "SpeakEasy", team: "Elevate", region: "APAC", tier: "T1", role: "IGL", avg: 0.95, peak: 1.05, floor: 0.85, trend: 0, s1: null, s2: null, majorAvg: 0.95, events: 1, note: "IGL Elevate", star: false, twitter: "SpeakEasyR6" },
-  { name: "Faallz", team: "Elevate", region: "APAC", tier: "T1", role: "Entry", avg: 1.08, peak: 1.15, floor: 1.00, trend: 0, s1: null, s2: null, majorAvg: 1.08, events: 1, note: "Entry for Elevate", star: false, twitter: "FaallzR6" },
-  { name: "Reeps96", team: "Elevate", region: "APAC", tier: "T1", role: "Flex", avg: 1.03, peak: 1.10, floor: 0.95, trend: 0, s1: null, s2: null, majorAvg: 1.03, events: 1, note: "Flex player", star: false, twitter: "Reeps96R6" },
-  { name: "DD", team: "SANDBOX", region: "APAC", tier: "T1", role: "Entry", avg: 1.05, peak: 1.18, floor: 0.92, trend: 0, s1: null, s2: null, majorAvg: 1.05, events: 2, note: "Entry SANDBOX", star: false, twitter: "DDR6S" },
-  { name: "yass", team: "SANDBOX", region: "APAC", tier: "T1", role: "IGL", avg: 0.88, peak: 0.95, floor: 0.80, trend: 0, s1: null, s2: null, majorAvg: 0.88, events: 2, note: "IGL SANDBOX", star: false, twitter: "yassR6" },
-  { name: "Bullet1", team: "DWG KIA", region: "APAC", tier: "T1", role: "Entry", avg: 1.02, peak: 1.12, floor: 0.92, trend: 0, s1: null, s2: null, majorAvg: 1.02, events: 1, note: "Entry DWG", star: false, twitter: "Bullet1R6" },
-  { name: "Hoven", team: "DWG KIA", region: "APAC", tier: "T1", role: "Flex", avg: 1.03, peak: 1.10, floor: 0.95, trend: 0, s1: null, s2: null, majorAvg: 1.03, events: 1, note: "Flex DWG", star: false, twitter: "HovenR6" },
-  { name: "Ape", team: "DWG KIA", region: "APAC", tier: "T1", role: "Sup/Anchor", avg: 0.92, peak: 1.00, floor: 0.85, trend: 0, s1: null, s2: null, majorAvg: 0.92, events: 1, note: "Support DWG", star: false, twitter: null },
-
-  // ============================================
   // NA LCQ T2 TEAMS
   // ============================================
   // Karn & Co
@@ -728,7 +714,7 @@ export default function ScoutingTool() {
 
   // Group players by region and team for Teams view
   const teamsByRegion = useMemo(() => {
-    const regions = ['NAL', 'EML', 'SAL', 'APAC'];
+    const regions = ['NAL', 'EML', 'SAL'];
     const grouped = {};
 
     regions.forEach(region => {
@@ -777,8 +763,8 @@ export default function ScoutingTool() {
     const picks = exportPicks();
     const catLabels = { WANT: 'Priority Targets', MAYBE: 'Secondary Options', WATCH: 'Monitor List' };
     const catColors = { WANT: '#059669', MAYBE: '#d97706', WATCH: '#2563eb' };
-    const regionOrder = ['NAL', 'EML', 'SAL', 'APAC'];
-    const regionNames = { NAL: 'North America', EML: 'Europe & MENA', SAL: 'South America', APAC: 'Asia Pacific' };
+    const regionOrder = ['NAL', 'EML', 'SAL'];
+    const regionNames = { NAL: 'North America', EML: 'Europe & MENA', SAL: 'South America' };
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const totalPlayers = Object.values(picks).flat().length;
@@ -1186,8 +1172,7 @@ export default function ScoutingTool() {
           <option value="NAL">NAL</option>
           <option value="EML">EML</option>
           <option value="SAL">SAL</option>
-          <option value="APAC">APAC</option>
-        </select>
+                  </select>
         <select value={filter.role} onChange={e => setFilter({...filter, role: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
           <option value="ALL">Role</option>
           <option value="Entry">Entry</option>
@@ -1481,7 +1466,7 @@ export default function ScoutingTool() {
       {/* Teams View */}
       {view === 'teams' && (
         <div className="max-w-7xl mx-auto relative z-10 px-2">
-          {['NAL', 'EML', 'SAL', 'APAC'].map(region => {
+          {['NAL', 'EML', 'SAL'].map(region => {
             if (filter.region !== 'ALL' && filter.region !== region) return null;
             const regionTeams = teamsByRegion[region];
             if (!regionTeams || regionTeams.length === 0) return null;
