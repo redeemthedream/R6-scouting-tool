@@ -1108,7 +1108,7 @@ export default function ScoutingTool() {
           <option value="team">Sort: Team</option>
         </select>
         <div className="bg-red-600 text-white px-4 py-2 rounded font-bold text-sm">
-          DEBUG: {filteredPlayers.length} players | Sort: {sortBy} | #1: {filteredPlayers[0]?.name} ({filteredPlayers[0]?.avg})
+          DEBUG: {filteredPlayers.length} players | Sort: {sortBy} | #1: {filteredPlayers[0]?.name} ({sortBy === 'avg' ? filteredPlayers[0]?.avg : sortBy === 'peak' ? filteredPlayers[0]?.peak : sortBy === 'trend' ? filteredPlayers[0]?.trend : filteredPlayers[0]?.team})
         </div>
       </div>
 
