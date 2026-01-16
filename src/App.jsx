@@ -710,57 +710,61 @@ export default function ScoutingTool() {
 
   const exportToWord = () => {
     const picks = exportPicks();
-    const roleOrder = ['IGL', 'Entry', 'Flex', 'Sup/Anchor'];
     const catLabels = { WANT: 'Priority Targets', MAYBE: 'Secondary Options', WATCH: 'Monitor List' };
     const catColors = { WANT: '#059669', MAYBE: '#d97706', WATCH: '#2563eb' };
+    const regionOrder = ['NAL', 'EML', 'SAL', 'APAC'];
+    const regionNames = { NAL: 'North America', EML: 'Europe & MENA', SAL: 'South America', APAC: 'Asia Pacific' };
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const totalPlayers = Object.values(picks).flat().length;
+
+    // Count teams
+    const allTeams = new Set();
+    Object.values(picks).flat().forEach(p => allTeams.add(p.team));
 
     let html = `
       <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
       <head><meta charset="utf-8"><title>R6 Scouting Report</title>
       <style>
-        @page { margin: 1in; }
-        body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color: #1f2937; line-height: 1.6; max-width: 800px; margin: 0 auto; }
+        @page { margin: 0.75in; }
+        body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color: #1f2937; line-height: 1.5; }
 
-        .header { text-align: center; margin-bottom: 40px; padding-bottom: 30px; border-bottom: 3px solid #1f2937; }
-        .header h1 { font-size: 28px; font-weight: 700; color: #1f2937; margin: 0 0 8px 0; letter-spacing: -0.5px; }
-        .header .subtitle { font-size: 14px; color: #6b7280; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
-        .header .date { font-size: 13px; color: #9ca3af; }
+        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #1f2937; }
+        .header h1 { font-size: 26px; font-weight: 700; color: #1f2937; margin: 0 0 5px 0; }
+        .header .subtitle { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
+        .header .date { font-size: 12px; color: #9ca3af; }
 
-        .summary { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 20px 30px; margin-bottom: 35px; }
-        .summary-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #6b7280; margin-bottom: 12px; font-weight: 600; }
-        .summary-stats { display: flex; justify-content: space-between; }
-        .stat { text-align: center; }
-        .stat-num { font-size: 24px; font-weight: 700; color: #1f2937; }
-        .stat-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+        .summary { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px 25px; margin-bottom: 25px; }
+        .summary-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; margin-bottom: 10px; font-weight: 600; }
 
-        .section { margin-bottom: 35px; page-break-inside: avoid; }
-        .section-header { display: flex; align-items: center; margin-bottom: 18px; }
-        .section-badge { color: white; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
-        .section-line { flex: 1; height: 1px; background: #e5e7eb; margin-left: 15px; }
+        .category-section { margin-bottom: 30px; }
+        .category-header { color: white; font-size: 14px; font-weight: 600; padding: 10px 15px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
 
-        .role-group { margin-bottom: 20px; }
-        .role-title { font-size: 11px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; padding-left: 2px; }
+        .region-section { margin-bottom: 20px; margin-left: 10px; }
+        .region-header { font-size: 12px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 1px; padding: 8px 0; border-bottom: 2px solid #e2e8f0; margin-bottom: 12px; }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; font-size: 10px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 12px; background: #f9fafb; border-bottom: 2px solid #e5e7eb; }
-        td { padding: 12px; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
-        tr:last-child td { border-bottom: none; }
+        .team-block { margin-bottom: 15px; margin-left: 10px; padding: 12px 15px; background: #f8fafc; border-left: 3px solid #cbd5e1; }
+        .team-name { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+        .team-tier { font-size: 9px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px; margin-left: 8px; }
 
-        .player { font-weight: 600; color: #1f2937; }
-        .team { color: #6b7280; font-size: 12px; }
-        .region { background: #f3f4f6; color: #4b5563; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 500; }
-        .rating { font-weight: 700; font-size: 14px; }
+        .player-row { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+        .player-row:last-child { border-bottom: none; }
+        .player-name { font-weight: 600; color: #1e293b; width: 120px; font-size: 13px; }
+        .player-role { font-size: 11px; color: #64748b; width: 80px; }
+        .player-rating { font-weight: 700; width: 50px; font-size: 13px; }
+        .player-trend { font-size: 11px; width: 50px; }
         .rating-elite { color: #059669; }
         .rating-good { color: #2563eb; }
-        .rating-avg { color: #6b7280; }
-        .trend { font-weight: 600; font-size: 12px; }
+        .rating-avg { color: #64748b; }
         .trend-up { color: #059669; }
         .trend-down { color: #dc2626; }
 
-        .footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 11px; color: #9ca3af; }
+        .footer { margin-top: 40px; padding-top: 15px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 10px; color: #94a3b8; }
+
+        table.summary-table { width: 100%; border: none; background: transparent; }
+        table.summary-table td { text-align: center; border: none; padding: 8px 15px; }
+        .stat-num { font-size: 22px; font-weight: 700; color: #1e293b; }
+        .stat-label { font-size: 10px; color: #64748b; text-transform: uppercase; }
       </style></head><body>
 
       <div class="header">
@@ -771,24 +775,13 @@ export default function ScoutingTool() {
 
       <div class="summary">
         <div class="summary-title">Executive Summary</div>
-        <table style="background: transparent; border: none;">
+        <table class="summary-table">
           <tr>
-            <td style="text-align: center; border: none; padding: 10px 20px;">
-              <div class="stat-num">${totalPlayers}</div>
-              <div class="stat-label">Total Players</div>
-            </td>
-            <td style="text-align: center; border: none; padding: 10px 20px;">
-              <div class="stat-num" style="color: #059669;">${picks.WANT?.length || 0}</div>
-              <div class="stat-label">Priority</div>
-            </td>
-            <td style="text-align: center; border: none; padding: 10px 20px;">
-              <div class="stat-num" style="color: #d97706;">${picks.MAYBE?.length || 0}</div>
-              <div class="stat-label">Secondary</div>
-            </td>
-            <td style="text-align: center; border: none; padding: 10px 20px;">
-              <div class="stat-num" style="color: #2563eb;">${picks.WATCH?.length || 0}</div>
-              <div class="stat-label">Monitor</div>
-            </td>
+            <td><div class="stat-num">${totalPlayers}</div><div class="stat-label">Total Players</div></td>
+            <td><div class="stat-num">${allTeams.size}</div><div class="stat-label">Teams</div></td>
+            <td><div class="stat-num" style="color: #059669;">${picks.WANT?.length || 0}</div><div class="stat-label">Priority</div></td>
+            <td><div class="stat-num" style="color: #d97706;">${picks.MAYBE?.length || 0}</div><div class="stat-label">Secondary</div></td>
+            <td><div class="stat-num" style="color: #2563eb;">${picks.WATCH?.length || 0}</div><div class="stat-label">Monitor</div></td>
           </tr>
         </table>
       </div>
@@ -797,59 +790,57 @@ export default function ScoutingTool() {
     Object.entries(picks).forEach(([cat, players]) => {
       if (players.length === 0) return;
 
-      html += `
-        <div class="section">
-          <div class="section-header">
-            <span class="section-badge" style="background: ${catColors[cat]};">${catLabels[cat]}</span>
-            <div class="section-line"></div>
-          </div>
+      html += `<div class="category-section">
+        <div class="category-header" style="background: ${catColors[cat]};">${catLabels[cat]} (${players.length})</div>
       `;
 
-      const byRole = {};
-      roleOrder.forEach(r => byRole[r] = []);
-      players.forEach(p => {
-        const role = p.role.replace('Star ', '');
-        if (byRole[role]) byRole[role].push(p);
-        else if (role.includes('Entry')) byRole['Entry'].push(p);
-        else if (role.includes('Flex')) byRole['Flex'].push(p);
-        else if (role.includes('Sup') || role.includes('Anchor')) byRole['Sup/Anchor'].push(p);
-        else if (role.includes('IGL')) byRole['IGL'].push(p);
-        else byRole['Flex'].push(p);
-      });
+      // Group by region, then by team
+      regionOrder.forEach(region => {
+        const regionPlayers = players.filter(p => p.region === region);
+        if (regionPlayers.length === 0) return;
 
-      roleOrder.forEach(role => {
-        if (byRole[role].length === 0) return;
-        html += `
-          <div class="role-group">
-            <div class="role-title">${role}</div>
-            <table>
-              <tr><th style="width: 25%;">Player</th><th style="width: 25%;">Team</th><th style="width: 15%;">Region</th><th style="width: 12%;">Rating</th><th style="width: 12%;">Peak</th><th style="width: 11%;">Trend</th></tr>
+        html += `<div class="region-section">
+          <div class="region-header">${regionNames[region]} (${regionPlayers.length})</div>
         `;
-        byRole[role].forEach(p => {
-          const ratingClass = p.avg >= 1.15 ? 'rating-elite' : p.avg >= 1.05 ? 'rating-good' : 'rating-avg';
-          const trendClass = p.trend >= 0 ? 'trend-up' : 'trend-down';
-          html += `
-              <tr>
-                <td class="player">${p.name}</td>
-                <td class="team">${p.team}</td>
-                <td><span class="region">${p.region}</span></td>
-                <td class="rating ${ratingClass}">${p.avg.toFixed(2)}</td>
-                <td class="rating" style="color: #4b5563;">${p.peak.toFixed(2)}</td>
-                <td class="trend ${trendClass}">${p.trend >= 0 ? '+' : ''}${p.trend.toFixed(2)}</td>
-              </tr>
-          `;
+
+        // Group by team
+        const byTeam = {};
+        regionPlayers.forEach(p => {
+          if (!byTeam[p.team]) byTeam[p.team] = [];
+          byTeam[p.team].push(p);
         });
-        html += `</table></div>`;
+
+        // Sort teams by number of players (most first)
+        const sortedTeams = Object.entries(byTeam).sort((a, b) => b[1].length - a[1].length);
+
+        sortedTeams.forEach(([teamName, teamPlayers]) => {
+          const tier = teamPlayers[0]?.tier || 'T1';
+          html += `<div class="team-block" style="border-left-color: ${tier === 'T2' ? '#f59e0b' : '#3b82f6'};">
+            <div class="team-name">${teamName}<span class="team-tier">${tier}</span></div>
+          `;
+
+          // Sort players by rating within team
+          teamPlayers.sort((a, b) => b.avg - a.avg).forEach(p => {
+            const ratingClass = p.avg >= 1.15 ? 'rating-elite' : p.avg >= 1.05 ? 'rating-good' : 'rating-avg';
+            const trendClass = p.trend >= 0 ? 'trend-up' : 'trend-down';
+            html += `<div class="player-row">
+              <span class="player-name">${p.name}</span>
+              <span class="player-role">${p.role}</span>
+              <span class="player-rating ${ratingClass}">${p.avg.toFixed(2)}</span>
+              <span class="player-trend ${trendClass}">${p.trend >= 0 ? '+' : ''}${p.trend.toFixed(2)}</span>
+            </div>`;
+          });
+
+          html += `</div>`;
+        });
+
+        html += `</div>`;
       });
 
       html += `</div>`;
     });
 
-    html += `
-      <div class="footer">
-        <p>Generated by R6 Scouting Tool</p>
-      </div>
-    </body></html>`;
+    html += `<div class="footer">Generated by R6 Scouting Tool</div></body></html>`;
 
     const blob = new Blob([html], { type: 'application/msword' });
     const link = document.createElement('a');
