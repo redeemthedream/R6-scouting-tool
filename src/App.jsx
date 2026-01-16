@@ -1038,11 +1038,6 @@ export default function ScoutingTool() {
           <option value="Flex">Flex</option>
           <option value="Sup/Anchor">Sup/Anchor</option>
           <option value="IGL">IGL</option>
-          <option disabled>───────────</option>
-          <option value="Star Entry">Star Entry</option>
-          <option value="Star Flex">Star Flex</option>
-          <option value="Star Sup/Anchor">Star Sup/Anchor</option>
-          <option value="Star IGL">Star IGL</option>
         </select>
         <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="input-tactical">
           <option value="ALL">All Tiers</option>
