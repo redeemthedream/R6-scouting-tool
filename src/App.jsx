@@ -380,41 +380,63 @@ export default function ScoutingTool() {
   const [showFilters, setShowFilters] = useState(false);
   const [showUnavailable, setShowUnavailable] = useState(false);
   const [showStars, setShowStars] = useState(true);
+  const [currentProfile, setCurrentProfile] = useState(() => localStorage.getItem('scoutingProfile') || 'redeem');
+  const [profiles, setProfiles] = useState(() => JSON.parse(localStorage.getItem('scoutingProfiles') || '["redeem"]'));
+  const [showProfileModal, setShowProfileModal] = useState(false);
+  const [newProfileName, setNewProfileName] = useState('');
+
+  // Save profile to localStorage when it changes
+  useEffect(() => {
+    localStorage.setItem('scoutingProfile', currentProfile);
+  }, [currentProfile]);
+
+  useEffect(() => {
+    localStorage.setItem('scoutingProfiles', JSON.stringify(profiles));
+  }, [profiles]);
 
   // Load initial data from Supabase and subscribe to real-time changes
   useEffect(() => {
     const loadData = async () => {
       try {
-        // Load categories
+        // Load categories for current profile
         const { data: catData } = await supabase
           .from('scouting_categories')
-          .select('player_name, category');
+          .select('player_name, category')
+          .eq('profile', currentProfile);
         if (catData) {
           const cats = {};
           catData.forEach(row => { cats[row.player_name] = row.category; });
           setPlayerCategories(cats);
+        } else {
+          setPlayerCategories({});
         }
 
-        // Load notes
+        // Load notes for current profile
         const { data: notesData } = await supabase
           .from('scouting_notes')
-          .select('player_name, note');
+          .select('player_name, note')
+          .eq('profile', currentProfile);
         if (notesData) {
           const notes = {};
           notesData.forEach(row => { notes[row.player_name] = row.note; });
           setCustomNotes(notes);
+        } else {
+          setCustomNotes({});
         }
 
-        // Load roster
+        // Load roster for current profile
         const { data: rosterData } = await supabase
           .from('scouting_rosters')
           .select('player_name, position')
+          .eq('profile', currentProfile)
           .order('position');
         if (rosterData) {
           const rosterPlayers = rosterData.map(row =>
             playersData.find(p => p.name === row.player_name)
           ).filter(Boolean);
           setRoster(rosterPlayers);
+        } else {
+          setRoster([]);
         }
 
         setSyncStatus('connected');
@@ -426,10 +448,10 @@ export default function ScoutingTool() {
 
     loadData();
 
-    // Real-time subscriptions
+    // Real-time subscriptions - filter by current profile
     const categoriesChannel = supabase
-      .channel('categories-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_categories' }, (payload) => {
+      .channel(`categories-changes-${currentProfile}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_categories', filter: `profile=eq.${currentProfile}` }, (payload) => {
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
           setPlayerCategories(prev => ({ ...prev, [payload.new.player_name]: payload.new.category }));
         } else if (payload.eventType === 'DELETE') {
@@ -442,8 +464,8 @@ export default function ScoutingTool() {
       .subscribe();
 
     const notesChannel = supabase
-      .channel('notes-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_notes' }, (payload) => {
+      .channel(`notes-changes-${currentProfile}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_notes', filter: `profile=eq.${currentProfile}` }, (payload) => {
         if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
           setCustomNotes(prev => ({ ...prev, [payload.new.player_name]: payload.new.note }));
         } else if (payload.eventType === 'DELETE') {
@@ -456,12 +478,13 @@ export default function ScoutingTool() {
       .subscribe();
 
     const rosterChannel = supabase
-      .channel('roster-changes')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_rosters' }, async () => {
+      .channel(`roster-changes-${currentProfile}`)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'scouting_rosters', filter: `profile=eq.${currentProfile}` }, async () => {
         // Reload full roster on any change
         const { data: rosterData } = await supabase
           .from('scouting_rosters')
           .select('player_name, position')
+          .eq('profile', currentProfile)
           .order('position');
         if (rosterData) {
           const rosterPlayers = rosterData.map(row =>
@@ -477,7 +500,7 @@ export default function ScoutingTool() {
       supabase.removeChannel(notesChannel);
       supabase.removeChannel(rosterChannel);
     };
-  }, []);
+  }, [currentProfile]);
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -516,18 +539,18 @@ export default function ScoutingTool() {
         const { [playerName]: _, ...rest } = prev;
         return rest;
       });
-      await supabase.from('scouting_categories').delete().eq('player_name', playerName);
+      await supabase.from('scouting_categories').delete().eq('player_name', playerName).eq('profile', currentProfile);
     } else {
       // Set category
       setPlayerCategories(prev => ({ ...prev, [playerName]: category }));
-      await supabase.from('scouting_categories').upsert({ player_name: playerName, category }, { onConflict: 'player_name' });
+      await supabase.from('scouting_categories').upsert({ player_name: playerName, category, profile: currentProfile }, { onConflict: 'player_name,profile' });
     }
   };
 
   const bulkSetCategory = async (category) => {
     const updates = [];
     selectedPlayers.forEach(name => {
-      updates.push({ player_name: name, category });
+      updates.push({ player_name: name, category, profile: currentProfile });
     });
     setPlayerCategories(prev => {
       const updated = { ...prev };
@@ -539,7 +562,7 @@ export default function ScoutingTool() {
     setSelectedPlayers(new Set());
     // Save all to Supabase
     if (updates.length > 0) {
-      await supabase.from('scouting_categories').upsert(updates, { onConflict: 'player_name' });
+      await supabase.from('scouting_categories').upsert(updates, { onConflict: 'player_name,profile' });
     }
   };
 
@@ -575,21 +598,21 @@ export default function ScoutingTool() {
     if (isInRoster) {
       // Remove from roster
       setRoster(prev => prev.filter(p => p.name !== player.name));
-      await supabase.from('scouting_rosters').delete().eq('player_name', player.name);
+      await supabase.from('scouting_rosters').delete().eq('player_name', player.name).eq('profile', currentProfile);
     } else if (roster.length < 5) {
       // Add to roster
       const newRoster = [...roster, player];
       setRoster(newRoster);
-      await supabase.from('scouting_rosters').insert({ player_name: player.name, position: newRoster.length - 1 });
+      await supabase.from('scouting_rosters').insert({ player_name: player.name, position: newRoster.length - 1, profile: currentProfile });
     }
   };
 
   const updateCustomNote = async (playerName, note) => {
     setCustomNotes(prev => ({ ...prev, [playerName]: note }));
     if (note.trim()) {
-      await supabase.from('scouting_notes').upsert({ player_name: playerName, note }, { onConflict: 'player_name' });
+      await supabase.from('scouting_notes').upsert({ player_name: playerName, note, profile: currentProfile }, { onConflict: 'player_name,profile' });
     } else {
-      await supabase.from('scouting_notes').delete().eq('player_name', playerName);
+      await supabase.from('scouting_notes').delete().eq('player_name', playerName).eq('profile', currentProfile);
     }
   };
 
@@ -918,23 +941,23 @@ export default function ScoutingTool() {
           setRoster(rosterPlayers);
         }
 
-        // Sync to Supabase
+        // Sync to Supabase with current profile
         if (data.categories) {
-          const catEntries = Object.entries(data.categories).map(([player_name, category]) => ({ player_name, category }));
+          const catEntries = Object.entries(data.categories).map(([player_name, category]) => ({ player_name, category, profile: currentProfile }));
           if (catEntries.length > 0) {
-            await supabase.from('scouting_categories').upsert(catEntries, { onConflict: 'player_name' });
+            await supabase.from('scouting_categories').upsert(catEntries, { onConflict: 'player_name,profile' });
           }
         }
         if (data.notes) {
-          const noteEntries = Object.entries(data.notes).filter(([_, note]) => note.trim()).map(([player_name, note]) => ({ player_name, note }));
+          const noteEntries = Object.entries(data.notes).filter(([_, note]) => note.trim()).map(([player_name, note]) => ({ player_name, note, profile: currentProfile }));
           if (noteEntries.length > 0) {
-            await supabase.from('scouting_notes').upsert(noteEntries, { onConflict: 'player_name' });
+            await supabase.from('scouting_notes').upsert(noteEntries, { onConflict: 'player_name,profile' });
           }
         }
         if (data.roster) {
-          // Clear existing roster and insert new
-          await supabase.from('scouting_rosters').delete().neq('id', 0);
-          const rosterEntries = data.roster.map((name, idx) => ({ player_name: name, position: idx }));
+          // Clear existing roster for this profile and insert new
+          await supabase.from('scouting_rosters').delete().eq('profile', currentProfile);
+          const rosterEntries = data.roster.map((name, idx) => ({ player_name: name, position: idx, profile: currentProfile }));
           if (rosterEntries.length > 0) {
             await supabase.from('scouting_rosters').insert(rosterEntries);
           }
@@ -994,7 +1017,95 @@ export default function ScoutingTool() {
         </div>
         <p className="text-gray-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
         <p className="text-gray-600 text-xs mt-1 tracking-wider">KEYS: 1-5 CATEGORIZE | R ROSTER | ESC CLOSE</p>
+
+        {/* Profile Selector */}
+        <div className="mt-3 flex items-center justify-center gap-2">
+          <span className="text-gray-500 text-xs">PROFILE:</span>
+          <select
+            value={currentProfile}
+            onChange={e => setCurrentProfile(e.target.value)}
+            className="input-tactical text-sm py-1 px-3"
+          >
+            {profiles.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+          </select>
+          <button
+            onClick={() => setShowProfileModal(true)}
+            className="btn-tactical text-xs py-1 px-2"
+            title="Manage profiles"
+          >
+            <span className="material-icons text-sm">add</span>
+          </button>
+        </div>
       </div>
+
+      {/* Profile Modal */}
+      {showProfileModal && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={() => setShowProfileModal(false)}>
+          <div className="tactical-panel p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold text-white">Manage Profiles</h2>
+              <button onClick={() => setShowProfileModal(false)} className="text-gray-400 hover:text-white">
+                <span className="material-icons">close</span>
+              </button>
+            </div>
+
+            <div className="mb-4">
+              <label className="text-gray-400 text-sm block mb-2">Create New Profile</label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newProfileName}
+                  onChange={e => setNewProfileName(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''))}
+                  placeholder="profile name"
+                  className="input-tactical flex-1"
+                  maxLength={20}
+                />
+                <button
+                  onClick={() => {
+                    if (newProfileName && !profiles.includes(newProfileName)) {
+                      setProfiles([...profiles, newProfileName]);
+                      setCurrentProfile(newProfileName);
+                      setNewProfileName('');
+                    }
+                  }}
+                  className="btn-primary"
+                  disabled={!newProfileName || profiles.includes(newProfileName)}
+                >
+                  Create
+                </button>
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="text-gray-400 text-sm block mb-2">Existing Profiles</label>
+              <div className="space-y-2 max-h-48 overflow-y-auto">
+                {profiles.map(p => (
+                  <div key={p} className={`flex items-center justify-between p-2 rounded ${p === currentProfile ? 'bg-primary/20 border border-primary' : 'bg-panel-light'}`}>
+                    <span className={`font-medium ${p === currentProfile ? 'text-primary' : 'text-white'}`}>{p.toUpperCase()}</span>
+                    <div className="flex gap-2">
+                      {p !== currentProfile && (
+                        <button onClick={() => setCurrentProfile(p)} className="text-xs text-gray-400 hover:text-white">
+                          Switch
+                        </button>
+                      )}
+                      {profiles.length > 1 && p !== currentProfile && (
+                        <button
+                          onClick={() => setProfiles(profiles.filter(x => x !== p))}
+                          className="text-xs text-red-400 hover:text-red-300"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="text-gray-500 text-xs">Each profile saves its own categorizations, notes, and roster.</p>
+          </div>
+        </div>
+      )}
 
       {/* Stats Bar */}
       <div className="flex justify-center gap-2 md:gap-3 mb-6 flex-wrap relative z-10 px-2">
