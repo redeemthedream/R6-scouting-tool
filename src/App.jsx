@@ -352,6 +352,7 @@ export default function ScoutingTool() {
   const [playerCategories, setPlayerCategories] = useState({});
   const [customNotes, setCustomNotes] = useState({});
   const [roster, setRoster] = useState([]);
+  const [rosterStatMode, setRosterStatMode] = useState('avg');
   const [syncStatus, setSyncStatus] = useState('connecting');
 
   const [filter, setFilter] = useState({ region: 'ALL', role: 'ALL', tier: 'ALL', category: 'ALL', team: 'ALL', starOnly: false });
@@ -696,6 +697,7 @@ export default function ScoutingTool() {
     if (roster.length === 0) return null;
 
     const avgRating = roster.reduce((sum, p) => sum + p.avg, 0) / roster.length;
+    const avgPeak = roster.reduce((sum, p) => sum + p.peak, 0) / roster.length;
     const avgTrend = roster.reduce((sum, p) => sum + p.trend, 0) / roster.length;
 
     const roles = roster.map(p => p.role);
@@ -709,7 +711,7 @@ export default function ScoutingTool() {
     if (!hasEntry) missing.push('Entry');
     if (!hasSupport) missing.push('Sup/Anchor');
 
-    return { avgRating, avgTrend, hasIGL, hasEntry, hasSupport, hasFlex, missing };
+    return { avgRating, avgPeak, avgTrend, hasIGL, hasEntry, hasSupport, hasFlex, missing };
   }, [roster]);
 
   // Group players by region and team for Teams view
@@ -1325,10 +1327,17 @@ export default function ScoutingTool() {
       {view === 'roster' && (
         <div className="max-w-4xl mx-auto mb-6 relative z-10">
           <div className="tactical-panel p-5">
-            <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
-              <span className="material-icons mr-2 align-middle">groups</span>
-              TEAM BUILDER
-            </h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-primary tracking-wide">
+                <span className="material-icons mr-2 align-middle">groups</span>
+                TEAM BUILDER
+              </h3>
+              <div className="flex gap-1">
+                <button onClick={() => setRosterStatMode('avg')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'avg' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>AVG</button>
+                <button onClick={() => setRosterStatMode('peak')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'peak' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>PEAK</button>
+                <button onClick={() => setRosterStatMode('trend')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'trend' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>TREND</button>
+              </div>
+            </div>
 
             {roster.length === 0 ? (
               <div className="text-center text-gray-500 py-8">
@@ -1345,7 +1354,11 @@ export default function ScoutingTool() {
                       </button>
                       <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1 px-1 py-0.5 rounded text-[9px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}</div>
                       <div className="text-xs text-gray-500 mt-1">{p.role}</div>
-                      <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-2 inline-block`}>{p.avg.toFixed(2)}</div>
+                      {rosterStatMode === 'trend' ? (
+                        <div className={`text-sm font-bold mt-2 ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</div>
+                      ) : (
+                        <div className={`text-sm ${getRatingColor(rosterStatMode === 'peak' ? p.peak : p.avg)} px-2 py-1 rounded mt-2 inline-block`}>{(rosterStatMode === 'peak' ? p.peak : p.avg).toFixed(2)}</div>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -1354,8 +1367,16 @@ export default function ScoutingTool() {
                   <div className="tactical-panel p-4 border-primary/20">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-500 uppercase text-xs tracking-wide">Avg Rating</span>
-                        <div className={`mt-1 ${getRatingColor(rosterAnalysis.avgRating)} px-2 py-1 rounded inline-block font-bold`}>{rosterAnalysis.avgRating.toFixed(2)}</div>
+                        <span className="text-gray-500 uppercase text-xs tracking-wide">
+                          {rosterStatMode === 'avg' ? 'Team Avg' : rosterStatMode === 'peak' ? 'Team Peak' : 'Team Trend'}
+                        </span>
+                        {rosterStatMode === 'trend' ? (
+                          <div className={`mt-1 font-bold ${getTrendColor(rosterAnalysis.avgTrend)}`}>{rosterAnalysis.avgTrend >= 0 ? '+' : ''}{rosterAnalysis.avgTrend.toFixed(2)}</div>
+                        ) : (
+                          <div className={`mt-1 ${getRatingColor(rosterStatMode === 'peak' ? rosterAnalysis.avgPeak : rosterAnalysis.avgRating)} px-2 py-1 rounded inline-block font-bold`}>
+                            {(rosterStatMode === 'peak' ? rosterAnalysis.avgPeak : rosterAnalysis.avgRating).toFixed(2)}
+                          </div>
+                        )}
                       </div>
                       <div>
                         <span className="text-gray-500 uppercase text-xs tracking-wide">Avg Trend</span>
