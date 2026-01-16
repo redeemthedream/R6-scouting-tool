@@ -1,5 +1,7 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { supabase } from './supabaseClient';
+import { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell, WidthType, BorderStyle, AlignmentType, HeadingLevel } from 'docx';
+import { saveAs } from 'file-saver';
 
 // COMPLETE player database - ALL players from ALL teams with star markers and Twitter handles
 const playersData = [
@@ -743,100 +745,86 @@ export default function ScoutingTool() {
     return picks;
   };
 
-  const exportToWord = () => {
+  const exportToWord = async () => {
     const picks = exportPicks();
     const catLabels = { WANT: 'Priority Targets', MAYBE: 'Secondary Options', WATCH: 'Monitor List' };
-    const catColors = { WANT: '#059669', MAYBE: '#d97706', WATCH: '#2563eb' };
     const regionOrder = ['NAL', 'EML', 'SAL', 'APAC'];
     const regionNames = { NAL: 'North America', EML: 'Europe & MENA', SAL: 'South America', APAC: 'Asia Pacific' };
     const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
     const totalPlayers = Object.values(picks).flat().length;
+    const teamsSet = new Set();
+    Object.values(picks).flat().forEach(p => teamsSet.add(p.team));
 
-    // Count teams
-    const allTeams = new Set();
-    Object.values(picks).flat().forEach(p => allTeams.add(p.team));
+    const children = [];
 
-    let html = `
-      <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
-      <head><meta charset="utf-8"><title>R6 Scouting Report</title>
-      <style>
-        @page { margin: 0.75in; }
-        body { font-family: 'Segoe UI', Calibri, Arial, sans-serif; color: #1f2937; line-height: 1.5; }
+    // Header
+    children.push(
+      new Paragraph({
+        children: [new TextRun({ text: 'RAINBOW SIX SIEGE', size: 20, color: '6b7280' })],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 100 }
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: 'Player Scouting Report', size: 48, bold: true })],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 100 }
+      }),
+      new Paragraph({
+        children: [new TextRun({ text: today, size: 22, color: '9ca3af' })],
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 400 }
+      })
+    );
 
-        .header { text-align: center; margin-bottom: 30px; padding-bottom: 20px; border-bottom: 3px solid #1f2937; }
-        .header h1 { font-size: 26px; font-weight: 700; color: #1f2937; margin: 0 0 5px 0; }
-        .header .subtitle { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; }
-        .header .date { font-size: 12px; color: #9ca3af; }
+    // Executive Summary
+    children.push(
+      new Paragraph({
+        children: [new TextRun({ text: 'EXECUTIVE SUMMARY', size: 20, bold: true, color: '64748b' })],
+        spacing: { before: 200, after: 200 }
+      }),
+      new Table({
+        width: { size: 100, type: WidthType.PERCENTAGE },
+        rows: [
+          new TableRow({
+            children: [
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: String(totalPlayers), size: 36, bold: true })], alignment: AlignmentType.CENTER }), new Paragraph({ children: [new TextRun({ text: 'Total Players', size: 18, color: '64748b' })], alignment: AlignmentType.CENTER })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: String(teamsSet.size), size: 36, bold: true })], alignment: AlignmentType.CENTER }), new Paragraph({ children: [new TextRun({ text: 'Teams', size: 18, color: '64748b' })], alignment: AlignmentType.CENTER })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: String(picks.WANT?.length || 0), size: 36, bold: true, color: '059669' })], alignment: AlignmentType.CENTER }), new Paragraph({ children: [new TextRun({ text: 'Priority', size: 18, color: '64748b' })], alignment: AlignmentType.CENTER })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: String(picks.MAYBE?.length || 0), size: 36, bold: true, color: 'd97706' })], alignment: AlignmentType.CENTER }), new Paragraph({ children: [new TextRun({ text: 'Secondary', size: 18, color: '64748b' })], alignment: AlignmentType.CENTER })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+              new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: String(picks.WATCH?.length || 0), size: 36, bold: true, color: '2563eb' })], alignment: AlignmentType.CENTER }), new Paragraph({ children: [new TextRun({ text: 'Monitor', size: 18, color: '64748b' })], alignment: AlignmentType.CENTER })], borders: { top: { style: BorderStyle.NONE }, bottom: { style: BorderStyle.NONE }, left: { style: BorderStyle.NONE }, right: { style: BorderStyle.NONE } } }),
+            ]
+          })
+        ]
+      }),
+      new Paragraph({ text: '', spacing: { after: 400 } })
+    );
 
-        .summary { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px 25px; margin-bottom: 25px; }
-        .summary-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: #64748b; margin-bottom: 10px; font-weight: 600; }
-
-        .category-section { margin-bottom: 30px; }
-        .category-header { color: white; font-size: 14px; font-weight: 600; padding: 10px 15px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
-
-        .region-section { margin-bottom: 20px; margin-left: 10px; }
-        .region-header { font-size: 12px; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 1px; padding: 8px 0; border-bottom: 2px solid #e2e8f0; margin-bottom: 12px; }
-
-        .team-block { margin-bottom: 15px; margin-left: 10px; padding: 12px 15px; background: #f8fafc; border-left: 3px solid #cbd5e1; }
-        .team-name { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
-        .team-tier { font-size: 9px; color: #64748b; background: #e2e8f0; padding: 2px 6px; border-radius: 3px; margin-left: 8px; }
-
-        .player-row { display: flex; align-items: center; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
-        .player-row:last-child { border-bottom: none; }
-        .player-name { font-weight: 600; color: #1e293b; width: 120px; font-size: 13px; }
-        .player-role { font-size: 11px; color: #64748b; width: 80px; }
-        .player-rating { font-weight: 700; width: 50px; font-size: 13px; }
-        .player-trend { font-size: 11px; width: 50px; }
-        .rating-elite { color: #059669; }
-        .rating-good { color: #2563eb; }
-        .rating-avg { color: #64748b; }
-        .trend-up { color: #059669; }
-        .trend-down { color: #dc2626; }
-
-        .footer { margin-top: 40px; padding-top: 15px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 10px; color: #94a3b8; }
-
-        table.summary-table { width: 100%; border: none; background: transparent; }
-        table.summary-table td { text-align: center; border: none; padding: 8px 15px; }
-        .stat-num { font-size: 22px; font-weight: 700; color: #1e293b; }
-        .stat-label { font-size: 10px; color: #64748b; text-transform: uppercase; }
-      </style></head><body>
-
-      <div class="header">
-        <div class="subtitle">Rainbow Six Siege</div>
-        <h1>Player Scouting Report</h1>
-        <div class="date">${today}</div>
-      </div>
-
-      <div class="summary">
-        <div class="summary-title">Executive Summary</div>
-        <table class="summary-table">
-          <tr>
-            <td><div class="stat-num">${totalPlayers}</div><div class="stat-label">Total Players</div></td>
-            <td><div class="stat-num">${allTeams.size}</div><div class="stat-label">Teams</div></td>
-            <td><div class="stat-num" style="color: #059669;">${picks.WANT?.length || 0}</div><div class="stat-label">Priority</div></td>
-            <td><div class="stat-num" style="color: #d97706;">${picks.MAYBE?.length || 0}</div><div class="stat-label">Secondary</div></td>
-            <td><div class="stat-num" style="color: #2563eb;">${picks.WATCH?.length || 0}</div><div class="stat-label">Monitor</div></td>
-          </tr>
-        </table>
-      </div>
-    `;
-
+    // Categories
     Object.entries(picks).forEach(([cat, players]) => {
       if (players.length === 0) return;
 
-      html += `<div class="category-section">
-        <div class="category-header" style="background: ${catColors[cat]};">${catLabels[cat]} (${players.length})</div>
-      `;
+      const catColor = cat === 'WANT' ? '059669' : cat === 'MAYBE' ? 'd97706' : '2563eb';
 
-      // Group by region, then by team
+      children.push(
+        new Paragraph({
+          children: [new TextRun({ text: `${catLabels[cat].toUpperCase()} (${players.length})`, size: 28, bold: true, color: catColor })],
+          spacing: { before: 400, after: 200 },
+          border: { bottom: { color: catColor, size: 12, style: BorderStyle.SINGLE } }
+        })
+      );
+
+      // Group by region
       regionOrder.forEach(region => {
         const regionPlayers = players.filter(p => p.region === region);
         if (regionPlayers.length === 0) return;
 
-        html += `<div class="region-section">
-          <div class="region-header">${regionNames[region]} (${regionPlayers.length})</div>
-        `;
+        children.push(
+          new Paragraph({
+            children: [new TextRun({ text: `${regionNames[region]} (${regionPlayers.length})`, size: 22, bold: true, color: '475569' })],
+            spacing: { before: 300, after: 150 }
+          })
+        );
 
         // Group by team
         const byTeam = {};
@@ -845,43 +833,79 @@ export default function ScoutingTool() {
           byTeam[p.team].push(p);
         });
 
-        // Sort teams by number of players (most first)
         const sortedTeams = Object.entries(byTeam).sort((a, b) => b[1].length - a[1].length);
 
         sortedTeams.forEach(([teamName, teamPlayers]) => {
           const tier = teamPlayers[0]?.tier || 'T1';
-          html += `<div class="team-block" style="border-left-color: ${tier === 'T2' ? '#f59e0b' : '#3b82f6'};">
-            <div class="team-name">${teamName}<span class="team-tier">${tier}</span></div>
-          `;
 
-          // Sort players by rating within team
+          children.push(
+            new Paragraph({
+              children: [
+                new TextRun({ text: teamName, size: 24, bold: true }),
+                new TextRun({ text: `  [${tier}]`, size: 18, color: '64748b' })
+              ],
+              spacing: { before: 200, after: 100 },
+              indent: { left: 400 }
+            })
+          );
+
+          // Player table for this team
+          const tableRows = [
+            new TableRow({
+              children: [
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Player', size: 18, bold: true })] })], width: { size: 30, type: WidthType.PERCENTAGE } }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Role', size: 18, bold: true })] })], width: { size: 25, type: WidthType.PERCENTAGE } }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Avg', size: 18, bold: true })], alignment: AlignmentType.CENTER })], width: { size: 15, type: WidthType.PERCENTAGE } }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Peak', size: 18, bold: true })], alignment: AlignmentType.CENTER })], width: { size: 15, type: WidthType.PERCENTAGE } }),
+                new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: 'Trend', size: 18, bold: true })], alignment: AlignmentType.CENTER })], width: { size: 15, type: WidthType.PERCENTAGE } }),
+              ]
+            })
+          ];
+
           teamPlayers.sort((a, b) => b.avg - a.avg).forEach(p => {
-            const ratingClass = p.avg >= 1.15 ? 'rating-elite' : p.avg >= 1.05 ? 'rating-good' : 'rating-avg';
-            const trendClass = p.trend >= 0 ? 'trend-up' : 'trend-down';
-            html += `<div class="player-row">
-              <span class="player-name">${p.name}</span>
-              <span class="player-role">${p.role}</span>
-              <span class="player-rating ${ratingClass}">${p.avg.toFixed(2)}</span>
-              <span class="player-trend ${trendClass}">${p.trend >= 0 ? '+' : ''}${p.trend.toFixed(2)}</span>
-            </div>`;
+            const ratingColor = p.avg >= 1.15 ? '059669' : p.avg >= 1.05 ? '2563eb' : '64748b';
+            const trendColor = p.trend >= 0 ? '059669' : 'dc2626';
+
+            tableRows.push(
+              new TableRow({
+                children: [
+                  new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: p.name, size: 20, bold: true })] })] }),
+                  new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: p.role, size: 20, color: '64748b' })] })] }),
+                  new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: p.avg.toFixed(2), size: 20, bold: true, color: ratingColor })], alignment: AlignmentType.CENTER })] }),
+                  new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: p.peak.toFixed(2), size: 20, color: '64748b' })], alignment: AlignmentType.CENTER })] }),
+                  new TableCell({ children: [new Paragraph({ children: [new TextRun({ text: `${p.trend >= 0 ? '+' : ''}${p.trend.toFixed(2)}`, size: 20, bold: true, color: trendColor })], alignment: AlignmentType.CENTER })] }),
+                ]
+              })
+            );
           });
 
-          html += `</div>`;
+          children.push(
+            new Table({
+              width: { size: 100, type: WidthType.PERCENTAGE },
+              rows: tableRows,
+              indent: { size: 400, type: WidthType.DXA }
+            }),
+            new Paragraph({ text: '', spacing: { after: 100 } })
+          );
         });
-
-        html += `</div>`;
       });
-
-      html += `</div>`;
     });
 
-    html += `<div class="footer">Generated by R6 Scouting Tool</div></body></html>`;
+    // Footer
+    children.push(
+      new Paragraph({
+        children: [new TextRun({ text: 'Generated by R6 Scouting Tool', size: 18, color: '94a3b8' })],
+        alignment: AlignmentType.CENTER,
+        spacing: { before: 600 }
+      })
+    );
 
-    const blob = new Blob([html], { type: 'application/msword' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'r6-scouting-report.doc';
-    link.click();
+    const doc = new Document({
+      sections: [{ children }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    saveAs(blob, 'r6-scouting-report.docx');
   };
 
   const exportSession = () => {
