@@ -1435,11 +1435,11 @@ export default function ScoutingTool() {
           </div>
 
           {/* Categorized Players - Quick Add */}
-          {Object.keys(playerCategories).filter(k => ['WANT', 'MAYBE', 'WATCH'].includes(playerCategories[k])).length > 0 && (
+          {Object.keys(playerCategories).length > 0 && (
             <div className="tactical-panel p-5 mt-4">
               <h3 className="text-lg font-bold mb-4 text-gray-300 tracking-wide">
                 <span className="material-icons mr-2 align-middle text-primary">bookmark</span>
-                YOUR PICKS - Quick Add
+                YOUR PICKS - Quick Add to Roster
               </h3>
               <div className="space-y-4">
                 {['WANT', 'MAYBE', 'WATCH'].map(cat => {
@@ -1471,45 +1471,6 @@ export default function ScoutingTool() {
               </div>
             </div>
           )}
-
-          {/* All Players - Browse & Add */}
-          <div className="tactical-panel p-5 mt-4">
-            <h3 className="text-lg font-bold mb-4 text-gray-300 tracking-wide">
-              <span className="material-icons mr-2 align-middle text-primary">people</span>
-              ALL PLAYERS - Click to Add
-            </h3>
-            <div className="space-y-4">
-              {['NAL', 'EML', 'SAL'].map(region => {
-                const regionPlayers = playersData
-                  .filter(p => p.region === region && !roster.find(r => r.name === p.name))
-                  .sort((a, b) => b.avg - a.avg);
-                return (
-                  <div key={region}>
-                    <h4 className={`text-sm font-semibold mb-2 badge-${region.toLowerCase()} inline-block px-2 py-1 rounded`}>
-                      {region} ({regionPlayers.length})
-                    </h4>
-                    <div className="flex flex-wrap gap-2 max-h-48 overflow-y-auto">
-                      {regionPlayers.map(p => {
-                        const cat = playerCategories[p.name];
-                        return (
-                          <button
-                            key={p.name}
-                            onClick={() => roster.length < 5 && toggleRoster(p)}
-                            disabled={roster.length >= 5}
-                            className={`flex items-center gap-2 px-3 py-1.5 rounded border transition-all ${roster.length >= 5 ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed' : cat === 'WANT' ? 'bg-green-900/30 border-green-500/50 hover:bg-green-900/50' : cat === 'MAYBE' ? 'bg-yellow-900/30 border-yellow-500/50 hover:bg-yellow-900/50' : cat === 'WATCH' ? 'bg-blue-900/30 border-blue-500/50 hover:bg-blue-900/50' : 'bg-panel border-panel-border hover:border-primary/50 hover:bg-primary/10'}`}
-                          >
-                            <span className="text-sm font-medium text-white">{p.name}</span>
-                            <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${p.avg >= 1.10 ? 'rating-elite' : p.avg >= 1.00 ? 'rating-good' : 'rating-avg'}`}>{p.avg.toFixed(2)}</span>
-                            <span className={`text-xs ${getRoleClass(p.role)} px-1 py-0.5 rounded`}>{p.role}</span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
         </div>
       )}
 
