@@ -1554,6 +1554,13 @@ export default function ScoutingTool() {
       {/* Teams View */}
       {view === 'teams' && (
         <div className={`max-w-7xl mx-auto relative z-10 px-2 ${roster.length > 0 ? 'pb-20' : ''}`}>
+          <div className="flex justify-end mb-4">
+            <div className="flex gap-1">
+              <button onClick={() => setRosterStatMode('avg')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'avg' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>AVG</button>
+              <button onClick={() => setRosterStatMode('peak')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'peak' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>PEAK</button>
+              <button onClick={() => setRosterStatMode('trend')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'trend' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>TREND</button>
+            </div>
+          </div>
           {['NAL', 'EML', 'SAL'].map(region => {
             if (filter.region !== 'ALL' && filter.region !== region) return null;
             const regionTeams = teamsByRegion[region];
@@ -1587,6 +1594,7 @@ export default function ScoutingTool() {
                               const cat = playerCategories[p.name];
                               const isGreyedOut = cat === 'UNAVAILABLE' || cat === 'NO';
                               const hasCategory = !!cat;
+                              const statValue = rosterStatMode === 'peak' ? p.peak : p.avg;
                               return (
                               <div
                                 key={p.name}
@@ -1604,8 +1612,14 @@ export default function ScoutingTool() {
                                   <span className={`text-sm font-medium truncate ${isGreyedOut ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
-                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                                  <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  {rosterStatMode === 'trend' ? (
+                                    <span className={`text-xs font-bold ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  ) : (
+                                    <>
+                                      <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : statValue >= 1.20 ? 'rating-elite' : statValue >= 1.10 ? 'rating-good' : statValue >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{statValue.toFixed(2)}</span>
+                                      <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             );})}
@@ -1634,6 +1648,7 @@ export default function ScoutingTool() {
                               const cat = playerCategories[p.name];
                               const isGreyedOut = cat === 'UNAVAILABLE' || cat === 'NO';
                               const hasCategory = !!cat;
+                              const statValue = rosterStatMode === 'peak' ? p.peak : p.avg;
                               return (
                               <div
                                 key={p.name}
@@ -1651,8 +1666,14 @@ export default function ScoutingTool() {
                                   <span className={`text-sm font-medium truncate ${isGreyedOut ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
-                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                                  <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  {rosterStatMode === 'trend' ? (
+                                    <span className={`text-xs font-bold ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                  ) : (
+                                    <>
+                                      <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isGreyedOut ? 'text-gray-600' : statValue >= 1.20 ? 'rating-elite' : statValue >= 1.10 ? 'rating-good' : statValue >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{statValue.toFixed(2)}</span>
+                                      <span className={`text-xs font-medium w-10 text-right ${isGreyedOut ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             );})}
