@@ -70,7 +70,7 @@ const playersData = [
   // NAL - ENVY
   // ============================================
   { name: "Snake", team: "ENVY", region: "NAL", tier: "T1", role: "Entry", avg: 0.92, peak: 1.05, floor: 0.80, trend: 0.25, s1: 0.80, s2: 1.05, majorAvg: null, events: 2, note: "0.92 yr | +8 entry | 0.96/0.88 ATK/DEF | ATK specialist - T2 upside", star: true, twitter: "SnakeR6S" },
-  { name: "ATKRival", team: "ENVY", region: "NAL", tier: "T1", role: "Flex", avg: 0.82, peak: 0.84, floor: 0.78, trend: 0.05, s1: 0.79, s2: 0.84, majorAvg: null, events: 2, note: "0.82 yr | -3 entry | 0.78/0.86 ATK/DEF | Below avg both sides", star: false, twitter: "ATKRivalR6" },
+  { name: "ATKRival", team: "ENVY", region: "NAL", tier: "T1", role: "Flex", avg: 0.82, peak: 0.92, floor: 0.78, trend: 0.05, s1: 0.79, s2: 0.84, majorAvg: null, events: 3, note: "0.82 yr | LCQ 0.92 on DarkZero loan | Improvement at LCQ", star: false, twitter: null },
   { name: "Aiden", team: "ENVY", region: "NAL", tier: "T1", role: "Entry", avg: 0.81, peak: 0.81, floor: 0.81, trend: 0, s1: null, s2: 0.81, majorAvg: null, events: 1, note: "0.81 yr | -4 entry | 0.79/0.83 ATK/DEF | Entry not creating", star: false, twitter: "AidenR6S" },
   { name: "JJBlaztful", team: "ENVY", region: "NAL", tier: "T1", role: "IGL", avg: 0.66, peak: 0.75, floor: 0.58, trend: 0.17, s1: 0.58, s2: 0.75, majorAvg: null, events: 2, note: "0.66 yr | -15 entry | 0.55/0.77 ATK/DEF | Pure IGL - weak ATK", star: false, twitter: "JJBlaztful" },
   { name: "Emilio", team: "ENVY", region: "NAL", tier: "T1", role: "Sup/Anchor", avg: 0.71, peak: 0.91, floor: 0.42, trend: 0.07, s1: 0.68, s2: 0.75, majorAvg: null, events: 2, note: "0.71 yr | -6 entry | 0.65/0.77 ATK/DEF | Support, inconsistent", star: false, twitter: "EmilioR6" },
@@ -288,11 +288,6 @@ const playersData = [
   // ============================================
   // NA LCQ T2 TEAMS
   // ============================================
-  // JJ and Co
-  { name: "Packer", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.13, peak: 1.13, floor: 1.13, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.13 | +7 entry | 1.39/0.89 ATK/DEF | Pure ATK entry", star: true, twitter: null },
-  { name: "ATKRival", team: "JJ and Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.12, peak: 1.12, floor: 1.12, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.12 | +7 entry | 1.50/0.78 ATK/DEF | INSANE ATK (1.50) - entry god", star: true, twitter: null },
-  { name: "MikeW", team: "JJ and Co", region: "NAL", tier: "T2", role: "Sup/Anchor", avg: 1.09, peak: 1.09, floor: 1.09, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.09 | -5 entry | 0.93/1.25 ATK/DEF | DEF anchor solid", star: false, twitter: null },
-
   // Karn & Co
   { name: "Raidbullys", team: "Karn & Co", region: "NAL", tier: "T2", role: "Entry", avg: 1.19, peak: 1.19, floor: 1.19, trend: 0, s1: null, s2: null, majorAvg: null, events: 1, note: "LCQ 1.19 | +9 entry | 1.42/0.94 ATK/DEF | Elite ATK entry", star: true, twitter: null },
 
