@@ -31,11 +31,9 @@ body {
   background-color: #111318;
 }
 
-/* Tactical Grid Background */
+/* Tactical Background */
 .tactical-bg {
   background-color: #111318;
-  background-image: radial-gradient(#3b4354 1px, transparent 1px);
-  background-size: 24px 24px;
   position: relative;
 }
 
