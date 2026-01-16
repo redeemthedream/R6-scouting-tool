@@ -44,9 +44,9 @@ const playersData = [
   // ============================================
   { name: "Forrest", team: "Oxygen", region: "NAL", tier: "T1", role: "IGL", avg: 0.79, peak: 1.04, floor: 0.78, trend: 0.05, s1: 0.93, s2: 0.98, majorAvg: 0.88, events: 4, note: "0.79 yr | -18 entry | 0.59/0.98 ATK/DEF | TERRIBLE ATK (0.59) - liability", star: false, twitter: "forrest_r6" },
   { name: "Gryxr", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 1.11, peak: 1.18, floor: 1.02, trend: -0.16, s1: 1.18, s2: 1.02, majorAvg: 1.11, events: 4, note: "1.11 yr | +2 entry | 1.13/1.09 ATK/DEF | Balanced star, low entry", star: true, twitter: "GryxrPR" },
-  { name: "Yoggah", team: "Oxygen", region: "NAL", tier: "T1", role: "IGL", avg: 1.02, peak: 1.12, floor: 0.81, trend: 0.07, s1: 1.05, s2: 1.12, majorAvg: 0.85, events: 4, note: "1.02 yr | +1 entry | 1.00/1.04 ATK/DEF | Average, no standout", star: false, twitter: "Yoggah_" },
+  { name: "Yoggah", team: "Oxygen", region: "NAL", tier: "T1", role: "IGL/Flex", avg: 1.02, peak: 1.12, floor: 0.81, trend: 0.07, s1: 1.05, s2: 1.12, majorAvg: 0.85, events: 4, note: "1.02 yr | +1 entry | 1.00/1.04 ATK/DEF | Average, no standout", star: false, twitter: "Yoggah_" },
   { name: "Atom", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 1.07, peak: 1.29, floor: 0.75, trend: 0.26, s1: 1.03, s2: 1.29, majorAvg: 0.90, events: 4, note: "1.07 yr | -2 entry | 1.02/1.12 ATK/DEF | DEF anchor not star fragger", star: false, twitter: "AtomR6S" },
-  { name: "GMZ", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex", avg: 0.97, peak: 1.16, floor: 0.81, trend: 0.27, s1: 0.89, s2: 1.16, majorAvg: 0.81, events: 4, note: "0.97 yr | -12 entry | 0.93/1.01 ATK/DEF | Support, negative entry", star: false, twitter: "GMZR6" },
+  { name: "GMZ", team: "Oxygen", region: "NAL", tier: "T1", role: "Flex/Entry", avg: 0.97, peak: 1.16, floor: 0.81, trend: 0.27, s1: 0.89, s2: 1.16, majorAvg: 0.81, events: 4, note: "0.97 yr | -12 entry | 0.93/1.01 ATK/DEF | Support, negative entry", star: false, twitter: "GMZR6" },
 
   // ============================================
   // NAL - WILDCARD
