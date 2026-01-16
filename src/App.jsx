@@ -379,6 +379,7 @@ export default function ScoutingTool() {
   const [selectedPlayers, setSelectedPlayers] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
   const [showUnavailable, setShowUnavailable] = useState(false);
+  const [showStars, setShowStars] = useState(true);
 
   // Load initial data from Supabase and subscribe to real-time changes
   useEffect(() => {
@@ -1043,6 +1044,9 @@ export default function ScoutingTool() {
         <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical text-xs md:text-sm ${filter.starOnly ? 'active' : ''}`}>
           <span className="material-icons text-sm md:mr-1 align-middle">star</span><span className="hidden lg:inline">ELITE ONLY</span>
         </button>
+        <button onClick={() => setShowStars(!showStars)} className={`btn-tactical text-xs md:text-sm ${showStars ? 'active' : ''}`} title="Toggle star icons">
+          <span className="material-icons text-sm md:mr-1 align-middle">{showStars ? 'star' : 'star_border'}</span><span className="hidden lg:inline">STARS</span>
+        </button>
         <button onClick={() => setShowUnavailable(!showUnavailable)} className={`btn-tactical text-xs md:text-sm ${showUnavailable ? 'active' : ''}`}>
           <span className="material-icons text-sm md:mr-1 align-middle">block</span><span className="hidden lg:inline">SHOW N/A</span>
         </button>
@@ -1237,7 +1241,7 @@ export default function ScoutingTool() {
                       <button onClick={() => toggleRoster(p)} className="absolute top-2 right-2 text-red-400 hover:text-red-300">
                         <span className="material-icons text-sm">close</span>
                       </button>
-                      <div className="font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                      <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}</div>
                       <div className="text-xs text-gray-500 mt-1">{p.role}</div>
                       <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-2 inline-block`}>{p.avg.toFixed(2)}</div>
                     </div>
@@ -1300,7 +1304,7 @@ export default function ScoutingTool() {
                       <th className="p-3 text-left text-primary">Stat</th>
                       {compareList.map(p => (
                         <th key={p.name} className="p-3 text-center text-white">
-                          {p.star ? '⭐ ' : ''}{p.name}
+                          {showStars && p.star ? '⭐ ' : ''}{p.name}
                           <button onClick={() => toggleCompare(p)} className="ml-2 text-red-400 hover:text-red-300">
                             <span className="material-icons text-sm align-middle">close</span>
                           </button>
@@ -1398,7 +1402,7 @@ export default function ScoutingTool() {
                                 <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300 scale-110 shadow-lg shadow-red-500/50' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
                                 <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-2 ring-gray-300 scale-110' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
                               </div>
-                              <span className={`font-medium ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{p.star ? '⭐ ' : ''}{p.name}</span>
+                              <span className={`font-medium ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐ ' : ''}{p.name}</span>
                               <span className="text-xs text-gray-500">{p.role}</span>
                             </div>
                             <div className="flex items-center gap-2">
@@ -1433,7 +1437,7 @@ export default function ScoutingTool() {
                   {players.sort((a,b) => b.avg - a.avg).map(p => (
                     <div key={p.name} className="tactical-panel tactical-panel-hover p-4 flex justify-between items-center cursor-pointer" onClick={() => setSelectedPlayer(p)}>
                       <div>
-                        <div className="font-bold text-white">{p.star ? '⭐ ' : ''}{p.name}</div>
+                        <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}</div>
                         <div className="text-sm text-gray-500">{p.team} - {p.role}</div>
                       </div>
                       <div className="text-right">
@@ -1514,7 +1518,7 @@ export default function ScoutingTool() {
                         <button onClick={() => toggleRoster(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
                       </div>
                     </td>
-                    <td className="p-2 font-bold text-white whitespace-nowrap">{p.star ? '⭐ ' : ''}{p.name}</td>
+                    <td className="p-2 font-bold text-white whitespace-nowrap">{showStars && p.star ? '⭐ ' : ''}{p.name}</td>
                     <td className="p-2 text-gray-400 text-xs">{p.team}</td>
                     <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
                     <td className="p-2 text-center hidden sm:table-cell"><span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getRoleClass(p.role)}`}>{p.role}</span></td>
