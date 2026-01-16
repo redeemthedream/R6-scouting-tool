@@ -1113,31 +1113,42 @@ export default function ScoutingTool() {
                     ) : (
                       <>
                         <span className={`font-medium ${p === currentProfile ? 'text-primary' : 'text-white'}`}>{p.toUpperCase()}</span>
-                        <div className="flex gap-2">
+                        <div className="flex gap-3">
                           {p !== currentProfile && (
                             <button onClick={() => setCurrentProfile(p)} className="text-xs text-slate-400 hover:text-white">
                               Switch
                             </button>
                           )}
                           <button
-                            onClick={() => { setEditingProfile(p); setEditProfileName(p); }}
-                            className="px-2 py-1 text-xs bg-yellow-500/20 border border-yellow-500 text-yellow-400 rounded hover:bg-yellow-500/30 flex items-center gap-1"
+                            onClick={() => {
+                              const newName = prompt('Enter new name for profile "' + p + '":', p);
+                              if (newName && newName !== p) {
+                                const cleanName = newName.toLowerCase().replace(/[^a-z0-9]/g, '');
+                                if (cleanName && !profiles.includes(cleanName)) {
+                                  const newProfiles = profiles.map(x => x === p ? cleanName : x);
+                                  setProfiles(newProfiles);
+                                  if (currentProfile === p) setCurrentProfile(cleanName);
+                                }
+                              }
+                            }}
+                            className="text-xs text-yellow-400 hover:text-yellow-300 underline"
                           >
-                            <span className="material-symbols-outlined text-sm">edit</span>
-                            Edit
+                            Rename
                           </button>
                           {profiles.length > 1 && (
                             <button
                               onClick={() => {
-                                if (p === currentProfile) {
-                                  const newProfiles = profiles.filter(x => x !== p);
-                                  setCurrentProfile(newProfiles[0]);
-                                  setProfiles(newProfiles);
-                                } else {
-                                  setProfiles(profiles.filter(x => x !== p));
+                                if (confirm('Delete profile "' + p + '"?')) {
+                                  if (p === currentProfile) {
+                                    const newProfiles = profiles.filter(x => x !== p);
+                                    setCurrentProfile(newProfiles[0]);
+                                    setProfiles(newProfiles);
+                                  } else {
+                                    setProfiles(profiles.filter(x => x !== p));
+                                  }
                                 }
                               }}
-                              className="px-2 py-1 text-xs bg-red-500/20 border border-red-500 text-red-400 rounded hover:bg-red-500/30"
+                              className="text-xs text-red-400 hover:text-red-300 underline"
                             >
                               Delete
                             </button>
