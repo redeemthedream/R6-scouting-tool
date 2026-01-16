@@ -1121,8 +1121,9 @@ export default function ScoutingTool() {
                           )}
                           <button
                             onClick={() => { setEditingProfile(p); setEditProfileName(p); }}
-                            className="text-xs text-primary hover:text-primary/80"
+                            className="text-xs text-yellow-400 hover:text-yellow-300 flex items-center gap-1"
                           >
+                            <span className="material-symbols-outlined text-sm">edit</span>
                             Edit
                           </button>
                           {profiles.length > 1 && (
