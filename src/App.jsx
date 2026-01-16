@@ -996,7 +996,7 @@ export default function ScoutingTool() {
       <div className="text-center mb-8 relative z-10">
         <div className="flex items-center justify-center gap-4 mb-2">
           <div className="flex items-center gap-3">
-            <span className="material-icons text-primary text-4xl">radar</span>
+            <span className="material-symbols-outlined text-primary text-4xl">radar</span>
             <h1 className="text-3xl font-bold tracking-wider">
               <span className="text-white">R6</span>
               <span className="text-primary text-glow"> TACTICAL</span>
@@ -1011,12 +1011,12 @@ export default function ScoutingTool() {
             {syncStatus === 'connected' ? 'LIVE SYNC' : syncStatus === 'connecting' ? 'CONNECTING...' : 'OFFLINE'}
           </div>
         </div>
-        <p className="text-gray-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
-        <p className="text-gray-600 text-xs mt-1 tracking-wider">KEYS: 1-5 CATEGORIZE | R ROSTER | ESC CLOSE</p>
+        <p className="text-slate-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
+        <p className="text-slate-600 text-xs mt-1 tracking-wider">KEYS: 1-5 CATEGORIZE | R ROSTER | ESC CLOSE</p>
 
         {/* Profile Selector */}
         <div className="mt-3 flex items-center justify-center gap-2">
-          <span className="text-gray-500 text-xs">PROFILE:</span>
+          <span className="text-slate-500 text-xs">PROFILE:</span>
           <select
             value={currentProfile}
             onChange={e => setCurrentProfile(e.target.value)}
@@ -1029,7 +1029,7 @@ export default function ScoutingTool() {
             className="btn-tactical text-xs py-1 px-2"
             title="Manage profiles"
           >
-            <span className="material-icons text-sm">add</span>
+            <span className="material-symbols-outlined text-sm">add</span>
           </button>
         </div>
       </div>
@@ -1040,13 +1040,13 @@ export default function ScoutingTool() {
           <div className="tactical-panel p-6 max-w-md w-full" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-white">Manage Profiles</h2>
-              <button onClick={() => setShowProfileModal(false)} className="text-gray-400 hover:text-white">
-                <span className="material-icons">close</span>
+              <button onClick={() => setShowProfileModal(false)} className="text-slate-400 hover:text-white">
+                <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
             <div className="mb-4">
-              <label className="text-gray-400 text-sm block mb-2">Create New Profile</label>
+              <label className="text-slate-400 text-sm block mb-2">Create New Profile</label>
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -1073,14 +1073,14 @@ export default function ScoutingTool() {
             </div>
 
             <div className="mb-4">
-              <label className="text-gray-400 text-sm block mb-2">Existing Profiles</label>
+              <label className="text-slate-400 text-sm block mb-2">Existing Profiles</label>
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {profiles.map(p => (
                   <div key={p} className={`flex items-center justify-between p-2 rounded ${p === currentProfile ? 'bg-primary/20 border border-primary' : 'bg-panel-light'}`}>
                     <span className={`font-medium ${p === currentProfile ? 'text-primary' : 'text-white'}`}>{p.toUpperCase()}</span>
                     <div className="flex gap-2">
                       {p !== currentProfile && (
-                        <button onClick={() => setCurrentProfile(p)} className="text-xs text-gray-400 hover:text-white">
+                        <button onClick={() => setCurrentProfile(p)} className="text-xs text-slate-400 hover:text-white">
                           Switch
                         </button>
                       )}
@@ -1098,7 +1098,7 @@ export default function ScoutingTool() {
               </div>
             </div>
 
-            <p className="text-gray-500 text-xs">Each profile saves its own categorizations, notes, and roster.</p>
+            <p className="text-slate-500 text-xs">Each profile saves its own categorizations, notes, and roster.</p>
           </div>
         </div>
       )}
@@ -1106,27 +1106,27 @@ export default function ScoutingTool() {
       {/* Stats Bar */}
       <div className="flex justify-center gap-2 md:gap-3 mb-6 flex-wrap relative z-10 px-2">
         <div className="badge-want px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">check_circle</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">check_circle</span>
           <span className="hidden sm:inline">WANT: </span>{stats.want}
         </div>
         <div className="badge-maybe px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">help</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">help</span>
           <span className="hidden sm:inline">MAYBE: </span>{stats.maybe}
         </div>
         <div className="badge-watch px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">visibility</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">visibility</span>
           <span className="hidden sm:inline">WATCH: </span>{stats.watch}
         </div>
         <div className="badge-no px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">cancel</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">cancel</span>
           <span className="hidden sm:inline">NO: </span>{stats.no}
         </div>
         <div className="badge-unavailable px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">block</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">block</span>
           <span className="hidden sm:inline">N/A: </span>{stats.unavailable}
         </div>
         <div className="px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide bg-purple-500/20 border border-purple-500 text-purple-400 text-xs md:text-sm">
-          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">star</span>
+          <span className="material-symbols-outlined text-xs md:text-sm mr-0.5 md:mr-1 align-middle">star</span>
           <span className="hidden sm:inline">ELITE: </span>{stats.stars}
         </div>
       </div>
@@ -1134,41 +1134,41 @@ export default function ScoutingTool() {
       {/* View Toggles */}
       <div className="flex justify-center gap-1.5 md:gap-2 mb-4 flex-wrap relative z-10 px-2">
         <button onClick={() => setView('table')} className={`btn-tactical text-xs md:text-sm ${view === 'table' ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">table_chart</span><span className="hidden md:inline">TABLE</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">table_chart</span><span className="hidden md:inline">TABLE</span>
         </button>
         <button onClick={() => setView('teams')} className={`btn-tactical text-xs md:text-sm ${view === 'teams' ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">groups</span><span className="hidden md:inline">TEAMS</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">groups</span><span className="hidden md:inline">TEAMS</span>
         </button>
         <button onClick={() => setView('summary')} className={`btn-tactical text-xs md:text-sm ${view === 'summary' ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">playlist_add_check</span><span className="hidden md:inline">MY PICKS</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">playlist_add_check</span><span className="hidden md:inline">MY PICKS</span>
         </button>
         <button onClick={() => setView('roster')} className={`btn-tactical text-xs md:text-sm ${view === 'roster' ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">assignment_ind</span><span className="hidden sm:inline">ROSTER</span> ({roster.length}/5)
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">assignment_ind</span><span className="hidden sm:inline">ROSTER</span> ({roster.length}/5)
         </button>
         <button onClick={() => setView('compare')} className={`btn-tactical text-xs md:text-sm ${view === 'compare' ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">compare_arrows</span><span className="hidden md:inline">COMPARE</span> ({compareList.length})
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">compare_arrows</span><span className="hidden md:inline">COMPARE</span> ({compareList.length})
         </button>
         <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical text-xs md:text-sm ${filter.starOnly ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">star</span><span className="hidden lg:inline">ELITE ONLY</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">star</span><span className="hidden lg:inline">ELITE ONLY</span>
         </button>
         <button onClick={() => setShowStars(!showStars)} className={`btn-tactical text-xs md:text-sm ${showStars ? 'active' : ''}`} title="Toggle star icons">
-          <span className="material-icons text-sm md:mr-1 align-middle">{showStars ? 'star' : 'star_border'}</span><span className="hidden lg:inline">STARS</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">{showStars ? 'star' : 'star_border'}</span><span className="hidden lg:inline">STARS</span>
         </button>
         <button onClick={() => setShowUnavailable(!showUnavailable)} className={`btn-tactical text-xs md:text-sm ${showUnavailable ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">block</span><span className="hidden lg:inline">SHOW N/A</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">block</span><span className="hidden lg:inline">SHOW N/A</span>
         </button>
         <button onClick={() => setShowExport(!showExport)} className="btn-primary text-xs md:text-sm">
-          <span className="material-icons text-sm md:mr-1 align-middle">file_download</span><span className="hidden sm:inline">EXPORT</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">file_download</span><span className="hidden sm:inline">EXPORT</span>
         </button>
         <button onClick={() => setShowFilters(!showFilters)} className={`btn-tactical text-xs md:text-sm ${showFilters ? 'active' : ''}`}>
-          <span className="material-icons text-sm md:mr-1 align-middle">tune</span><span className="hidden sm:inline">FILTERS</span>
+          <span className="material-symbols-outlined text-sm md:mr-1 align-middle">tune</span><span className="hidden sm:inline">FILTERS</span>
         </button>
       </div>
 
       {/* Filters */}
       <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-4 relative z-10 px-2">
         <div className="relative w-full sm:w-auto">
-          <span className="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">search</span>
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm">search</span>
           <input type="text" placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="input-tactical pl-9 w-full sm:w-40 md:w-52 text-sm" />
         </div>
         <select value={filter.region} onChange={e => setFilter({...filter, region: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
@@ -1218,7 +1218,7 @@ export default function ScoutingTool() {
             className="btn-tactical text-xs text-red-400 border-red-500/50 hover:border-red-500"
             title="Reset All Filters"
           >
-            <span className="material-icons text-sm">filter_alt_off</span>
+            <span className="material-symbols-outlined text-sm">filter_alt_off</span>
           </button>
         )}
       </div>
@@ -1227,7 +1227,7 @@ export default function ScoutingTool() {
       {showFilters && (
         <div className="tactical-panel p-4 mb-4 max-w-2xl mx-auto relative z-10">
           <div className="text-sm text-primary w-full text-center mb-3 font-semibold tracking-wide">
-            <span className="material-icons text-sm mr-1 align-middle">analytics</span>
+            <span className="material-symbols-outlined text-sm mr-1 align-middle">analytics</span>
             STAT RANGE FILTERS
           </div>
           <div className="flex flex-wrap justify-center gap-2">
@@ -1236,7 +1236,7 @@ export default function ScoutingTool() {
             <input type="number" step="0.01" placeholder="Min Trend" value={statFilters.minTrend} onChange={e => setStatFilters({...statFilters, minTrend: e.target.value})} className="input-tactical w-24 text-sm" />
             <input type="number" step="0.01" placeholder="Max Trend" value={statFilters.maxTrend} onChange={e => setStatFilters({...statFilters, maxTrend: e.target.value})} className="input-tactical w-24 text-sm" />
             <button onClick={() => setStatFilters({ minAvg: '', maxAvg: '', minTrend: '', maxTrend: '' })} className="btn-tactical text-red-400 border-red-500/50 hover:border-red-500 text-sm">
-              <span className="material-icons text-sm mr-1 align-middle">clear</span>Clear
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">clear</span>Clear
             </button>
           </div>
         </div>
@@ -1247,7 +1247,7 @@ export default function ScoutingTool() {
         <div className="tactical-panel p-3 mb-4 max-w-3xl mx-auto relative z-10">
           <div className="flex justify-center items-center gap-3 flex-wrap">
             <span className="text-primary font-semibold">
-              <span className="material-icons text-sm mr-1 align-middle">checklist</span>
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">checklist</span>
               {selectedPlayers.size} SELECTED:
             </span>
             <button onClick={() => bulkSetCategory('WANT')} className="badge-want px-3 py-1 rounded text-sm font-medium hover:opacity-80">Want All</button>
@@ -1256,7 +1256,7 @@ export default function ScoutingTool() {
             <button onClick={() => bulkSetCategory('NO')} className="badge-no px-3 py-1 rounded text-sm font-medium hover:opacity-80">No All</button>
             <button onClick={() => bulkSetCategory('UNAVAILABLE')} className="badge-unavailable px-3 py-1 rounded text-sm font-medium hover:opacity-80">N/A All</button>
             <button onClick={clearSelection} className="btn-tactical text-sm">
-              <span className="material-icons text-sm mr-1 align-middle">deselect</span>Clear
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">deselect</span>Clear
             </button>
           </div>
         </div>
@@ -1268,19 +1268,19 @@ export default function ScoutingTool() {
         <div className="tactical-panel p-5 max-w-4xl w-full max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-bold text-primary tracking-wide">
-              <span className="material-icons mr-2 align-middle">import_export</span>
+              <span className="material-symbols-outlined mr-2 align-middle">import_export</span>
               EXPORT / IMPORT
             </h3>
             <button onClick={() => setShowExport(false)} className="text-gray-400 hover:text-white">
-              <span className="material-icons">close</span>
+              <span className="material-symbols-outlined">close</span>
             </button>
           </div>
           <div className="flex gap-3 mb-5">
             <button onClick={exportSession} className="btn-tactical badge-want">
-              <span className="material-icons text-sm mr-1 align-middle">download</span>Download JSON
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">download</span>Download JSON
             </button>
             <label className="btn-tactical badge-watch cursor-pointer">
-              <span className="material-icons text-sm mr-1 align-middle">upload</span>Import JSON
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">upload</span>Import JSON
               <input type="file" accept=".json" onChange={importSession} className="hidden" />
             </label>
             <button onClick={() => {
@@ -1292,10 +1292,10 @@ export default function ScoutingTool() {
               navigator.clipboard.writeText(text);
               alert('Copied!');
             }} className="btn-primary">
-              <span className="material-icons text-sm mr-1 align-middle">content_copy</span>Copy Text
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">content_copy</span>Copy Text
             </button>
             <button onClick={exportToWord} className="btn-tactical bg-blue-600 hover:bg-blue-500 border-blue-500">
-              <span className="material-icons text-sm mr-1 align-middle">description</span>Export Word
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">description</span>Export Word
             </button>
           </div>
           <div className="grid grid-cols-3 gap-4 text-sm">
@@ -1344,7 +1344,7 @@ export default function ScoutingTool() {
           <div className="tactical-panel p-5">
             <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
               <h3 className="text-xl font-bold text-primary tracking-wide">
-                <span className="material-icons mr-2 align-middle">groups</span>
+                <span className="material-symbols-outlined mr-2 align-middle">groups</span>
                 TEAM BUILDER
               </h3>
               <div className="flex gap-3 items-center">
@@ -1360,10 +1360,10 @@ export default function ScoutingTool() {
                       const avgRating = (roster.reduce((sum, p) => sum + p.avg, 0) / roster.length).toFixed(2);
                       navigator.clipboard.writeText(`Team Roster:\n${text}\n\nTeam Avg: ${avgRating}`);
                     }} className="btn-tactical text-xs" title="Copy Roster">
-                      <span className="material-icons text-sm">content_copy</span>
+                      <span className="material-symbols-outlined text-sm">content_copy</span>
                     </button>
                     <button onClick={() => setRoster([])} className="btn-tactical text-xs" title="Clear Roster">
-                      <span className="material-icons text-sm">delete_sweep</span>
+                      <span className="material-symbols-outlined text-sm">delete_sweep</span>
                     </button>
                   </div>
                 )}
@@ -1372,7 +1372,7 @@ export default function ScoutingTool() {
 
             {roster.length === 0 ? (
               <div className="text-center text-gray-500 py-8">
-                <span className="material-icons text-4xl mb-2 block text-gray-600">person_add</span>
+                <span className="material-symbols-outlined text-4xl mb-2 block text-gray-600">person_add</span>
                 Click "+" on players to add them to your roster (max 5)
               </div>
             ) : (
@@ -1381,7 +1381,7 @@ export default function ScoutingTool() {
                   {roster.map((p, i) => (
                     <div key={p.name} className="tactical-panel tactical-panel-hover p-3 text-center relative">
                       <button onClick={() => toggleRoster(p)} className="absolute top-2 right-2 text-red-400 hover:text-red-300">
-                        <span className="material-icons text-sm">close</span>
+                        <span className="material-symbols-outlined text-sm">close</span>
                       </button>
                       <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1 px-1 py-0.5 rounded text-[9px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}</div>
                       <div className="text-xs text-gray-500 mt-1">{p.role}</div>
@@ -1424,7 +1424,7 @@ export default function ScoutingTool() {
                     </div>
                     {rosterAnalysis.missing.length > 0 && (
                       <div className="mt-3 badge-maybe px-3 py-2 rounded text-sm inline-block">
-                        <span className="material-icons text-sm mr-1 align-middle">warning</span>
+                        <span className="material-symbols-outlined text-sm mr-1 align-middle">warning</span>
                         Missing: {rosterAnalysis.missing.join(', ')}
                       </div>
                     )}
@@ -1438,7 +1438,7 @@ export default function ScoutingTool() {
           {Object.keys(playerCategories).length > 0 && (
             <div className="tactical-panel p-5 mt-4">
               <h3 className="text-lg font-bold mb-4 text-gray-300 tracking-wide">
-                <span className="material-icons mr-2 align-middle text-primary">bookmark</span>
+                <span className="material-symbols-outlined mr-2 align-middle text-primary">bookmark</span>
                 YOUR PICKS - Quick Add to Roster
               </h3>
               <div className="space-y-4">
@@ -1479,13 +1479,13 @@ export default function ScoutingTool() {
         <div className="max-w-6xl mx-auto mb-6 relative z-10">
           <div className="tactical-panel p-5">
             <h3 className="text-xl font-bold mb-4 text-primary tracking-wide">
-              <span className="material-icons mr-2 align-middle">compare_arrows</span>
+              <span className="material-symbols-outlined mr-2 align-middle">compare_arrows</span>
               COMPARE OPERATORS (max 4)
             </h3>
 
             {compareList.length === 0 ? (
               <div className="text-center text-gray-500 py-8">
-                <span className="material-icons text-4xl mb-2 block text-gray-600">compare</span>
+                <span className="material-symbols-outlined text-4xl mb-2 block text-gray-600">compare</span>
                 Click "Compare" on operators to analyze them side by side
               </div>
             ) : (
@@ -1498,7 +1498,7 @@ export default function ScoutingTool() {
                         <th key={p.name} className="p-3 text-center text-white">
                           {showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}
                           <button onClick={() => toggleCompare(p)} className="ml-2 text-red-400 hover:text-red-300">
-                            <span className="material-icons text-sm align-middle">close</span>
+                            <span className="material-symbols-outlined text-sm align-middle">close</span>
                           </button>
                         </th>
                       ))}
@@ -1574,7 +1574,7 @@ export default function ScoutingTool() {
             return (
               <div key={region} className="mb-8">
                 <h2 className={`text-2xl font-bold mb-4 tracking-wide badge-${region.toLowerCase()} inline-block px-4 py-2 rounded`}>
-                  <span className="material-icons mr-2 align-middle">public</span>
+                  <span className="material-symbols-outlined mr-2 align-middle">public</span>
                   {region}
                 </h2>
 
@@ -1716,7 +1716,7 @@ export default function ScoutingTool() {
             return (
               <div key={key} className="mb-8">
                 <h3 className={`text-xl font-bold mb-4 badge-${key.toLowerCase()} inline-block px-4 py-2 rounded tracking-wide`}>
-                  <span className="material-icons mr-2 align-middle text-lg">{key === 'WANT' ? 'check_circle' : key === 'MAYBE' ? 'help' : key === 'WATCH' ? 'visibility' : key === 'UNAVAILABLE' ? 'block' : 'cancel'}</span>
+                  <span className="material-symbols-outlined mr-2 align-middle text-lg">{key === 'WANT' ? 'check_circle' : key === 'MAYBE' ? 'help' : key === 'WATCH' ? 'visibility' : key === 'UNAVAILABLE' ? 'block' : 'cancel'}</span>
                   {cat.label} ({players.length})
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -1738,7 +1738,7 @@ export default function ScoutingTool() {
           })}
           {Object.keys(playerCategories).length === 0 && (
             <div className="text-center text-gray-500 py-12">
-              <span className="material-icons text-5xl mb-3 block text-gray-600">playlist_add</span>
+              <span className="material-symbols-outlined text-5xl mb-3 block text-gray-600">playlist_add</span>
               <p>No operators categorized yet</p>
               <p className="text-sm text-gray-600 mt-1">Use the Table view to categorize operators</p>
             </div>
@@ -1751,7 +1751,7 @@ export default function ScoutingTool() {
         <div className={`relative z-10 px-2 ${roster.length > 0 ? 'pb-20' : ''}`}>
           <div className="flex justify-between items-center mb-3 max-w-7xl mx-auto">
             <button onClick={selectAll} className="btn-tactical text-sm">
-              <span className="material-icons text-sm mr-1 align-middle">select_all</span>
+              <span className="material-symbols-outlined text-sm mr-1 align-middle">select_all</span>
               Select All ({filteredPlayers.length})
             </button>
             <span className="text-gray-500 text-sm tracking-wide">
@@ -1851,7 +1851,7 @@ export default function ScoutingTool() {
               </div>
               <div className="flex gap-2">
                 <button onClick={() => setRoster([])} className="btn-tactical text-xs whitespace-nowrap" title="Clear Roster">
-                  <span className="material-icons text-sm">delete_sweep</span>
+                  <span className="material-symbols-outlined text-sm">delete_sweep</span>
                 </button>
                 <button onClick={() => setView('roster')} className="btn-primary text-xs whitespace-nowrap">Full Roster</button>
               </div>
@@ -1880,7 +1880,7 @@ export default function ScoutingTool() {
                 <p className="text-primary mt-1 font-medium">{selectedPlayer.role}</p>
               </div>
               <button onClick={() => setSelectedPlayer(null)} className="text-gray-400 hover:text-primary transition-colors">
-                <span className="material-icons">close</span>
+                <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
@@ -1920,7 +1920,7 @@ export default function ScoutingTool() {
 
             <div className="tactical-panel p-4 mb-5">
               <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
-                <span className="material-icons text-sm mr-1 align-middle">trending_up</span>
+                <span className="material-symbols-outlined text-sm mr-1 align-middle">trending_up</span>
                 Performance Trend
               </div>
               <div className="flex justify-center py-2">
@@ -1930,7 +1930,7 @@ export default function ScoutingTool() {
 
             <div className="tactical-panel p-4 mb-5">
               <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
-                <span className="material-icons text-sm mr-1 align-middle">info</span>
+                <span className="material-symbols-outlined text-sm mr-1 align-middle">info</span>
                 Intel Note
               </div>
               <p className="text-gray-300">{selectedPlayer.note}</p>
@@ -1938,7 +1938,7 @@ export default function ScoutingTool() {
 
             <div className="tactical-panel p-4 mb-5">
               <div className="text-primary text-xs uppercase tracking-wide mb-2 font-semibold">
-                <span className="material-icons text-sm mr-1 align-middle">edit_note</span>
+                <span className="material-symbols-outlined text-sm mr-1 align-middle">edit_note</span>
                 Your Notes
               </div>
               <textarea
@@ -1957,11 +1957,11 @@ export default function ScoutingTool() {
                 </button>
               ))}
               <button onClick={() => toggleCompare(selectedPlayer)} className={`px-4 py-2 rounded font-medium transition-all ${compareList.find(x => x.name === selectedPlayer.name) ? 'bg-cyan-500/20 border border-cyan-500 text-cyan-400' : 'btn-tactical'}`}>
-                <span className="material-icons text-sm mr-1 align-middle">compare_arrows</span>
+                <span className="material-symbols-outlined text-sm mr-1 align-middle">compare_arrows</span>
                 {compareList.find(x => x.name === selectedPlayer.name) ? 'Remove' : 'Compare'}
               </button>
               <button onClick={() => toggleRoster(selectedPlayer)} className={`px-4 py-2 rounded font-medium transition-all ${roster.find(x => x.name === selectedPlayer.name) ? 'bg-primary/20 border border-primary text-primary' : 'btn-tactical'}`}>
-                <span className="material-icons text-sm mr-1 align-middle">person_add</span>
+                <span className="material-symbols-outlined text-sm mr-1 align-middle">person_add</span>
                 {roster.find(x => x.name === selectedPlayer.name) ? 'Remove' : 'Roster (R)'}
               </button>
             </div>
