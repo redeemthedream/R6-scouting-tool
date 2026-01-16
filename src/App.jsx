@@ -366,7 +366,7 @@ export default function ScoutingTool() {
   const [selectedPlayers, setSelectedPlayers] = useState(new Set());
   const [showFilters, setShowFilters] = useState(false);
   const [showUnavailable, setShowUnavailable] = useState(false);
-  const [showStars, setShowStars] = useState(true);
+  const [showStars, setShowStars] = useState(false);
   const [currentProfile, setCurrentProfile] = useState(() => localStorage.getItem('scoutingProfile') || 'redeem');
   const [profiles, setProfiles] = useState(() => JSON.parse(localStorage.getItem('scoutingProfiles') || '["redeem"]'));
   const [showProfileModal, setShowProfileModal] = useState(false);
