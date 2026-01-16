@@ -1458,8 +1458,8 @@ export default function ScoutingTool() {
 
       {/* Table View */}
       {view === 'table' && (
-        <div className="overflow-x-auto relative z-10">
-          <div className="flex justify-between items-center mb-3 max-w-7xl mx-auto px-2">
+        <div className="relative z-10 px-2">
+          <div className="flex justify-between items-center mb-3 max-w-7xl mx-auto">
             <button onClick={selectAll} className="btn-tactical text-sm">
               <span className="material-icons text-sm mr-1 align-middle">select_all</span>
               Select All ({filteredPlayers.length})
@@ -1468,8 +1468,8 @@ export default function ScoutingTool() {
               SHOWING <span className="text-primary">{filteredPlayers.length}</span> OF {playersData.length}
             </span>
           </div>
-          <div className="tactical-panel overflow-hidden mx-auto" style={{maxWidth: '1600px'}}>
-            <table className="table-tactical w-full text-sm">
+          <div className="tactical-panel mx-auto overflow-x-auto" style={{maxWidth: '1600px'}}>
+            <table className="table-tactical w-full text-sm min-w-[800px]">
               <thead>
                 <tr>
                   <th className="p-2 w-8"><input type="checkbox" onChange={(e) => e.target.checked ? selectAll() : clearSelection()} checked={selectedPlayers.size === filteredPlayers.length && filteredPlayers.length > 0} className="accent-primary" /></th>
