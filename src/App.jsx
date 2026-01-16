@@ -1502,7 +1502,7 @@ export default function ScoutingTool() {
               </thead>
               <tbody>
                 {filteredPlayers.map((p, i) => (
-                  <tr key={p.name} className={`cursor-pointer transition-all ${selectedPlayers.has(p.name) ? 'bg-primary/10 border-l-2 border-l-primary' : ''}`} onClick={() => setSelectedPlayer(p)}>
+                  <tr key={`${p.name}-${i}-${sortBy}-${filter.region}-${filter.role}-${filter.tier}-${filter.team}-${filter.category}`} className={`cursor-pointer transition-all ${selectedPlayers.has(p.name) ? 'bg-primary/10 border-l-2 border-l-primary' : ''}`} onClick={() => setSelectedPlayer(p)}>
                     <td className="p-2" onClick={e => e.stopPropagation()}>
                       <input type="checkbox" checked={selectedPlayers.has(p.name)} onChange={() => toggleSelect(p.name)} className="accent-primary" />
                     </td>
