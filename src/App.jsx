@@ -735,17 +735,23 @@ export default function ScoutingTool() {
       const regionPlayers = playersData.filter(p => p.region === region);
       const teams = {};
       regionPlayers.forEach(p => {
-        if (!teams[p.team]) teams[p.team] = [];
-        teams[p.team].push(p);
+        if (!teams[p.team]) teams[p.team] = { players: [], tier: p.tier };
+        teams[p.team].players.push(p);
       });
-      // Sort teams by avg rating
+      // Sort teams: T1 first, then T2, then by avg rating within each tier
       const sortedTeams = Object.entries(teams)
-        .map(([teamName, players]) => ({
+        .map(([teamName, data]) => ({
           name: teamName,
-          players: players.sort((a, b) => b.avg - a.avg),
-          avgRating: players.reduce((sum, p) => sum + p.avg, 0) / players.length
+          players: data.players.sort((a, b) => b.avg - a.avg),
+          avgRating: data.players.reduce((sum, p) => sum + p.avg, 0) / data.players.length,
+          tier: data.tier
         }))
-        .sort((a, b) => b.avgRating - a.avgRating);
+        .sort((a, b) => {
+          // T1 before T2
+          if (a.tier !== b.tier) return a.tier === 'T1' ? -1 : 1;
+          // Then by rating
+          return b.avgRating - a.avgRating;
+        });
       grouped[region] = sortedTeams;
     });
 
@@ -1474,11 +1480,14 @@ export default function ScoutingTool() {
 
       {/* Teams View */}
       {view === 'teams' && (
-        <div className="max-w-7xl mx-auto relative z-10">
+        <div className="max-w-7xl mx-auto relative z-10 px-2">
           {['NAL', 'EML', 'SAL', 'APAC'].map(region => {
             if (filter.region !== 'ALL' && filter.region !== region) return null;
             const regionTeams = teamsByRegion[region];
             if (!regionTeams || regionTeams.length === 0) return null;
+
+            const t1Teams = regionTeams.filter(t => t.tier === 'T1');
+            const t2Teams = regionTeams.filter(t => t.tier === 'T2');
 
             return (
               <div key={region} className="mb-8">
@@ -1486,46 +1495,98 @@ export default function ScoutingTool() {
                   <span className="material-icons mr-2 align-middle">public</span>
                   {region}
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {regionTeams.map(team => (
-                    <div key={team.name} className="tactical-panel tactical-panel-hover p-4">
-                      <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
-                        <h3 className="text-lg font-bold text-white">{team.name}</h3>
-                        <span className={`px-2 py-1 rounded text-sm font-bold ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
-                          {team.avgRating.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="space-y-2">
-                        {team.players.map(p => {
-                          const cat = playerCategories[p.name];
-                          const isUnavailable = cat === 'UNAVAILABLE';
-                          return (
-                          <div
-                            key={p.name}
-                            className={`flex justify-between items-center p-2 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
-                            onClick={() => setSelectedPlayer(p)}
-                          >
-                            <div className="flex items-center gap-2">
-                              <div className="flex gap-1" onClick={e => e.stopPropagation()}>
-                                <button onClick={() => setCategory(p.name, 'WANT')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-2 ring-green-300 scale-110 shadow-lg shadow-green-500/50' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
-                                <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-2 ring-yellow-300 scale-110 shadow-lg shadow-yellow-500/50' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
-                                <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-2 ring-blue-300 scale-110 shadow-lg shadow-blue-500/50' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
-                                <button onClick={() => setCategory(p.name, 'NO')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-2 ring-red-300 scale-110 shadow-lg shadow-red-500/50' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
-                                <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-7 h-6 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-2 ring-gray-300 scale-110' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
-                              </div>
-                              <span className={`font-medium ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐ ' : ''}{p.name}</span>
-                              <span className="text-xs text-gray-500">{p.role}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className={`text-sm px-2 py-1 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
-                              <span className={`text-xs font-medium ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
-                            </div>
+
+                {/* T1 Teams */}
+                {t1Teams.length > 0 && (
+                  <>
+                    <h3 className="text-sm font-semibold text-gray-400 mb-3 tracking-wider">TIER 1</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+                      {t1Teams.map(team => (
+                        <div key={team.name} className="tactical-panel tactical-panel-hover p-4">
+                          <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
+                            <h3 className="text-lg font-bold text-white truncate mr-2">{team.name}</h3>
+                            <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
+                              {team.avgRating.toFixed(2)}
+                            </span>
                           </div>
-                        );})}
-                      </div>
+                          <div className="space-y-1.5">
+                            {team.players.map(p => {
+                              const cat = playerCategories[p.name];
+                              const isUnavailable = cat === 'UNAVAILABLE';
+                              return (
+                              <div
+                                key={p.name}
+                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
+                                onClick={() => setSelectedPlayer(p)}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                  <div className="flex gap-0.5 flex-shrink-0" onClick={e => e.stopPropagation()}>
+                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
+                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
+                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
+                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
+                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-1 ring-gray-300' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
+                                  </div>
+                                  <span className={`text-sm font-medium truncate ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
+                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                                  <span className={`text-xs font-medium w-10 text-right ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                </div>
+                              </div>
+                            );})}
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                  ))}
-                </div>
+                  </>
+                )}
+
+                {/* T2 Teams */}
+                {t2Teams.length > 0 && (
+                  <>
+                    <h3 className="text-sm font-semibold text-yellow-500 mb-3 tracking-wider">TIER 2 / LCQ</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {t2Teams.map(team => (
+                        <div key={team.name} className="tactical-panel tactical-panel-hover p-4 border-l-2 border-l-yellow-500/50">
+                          <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
+                            <h3 className="text-lg font-bold text-white truncate mr-2">{team.name}</h3>
+                            <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
+                              {team.avgRating.toFixed(2)}
+                            </span>
+                          </div>
+                          <div className="space-y-1.5">
+                            {team.players.map(p => {
+                              const cat = playerCategories[p.name];
+                              const isUnavailable = cat === 'UNAVAILABLE';
+                              return (
+                              <div
+                                key={p.name}
+                                className={`flex items-center justify-between p-1.5 rounded cursor-pointer transition-all ${isUnavailable ? 'bg-gray-800/50 opacity-50' : 'bg-panel-dark hover:bg-primary/10'}`}
+                                onClick={() => setSelectedPlayer(p)}
+                              >
+                                <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                  <div className="flex gap-0.5 flex-shrink-0" onClick={e => e.stopPropagation()}>
+                                    <button onClick={() => setCategory(p.name, 'WANT')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WANT' ? 'bg-green-500 text-white ring-1 ring-green-300' : 'bg-green-900/50 text-green-400 hover:bg-green-600'}`}>W</button>
+                                    <button onClick={() => setCategory(p.name, 'MAYBE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'MAYBE' ? 'bg-yellow-500 text-black ring-1 ring-yellow-300' : 'bg-yellow-900/50 text-yellow-400 hover:bg-yellow-600'}`}>M</button>
+                                    <button onClick={() => setCategory(p.name, 'WATCH')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'WATCH' ? 'bg-blue-500 text-white ring-1 ring-blue-300' : 'bg-blue-900/50 text-blue-400 hover:bg-blue-600'}`}>?</button>
+                                    <button onClick={() => setCategory(p.name, 'NO')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${cat === 'NO' ? 'bg-red-500 text-white ring-1 ring-red-300' : 'bg-red-900/50 text-red-400 hover:bg-red-600'}`}>N</button>
+                                    <button onClick={() => setCategory(p.name, 'UNAVAILABLE')} className={`w-6 h-5 rounded text-xs font-bold transition-all ${isUnavailable ? 'bg-gray-500 text-white ring-1 ring-gray-300' : 'bg-gray-800 text-gray-500 hover:bg-gray-600'}`}>X</button>
+                                  </div>
+                                  <span className={`text-sm font-medium truncate ${isUnavailable ? 'text-gray-500 line-through' : 'text-white'}`}>{showStars && p.star ? '⭐' : ''}{p.name}</span>
+                                </div>
+                                <div className="flex items-center gap-1.5 flex-shrink-0 ml-1">
+                                  <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${isUnavailable ? 'text-gray-600' : p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span>
+                                  <span className={`text-xs font-medium w-10 text-right ${isUnavailable ? 'text-gray-600' : getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</span>
+                                </div>
+                              </div>
+                            );})}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             );
           })}
