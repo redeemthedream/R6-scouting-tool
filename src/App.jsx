@@ -593,6 +593,11 @@ export default function ScoutingTool() {
   };
 
   const filteredPlayers = useMemo(() => {
+    console.log('=== FILTER DEBUG ===');
+    console.log('filter state:', filter);
+    console.log('sortBy:', sortBy);
+    console.log('playersData length:', playersData.length);
+
     let result = [...playersData];
 
     // Handle unavailable toggle
@@ -668,6 +673,9 @@ export default function ScoutingTool() {
       if (sortBy === 'team') return a.team.localeCompare(b.team);
       return 0;
     });
+
+    console.log('filtered result count:', result.length);
+    console.log('first 3 players:', result.slice(0, 3).map(p => ({ name: p.name, avg: p.avg, region: p.region })));
 
     return result;
   }, [filter, statFilters, sortBy, searchTerm, playerCategories, showUnavailable]);
