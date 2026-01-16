@@ -1381,6 +1381,44 @@ export default function ScoutingTool() {
               </>
             )}
           </div>
+
+          {/* Categorized Players - Quick Add */}
+          {Object.keys(playerCategories).length > 0 && (
+            <div className="tactical-panel p-5 mt-4">
+              <h3 className="text-lg font-bold mb-4 text-gray-300 tracking-wide">
+                <span className="material-icons mr-2 align-middle text-primary">bookmark</span>
+                YOUR PICKS - Quick Add to Roster
+              </h3>
+              <div className="space-y-4">
+                {['WANT', 'MAYBE', 'WATCH'].map(cat => {
+                  const catPlayers = playersData.filter(p => playerCategories[p.name] === cat && !roster.find(r => r.name === p.name));
+                  if (catPlayers.length === 0) return null;
+                  return (
+                    <div key={cat}>
+                      <h4 className={`text-sm font-semibold mb-2 badge-${cat.toLowerCase()} inline-block px-2 py-1 rounded`}>
+                        {cat === 'WANT' ? 'Want' : cat === 'MAYBE' ? 'Maybe' : 'Watch'} ({catPlayers.length})
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {catPlayers.sort((a, b) => b.avg - a.avg).map(p => (
+                          <button
+                            key={p.name}
+                            onClick={() => roster.length < 5 && toggleRoster(p)}
+                            disabled={roster.length >= 5}
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded border transition-all ${roster.length >= 5 ? 'bg-gray-800 border-gray-700 text-gray-500 cursor-not-allowed' : 'bg-panel border-panel-border hover:border-primary/50 hover:bg-primary/10'}`}
+                          >
+                            <span className="text-sm font-medium text-white">{p.name}</span>
+                            <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${p.avg >= 1.10 ? 'rating-elite' : p.avg >= 1.00 ? 'rating-good' : 'rating-avg'}`}>{p.avg.toFixed(2)}</span>
+                            <span className={`text-xs ${getRoleClass(p.role)} px-1 py-0.5 rounded`}>{p.role}</span>
+                            <span className="text-green-400 text-xs">+</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -1465,7 +1503,7 @@ export default function ScoutingTool() {
 
       {/* Teams View */}
       {view === 'teams' && (
-        <div className="max-w-7xl mx-auto relative z-10 px-2">
+        <div className={`max-w-7xl mx-auto relative z-10 px-2 ${roster.length > 0 ? 'pb-20' : ''}`}>
           {['NAL', 'EML', 'SAL'].map(region => {
             if (filter.region !== 'ALL' && filter.region !== region) return null;
             const regionTeams = teamsByRegion[region];
@@ -1621,7 +1659,7 @@ export default function ScoutingTool() {
 
       {/* Table View */}
       {view === 'table' && (
-        <div className="relative z-10 px-2">
+        <div className={`relative z-10 px-2 ${roster.length > 0 ? 'pb-20' : ''}`}>
           <div className="flex justify-between items-center mb-3 max-w-7xl mx-auto">
             <button onClick={selectAll} className="btn-tactical text-sm">
               <span className="material-icons text-sm mr-1 align-middle">select_all</span>
@@ -1695,6 +1733,27 @@ export default function ScoutingTool() {
             </table>
           </div>
           {filteredPlayers.length === 0 && <div className="text-center text-gray-500 py-8">No operators match filters</div>}
+        </div>
+      )}
+
+      {/* Floating Roster Bar - Shows when in Teams/Table view */}
+      {(view === 'teams' || view === 'table') && roster.length > 0 && (
+        <div className="fixed bottom-0 left-0 right-0 bg-panel-dark/95 backdrop-blur-sm border-t border-primary/30 z-40">
+          <div className="max-w-7xl mx-auto px-4 py-3">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold whitespace-nowrap">Roster ({roster.length}/5)</span>
+              <div className="flex gap-2 overflow-x-auto flex-1 pb-1">
+                {roster.map(p => (
+                  <div key={p.name} className="flex items-center gap-2 bg-panel px-3 py-1.5 rounded border border-panel-border flex-shrink-0">
+                    <span className="text-sm font-medium text-white">{p.name}</span>
+                    <span className={`text-xs px-1.5 py-0.5 rounded font-bold ${p.avg >= 1.10 ? 'rating-elite' : p.avg >= 1.00 ? 'rating-good' : 'rating-avg'}`}>{p.avg.toFixed(2)}</span>
+                    <button onClick={() => toggleRoster(p)} className="text-red-400 hover:text-red-300 text-xs">✕</button>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => setView('roster')} className="btn-primary text-xs whitespace-nowrap">View Full Roster</button>
+            </div>
+          </div>
         </div>
       )}
 
