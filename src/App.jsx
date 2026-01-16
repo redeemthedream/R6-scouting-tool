@@ -732,6 +732,8 @@ export default function ScoutingTool() {
           name: teamName,
           players: data.players.sort((a, b) => b.avg - a.avg),
           avgRating: data.players.reduce((sum, p) => sum + p.avg, 0) / data.players.length,
+          avgPeak: data.players.reduce((sum, p) => sum + p.peak, 0) / data.players.length,
+          avgTrend: data.players.reduce((sum, p) => sum + p.trend, 0) / data.players.length,
           tier: data.tier
         }))
         .sort((a, b) => {
@@ -1581,13 +1583,21 @@ export default function ScoutingTool() {
                   <>
                     <h3 className="text-sm font-semibold text-gray-400 mb-3 tracking-wider">TIER 1</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-                      {t1Teams.map(team => (
+                      {t1Teams.map(team => {
+                        const teamStat = rosterStatMode === 'peak' ? team.avgPeak : rosterStatMode === 'trend' ? team.avgTrend : team.avgRating;
+                        return (
                         <div key={team.name} className="tactical-panel tactical-panel-hover p-4">
                           <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
                             <h3 className="text-lg font-bold text-white truncate mr-2">{team.name}</h3>
-                            <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
-                              {team.avgRating.toFixed(2)}
-                            </span>
+                            {rosterStatMode === 'trend' ? (
+                              <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${getTrendColor(teamStat)}`}>
+                                {teamStat >= 0 ? '+' : ''}{teamStat.toFixed(2)}
+                              </span>
+                            ) : (
+                              <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${teamStat >= 1.10 ? 'rating-elite' : teamStat >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
+                                {teamStat.toFixed(2)}
+                              </span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             {team.players.map(p => {
@@ -1625,7 +1635,7 @@ export default function ScoutingTool() {
                             );})}
                           </div>
                         </div>
-                      ))}
+                      );})}
                     </div>
                   </>
                 )}
@@ -1635,13 +1645,21 @@ export default function ScoutingTool() {
                   <>
                     <h3 className="text-sm font-semibold text-yellow-500 mb-3 tracking-wider">TIER 2 / LCQ</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {t2Teams.map(team => (
+                      {t2Teams.map(team => {
+                        const teamStat = rosterStatMode === 'peak' ? team.avgPeak : rosterStatMode === 'trend' ? team.avgTrend : team.avgRating;
+                        return (
                         <div key={team.name} className="tactical-panel tactical-panel-hover p-4 border-l-2 border-l-yellow-500/50">
                           <div className="flex justify-between items-center mb-3 border-b border-panel-border pb-3">
                             <h3 className="text-lg font-bold text-white truncate mr-2">{team.name}</h3>
-                            <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${team.avgRating >= 1.10 ? 'rating-elite' : team.avgRating >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
-                              {team.avgRating.toFixed(2)}
-                            </span>
+                            {rosterStatMode === 'trend' ? (
+                              <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${getTrendColor(teamStat)}`}>
+                                {teamStat >= 0 ? '+' : ''}{teamStat.toFixed(2)}
+                              </span>
+                            ) : (
+                              <span className={`px-2 py-1 rounded text-sm font-bold whitespace-nowrap ${teamStat >= 1.10 ? 'rating-elite' : teamStat >= 1.00 ? 'rating-good' : 'rating-avg'}`}>
+                                {teamStat.toFixed(2)}
+                              </span>
+                            )}
                           </div>
                           <div className="space-y-1.5">
                             {team.players.map(p => {
@@ -1679,7 +1697,7 @@ export default function ScoutingTool() {
                             );})}
                           </div>
                         </div>
-                      ))}
+                      );})}
                     </div>
                   </>
                 )}
