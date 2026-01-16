@@ -996,107 +996,107 @@ export default function ScoutingTool() {
       </div>
 
       {/* Stats Bar */}
-      <div className="flex justify-center gap-3 mb-6 flex-wrap relative z-10">
-        <div className="badge-want px-4 py-2 rounded font-semibold tracking-wide">
-          <span className="material-icons text-sm mr-1 align-middle">check_circle</span>
-          WANT: {stats.want}
+      <div className="flex justify-center gap-2 md:gap-3 mb-6 flex-wrap relative z-10 px-2">
+        <div className="badge-want px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">check_circle</span>
+          <span className="hidden sm:inline">WANT: </span>{stats.want}
         </div>
-        <div className="badge-maybe px-4 py-2 rounded font-semibold tracking-wide">
-          <span className="material-icons text-sm mr-1 align-middle">help</span>
-          MAYBE: {stats.maybe}
+        <div className="badge-maybe px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">help</span>
+          <span className="hidden sm:inline">MAYBE: </span>{stats.maybe}
         </div>
-        <div className="badge-watch px-4 py-2 rounded font-semibold tracking-wide">
-          <span className="material-icons text-sm mr-1 align-middle">visibility</span>
-          WATCH: {stats.watch}
+        <div className="badge-watch px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">visibility</span>
+          <span className="hidden sm:inline">WATCH: </span>{stats.watch}
         </div>
-        <div className="badge-no px-4 py-2 rounded font-semibold tracking-wide">
-          <span className="material-icons text-sm mr-1 align-middle">cancel</span>
-          NO: {stats.no}
+        <div className="badge-no px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">cancel</span>
+          <span className="hidden sm:inline">NO: </span>{stats.no}
         </div>
-        <div className="badge-unavailable px-4 py-2 rounded font-semibold tracking-wide">
-          <span className="material-icons text-sm mr-1 align-middle">block</span>
-          N/A: {stats.unavailable}
+        <div className="badge-unavailable px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">block</span>
+          <span className="hidden sm:inline">N/A: </span>{stats.unavailable}
         </div>
-        <div className="px-4 py-2 rounded font-semibold tracking-wide bg-purple-500/20 border border-purple-500 text-purple-400">
-          <span className="material-icons text-sm mr-1 align-middle">star</span>
-          ELITE: {stats.stars}
+        <div className="px-2 md:px-4 py-1.5 md:py-2 rounded font-semibold tracking-wide bg-purple-500/20 border border-purple-500 text-purple-400 text-xs md:text-sm">
+          <span className="material-icons text-xs md:text-sm mr-0.5 md:mr-1 align-middle">star</span>
+          <span className="hidden sm:inline">ELITE: </span>{stats.stars}
         </div>
       </div>
 
       {/* View Toggles */}
-      <div className="flex justify-center gap-2 mb-4 flex-wrap relative z-10">
-        <button onClick={() => setView('table')} className={`btn-tactical ${view === 'table' ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">table_chart</span>TABLE
+      <div className="flex justify-center gap-1.5 md:gap-2 mb-4 flex-wrap relative z-10 px-2">
+        <button onClick={() => setView('table')} className={`btn-tactical text-xs md:text-sm ${view === 'table' ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">table_chart</span><span className="hidden md:inline">TABLE</span>
         </button>
-        <button onClick={() => setView('teams')} className={`btn-tactical ${view === 'teams' ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">groups</span>TEAMS
+        <button onClick={() => setView('teams')} className={`btn-tactical text-xs md:text-sm ${view === 'teams' ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">groups</span><span className="hidden md:inline">TEAMS</span>
         </button>
-        <button onClick={() => setView('summary')} className={`btn-tactical ${view === 'summary' ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">playlist_add_check</span>MY PICKS
+        <button onClick={() => setView('summary')} className={`btn-tactical text-xs md:text-sm ${view === 'summary' ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">playlist_add_check</span><span className="hidden md:inline">MY PICKS</span>
         </button>
-        <button onClick={() => setView('roster')} className={`btn-tactical ${view === 'roster' ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">assignment_ind</span>ROSTER ({roster.length}/5)
+        <button onClick={() => setView('roster')} className={`btn-tactical text-xs md:text-sm ${view === 'roster' ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">assignment_ind</span><span className="hidden sm:inline">ROSTER</span> ({roster.length}/5)
         </button>
-        <button onClick={() => setView('compare')} className={`btn-tactical ${view === 'compare' ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">compare_arrows</span>COMPARE ({compareList.length})
+        <button onClick={() => setView('compare')} className={`btn-tactical text-xs md:text-sm ${view === 'compare' ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">compare_arrows</span><span className="hidden md:inline">COMPARE</span> ({compareList.length})
         </button>
-        <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical ${filter.starOnly ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">star</span>ELITE ONLY
+        <button onClick={() => setFilter({...filter, starOnly: !filter.starOnly})} className={`btn-tactical text-xs md:text-sm ${filter.starOnly ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">star</span><span className="hidden lg:inline">ELITE ONLY</span>
         </button>
-        <button onClick={() => setShowUnavailable(!showUnavailable)} className={`btn-tactical ${showUnavailable ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">block</span>SHOW N/A
+        <button onClick={() => setShowUnavailable(!showUnavailable)} className={`btn-tactical text-xs md:text-sm ${showUnavailable ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">block</span><span className="hidden lg:inline">SHOW N/A</span>
         </button>
-        <button onClick={() => setShowExport(!showExport)} className="btn-primary">
-          <span className="material-icons text-sm mr-1 align-middle">file_download</span>EXPORT
+        <button onClick={() => setShowExport(!showExport)} className="btn-primary text-xs md:text-sm">
+          <span className="material-icons text-sm md:mr-1 align-middle">file_download</span><span className="hidden sm:inline">EXPORT</span>
         </button>
-        <button onClick={() => setShowFilters(!showFilters)} className={`btn-tactical ${showFilters ? 'active' : ''}`}>
-          <span className="material-icons text-sm mr-1 align-middle">tune</span>FILTERS
+        <button onClick={() => setShowFilters(!showFilters)} className={`btn-tactical text-xs md:text-sm ${showFilters ? 'active' : ''}`}>
+          <span className="material-icons text-sm md:mr-1 align-middle">tune</span><span className="hidden sm:inline">FILTERS</span>
         </button>
       </div>
 
       {/* Filters */}
-      <div className="flex flex-wrap justify-center gap-2 mb-4 relative z-10">
-        <div className="relative">
+      <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-4 relative z-10 px-2">
+        <div className="relative w-full sm:w-auto">
           <span className="material-icons absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">search</span>
-          <input type="text" placeholder="Search operators..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="input-tactical pl-9 w-52" />
+          <input type="text" placeholder="Search..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="input-tactical pl-9 w-full sm:w-40 md:w-52 text-sm" />
         </div>
-        <select value={filter.region} onChange={e => setFilter({...filter, region: e.target.value})} className="input-tactical">
-          <option value="ALL">All Regions</option>
+        <select value={filter.region} onChange={e => setFilter({...filter, region: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
+          <option value="ALL">Region</option>
           <option value="NAL">NAL</option>
           <option value="EML">EML</option>
           <option value="SAL">SAL</option>
           <option value="APAC">APAC</option>
         </select>
-        <select value={filter.role} onChange={e => setFilter({...filter, role: e.target.value})} className="input-tactical">
-          <option value="ALL">All Roles</option>
+        <select value={filter.role} onChange={e => setFilter({...filter, role: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
+          <option value="ALL">Role</option>
           <option value="Entry">Entry</option>
           <option value="Flex">Flex</option>
-          <option value="Sup/Anchor">Sup/Anchor</option>
+          <option value="Sup/Anchor">Support</option>
           <option value="IGL">IGL</option>
         </select>
-        <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="input-tactical">
-          <option value="ALL">All Tiers</option>
-          <option value="T1">T1 Only</option>
-          <option value="T2">T2 Rising</option>
+        <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
+          <option value="ALL">Tier</option>
+          <option value="T1">T1</option>
+          <option value="T2">T2</option>
         </select>
-        <select value={filter.team} onChange={e => setFilter({...filter, team: e.target.value})} className="input-tactical">
-          <option value="ALL">All Teams</option>
+        <select value={filter.team} onChange={e => setFilter({...filter, team: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none hidden sm:block">
+          <option value="ALL">Team</option>
           {allTeams.map(team => <option key={team} value={team}>{team}</option>)}
         </select>
-        <select value={filter.category} onChange={e => setFilter({...filter, category: e.target.value})} className="input-tactical">
-          <option value="ALL">All Status</option>
+        <select value={filter.category} onChange={e => setFilter({...filter, category: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
+          <option value="ALL">Status</option>
           <option value="WANT">Want</option>
           <option value="MAYBE">Maybe</option>
           <option value="WATCH">Watch</option>
           <option value="NO">No</option>
-          <option value="UNAVAILABLE">Unavailable</option>
-          <option value="UNCATEGORIZED">Uncategorized</option>
+          <option value="UNAVAILABLE">N/A</option>
+          <option value="UNCATEGORIZED">Uncat.</option>
         </select>
-        <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="input-tactical">
-          <option value="avg">Sort: Avg</option>
-          <option value="peak">Sort: Peak</option>
-          <option value="trend">Sort: Trend</option>
-          <option value="team">Sort: Team</option>
+        <select value={sortBy} onChange={e => setSortBy(e.target.value)} className="input-tactical text-sm flex-1 sm:flex-none">
+          <option value="avg">Avg</option>
+          <option value="peak">Peak</option>
+          <option value="trend">Trend</option>
+          <option value="team">Team</option>
         </select>
       </div>
 
@@ -1477,15 +1477,15 @@ export default function ScoutingTool() {
                   <th className="p-2 text-left">Operator</th>
                   <th className="p-2 text-left">Team</th>
                   <th className="p-2">Region</th>
-                  <th className="p-2">Role</th>
+                  <th className="p-2 hidden sm:table-cell">Role</th>
                   <th className="p-2">Avg</th>
                   <th className="p-2">Peak</th>
-                  <th className="p-2">Floor</th>
-                  <th className="p-2">S1</th>
-                  <th className="p-2">S2</th>
-                  <th className="p-2">Major</th>
+                  <th className="p-2 hidden lg:table-cell">Floor</th>
+                  <th className="p-2 hidden xl:table-cell">S1</th>
+                  <th className="p-2 hidden xl:table-cell">S2</th>
+                  <th className="p-2 hidden lg:table-cell">Major</th>
                   <th className="p-2">Trend</th>
-                  <th className="p-2 text-left" style={{minWidth: '200px'}}>Intel</th>
+                  <th className="p-2 text-left hidden md:table-cell" style={{minWidth: '200px'}}>Intel</th>
                 </tr>
               </thead>
               <tbody>
@@ -1517,15 +1517,15 @@ export default function ScoutingTool() {
                     <td className="p-2 font-bold text-white whitespace-nowrap">{p.star ? '⭐ ' : ''}{p.name}</td>
                     <td className="p-2 text-gray-400 text-xs">{p.team}</td>
                     <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
-                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getRoleClass(p.role)}`}>{p.role}</span></td>
+                    <td className="p-2 text-center hidden sm:table-cell"><span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getRoleClass(p.role)}`}>{p.role}</span></td>
                     <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.avg >= 1.20 ? 'rating-elite' : p.avg >= 1.10 ? 'rating-good' : p.avg >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.avg.toFixed(2)}</span></td>
                     <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.peak >= 1.20 ? 'rating-elite' : p.peak >= 1.10 ? 'rating-good' : p.peak >= 1.00 ? 'rating-avg' : 'rating-low'}`}>{p.peak.toFixed(2)}</span></td>
-                    <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.floor >= 1.00 ? 'rating-good' : p.floor >= 0.85 ? 'rating-avg' : 'rating-low'}`}>{p.floor.toFixed(2)}</span></td>
-                    <td className="p-2 text-center text-xs text-gray-400">{p.s1?.toFixed(2) || '-'}</td>
-                    <td className="p-2 text-center text-xs text-gray-400">{p.s2?.toFixed(2) || '-'}</td>
-                    <td className="p-2 text-center text-xs text-gray-400">{p.majorAvg?.toFixed(2) || '-'}</td>
+                    <td className="p-2 text-center hidden lg:table-cell"><span className={`px-1.5 py-0.5 rounded text-xs font-bold ${p.floor >= 1.00 ? 'rating-good' : p.floor >= 0.85 ? 'rating-avg' : 'rating-low'}`}>{p.floor.toFixed(2)}</span></td>
+                    <td className="p-2 text-center text-xs text-gray-400 hidden xl:table-cell">{p.s1?.toFixed(2) || '-'}</td>
+                    <td className="p-2 text-center text-xs text-gray-400 hidden xl:table-cell">{p.s2?.toFixed(2) || '-'}</td>
+                    <td className="p-2 text-center text-xs text-gray-400 hidden lg:table-cell">{p.majorAvg?.toFixed(2) || '-'}</td>
                     <td className={`p-2 text-center font-bold text-xs ${getTrendColor(p.trend)}`}>{p.trend >= 0 ? '+' : ''}{p.trend.toFixed(2)}</td>
-                    <td className="p-2 text-xs text-gray-400" style={{minWidth: '200px'}}>{p.note}</td>
+                    <td className="p-2 text-xs text-gray-400 hidden md:table-cell" style={{minWidth: '200px'}}>{p.note}</td>
                   </tr>
                 ))}
               </tbody>

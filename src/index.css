@@ -339,3 +339,76 @@ body {
   border-radius: 50%;
   animation: pulse-glow 2s ease-in-out infinite;
 }
+
+/* ==================== */
+/* MOBILE RESPONSIVENESS */
+/* ==================== */
+
+/* Mobile-first base adjustments */
+@media (max-width: 768px) {
+  /* Smaller padding on mobile */
+  .tactical-panel {
+    padding: 0.75rem;
+  }
+
+  /* Larger touch targets for buttons */
+  .btn-tactical,
+  .btn-primary {
+    min-height: 44px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  /* Full-width inputs on mobile */
+  .input-tactical {
+    min-height: 44px;
+    font-size: 16px; /* Prevents iOS zoom */
+  }
+
+  /* Smaller table text */
+  .table-tactical th {
+    padding: 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .table-tactical td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  /* Stack category buttons vertically */
+  .mobile-stack {
+    flex-direction: column;
+  }
+
+  /* Horizontal scroll hint */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Smaller badges on mobile */
+  .badge-nal, .badge-eml, .badge-sal, .badge-apac,
+  .role-entry, .role-flex, .role-support, .role-igl,
+  .rating-elite, .rating-good, .rating-avg, .rating-low {
+    font-size: 0.65rem;
+    padding: 0.125rem 0.375rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Even smaller on very small screens */
+  .table-tactical th {
+    padding: 0.375rem;
+    font-size: 0.6rem;
+  }
+
+  .table-tactical td {
+    padding: 0.375rem;
+    font-size: 0.7rem;
+  }
+
+  /* Hide less important columns on tiny screens */
+  .hide-mobile {
+    display: none;
+  }
+}
