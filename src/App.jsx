@@ -1183,7 +1183,7 @@ export default function ScoutingTool() {
         <select value={filter.tier} onChange={e => setFilter({...filter, tier: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none">
           <option value="ALL">Tier</option>
           <option value="T1">T1</option>
-          <option value="T2">T2</option>
+          <option value="T2">LCQ</option>
         </select>
         <select value={filter.team} onChange={e => setFilter({...filter, team: e.target.value})} className="input-tactical text-sm flex-1 sm:flex-none hidden sm:block">
           <option value="ALL">Team</option>
