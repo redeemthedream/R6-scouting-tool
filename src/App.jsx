@@ -675,7 +675,8 @@ export default function ScoutingTool() {
     });
 
     console.log('filtered result count:', result.length);
-    console.log('first 3 players:', result.slice(0, 3).map(p => ({ name: p.name, avg: p.avg, region: p.region })));
+    console.log('sortBy:', sortBy);
+    console.log('first 5 players after sort:', result.slice(0, 5).map(p => `${p.name}: ${p.avg}`));
 
     return result;
   }, [filter, statFilters, sortBy, searchTerm, playerCategories, showUnavailable]);
@@ -1106,8 +1107,8 @@ export default function ScoutingTool() {
           <option value="trend">Sort: Trend</option>
           <option value="team">Sort: Team</option>
         </select>
-        <div className="bg-red-600 text-white px-4 py-2 rounded font-bold">
-          DEBUG: {filteredPlayers.length} players | Sort: {sortBy} | Region: {filter.region}
+        <div className="bg-red-600 text-white px-4 py-2 rounded font-bold text-sm">
+          DEBUG: {filteredPlayers.length} players | Sort: {sortBy} | #1: {filteredPlayers[0]?.name} ({filteredPlayers[0]?.avg})
         </div>
       </div>
 
