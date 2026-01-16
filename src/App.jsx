@@ -593,11 +593,6 @@ export default function ScoutingTool() {
   };
 
   const filteredPlayers = useMemo(() => {
-    console.log('=== FILTER DEBUG ===');
-    console.log('filter state:', filter);
-    console.log('sortBy:', sortBy);
-    console.log('playersData length:', playersData.length);
-
     let result = [...playersData];
 
     // Handle unavailable toggle
@@ -673,10 +668,6 @@ export default function ScoutingTool() {
       if (sortBy === 'team') return a.team.localeCompare(b.team);
       return 0;
     });
-
-    console.log('filtered result count:', result.length);
-    console.log('sortBy:', sortBy);
-    console.log('first 5 players after sort:', result.slice(0, 5).map(p => `${p.name}: ${p.avg}`));
 
     return result;
   }, [filter, statFilters, sortBy, searchTerm, playerCategories, showUnavailable]);
@@ -1107,9 +1098,6 @@ export default function ScoutingTool() {
           <option value="trend">Sort: Trend</option>
           <option value="team">Sort: Team</option>
         </select>
-        <div className="bg-red-600 text-white px-4 py-2 rounded font-bold text-sm">
-          DEBUG: {filteredPlayers.length} players | Sort: {sortBy} | #1: {filteredPlayers[0]?.name} ({sortBy === 'avg' ? filteredPlayers[0]?.avg : sortBy === 'peak' ? filteredPlayers[0]?.peak : sortBy === 'trend' ? filteredPlayers[0]?.trend : filteredPlayers[0]?.team})
-        </div>
       </div>
 
       {/* Advanced Stat Filters */}
