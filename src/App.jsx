@@ -996,11 +996,10 @@ export default function ScoutingTool() {
       <div className="text-center mb-8 relative z-10">
         <div className="flex items-center justify-center gap-4 mb-2">
           <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-primary text-4xl">radar</span>
+            <span className="material-symbols-outlined text-primary text-4xl">shield</span>
             <h1 className="text-3xl font-bold tracking-wider">
               <span className="text-white">R6</span>
-              <span className="text-primary text-glow"> TACTICAL</span>
-              <span className="text-white"> SCOUT</span>
+              <span className="text-primary text-glow"> SCOUT</span>
             </h1>
           </div>
           <div className={`live-indicator ${
