@@ -996,7 +996,7 @@ export default function ScoutingTool() {
       <div className="text-center mb-8 relative z-10">
         <div className="flex items-center justify-center gap-4 mb-2">
           <div className="flex items-center gap-4">
-            <span className="material-symbols-outlined text-primary text-6xl">shield</span>
+            <span className="material-symbols-outlined text-primary text-6xl">radar</span>
             <h1 className="text-5xl font-bold tracking-wider">
               <span className="text-white">R6</span>
               <span className="text-primary text-glow"> SCOUT</span>
