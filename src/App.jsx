@@ -1206,6 +1206,19 @@ export default function ScoutingTool() {
           <option value="trend">Trend</option>
           <option value="team">Team</option>
         </select>
+        {(filter.region !== 'ALL' || filter.role !== 'ALL' || filter.tier !== 'ALL' || filter.category !== 'ALL' || filter.team !== 'ALL' || searchTerm) && (
+          <button
+            onClick={() => {
+              setFilter({ region: 'ALL', role: 'ALL', tier: 'ALL', category: 'ALL', team: 'ALL', starOnly: false });
+              setSearchTerm('');
+              setStatFilters({ minAvg: '', maxAvg: '', minTrend: '', maxTrend: '' });
+            }}
+            className="btn-tactical text-xs text-red-400 border-red-500/50 hover:border-red-500"
+            title="Reset All Filters"
+          >
+            <span className="material-icons text-sm">filter_alt_off</span>
+          </button>
+        )}
       </div>
 
       {/* Advanced Stat Filters */}
@@ -1327,15 +1340,31 @@ export default function ScoutingTool() {
       {view === 'roster' && (
         <div className="max-w-4xl mx-auto mb-6 relative z-10">
           <div className="tactical-panel p-5">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
               <h3 className="text-xl font-bold text-primary tracking-wide">
                 <span className="material-icons mr-2 align-middle">groups</span>
                 TEAM BUILDER
               </h3>
-              <div className="flex gap-1">
-                <button onClick={() => setRosterStatMode('avg')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'avg' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>AVG</button>
-                <button onClick={() => setRosterStatMode('peak')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'peak' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>PEAK</button>
-                <button onClick={() => setRosterStatMode('trend')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'trend' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>TREND</button>
+              <div className="flex gap-3 items-center">
+                <div className="flex gap-1">
+                  <button onClick={() => setRosterStatMode('avg')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'avg' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>AVG</button>
+                  <button onClick={() => setRosterStatMode('peak')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'peak' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>PEAK</button>
+                  <button onClick={() => setRosterStatMode('trend')} className={`px-3 py-1 rounded text-xs font-bold transition-all ${rosterStatMode === 'trend' ? 'bg-primary text-white' : 'bg-panel-light text-gray-400 hover:text-white'}`}>TREND</button>
+                </div>
+                {roster.length > 0 && (
+                  <div className="flex gap-1">
+                    <button onClick={() => {
+                      const text = roster.map(p => `${p.name} (${p.role}) - ${p.avg.toFixed(2)}`).join('\n');
+                      const avgRating = (roster.reduce((sum, p) => sum + p.avg, 0) / roster.length).toFixed(2);
+                      navigator.clipboard.writeText(`Team Roster:\n${text}\n\nTeam Avg: ${avgRating}`);
+                    }} className="btn-tactical text-xs" title="Copy Roster">
+                      <span className="material-icons text-sm">content_copy</span>
+                    </button>
+                    <button onClick={() => setRoster([])} className="btn-tactical text-xs" title="Clear Roster">
+                      <span className="material-icons text-sm">delete_sweep</span>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -1762,7 +1791,16 @@ export default function ScoutingTool() {
         <div className="fixed bottom-0 left-0 right-0 bg-panel-dark/95 backdrop-blur-sm border-t border-primary/30 z-40">
           <div className="max-w-7xl mx-auto px-4 py-3">
             <div className="flex items-center gap-3">
-              <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold whitespace-nowrap">Roster ({roster.length}/5)</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold whitespace-nowrap">Roster ({roster.length}/5)</span>
+                {rosterAnalysis && (
+                  <div className="flex gap-1">
+                    <span className={`px-1 py-0.5 rounded text-[10px] ${rosterAnalysis.hasIGL ? 'badge-want' : 'badge-no'}`}>IGL</span>
+                    <span className={`px-1 py-0.5 rounded text-[10px] ${rosterAnalysis.hasEntry ? 'badge-want' : 'badge-no'}`}>Entry</span>
+                    <span className={`px-1 py-0.5 rounded text-[10px] ${rosterAnalysis.hasSupport ? 'badge-want' : 'badge-no'}`}>Sup</span>
+                  </div>
+                )}
+              </div>
               <div className="flex gap-2 overflow-x-auto flex-1 pb-1">
                 {roster.map(p => (
                   <div key={p.name} className="flex items-center gap-2 bg-panel px-3 py-1.5 rounded border border-panel-border flex-shrink-0">
@@ -1772,7 +1810,12 @@ export default function ScoutingTool() {
                   </div>
                 ))}
               </div>
-              <button onClick={() => setView('roster')} className="btn-primary text-xs whitespace-nowrap">View Full Roster</button>
+              <div className="flex gap-2">
+                <button onClick={() => setRoster([])} className="btn-tactical text-xs whitespace-nowrap" title="Clear Roster">
+                  <span className="material-icons text-sm">delete_sweep</span>
+                </button>
+                <button onClick={() => setView('roster')} className="btn-primary text-xs whitespace-nowrap">Full Roster</button>
+              </div>
             </div>
           </div>
         </div>
