@@ -371,6 +371,8 @@ export default function ScoutingTool() {
   const [profiles, setProfiles] = useState(() => JSON.parse(localStorage.getItem('scoutingProfiles') || '["redeem"]'));
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
+  const [editingProfile, setEditingProfile] = useState(null);
+  const [editProfileName, setEditProfileName] = useState('');
 
   // Save profile to localStorage when it changes
   useEffect(() => {
@@ -1076,22 +1078,72 @@ export default function ScoutingTool() {
               <div className="space-y-2 max-h-48 overflow-y-auto">
                 {profiles.map(p => (
                   <div key={p} className={`flex items-center justify-between p-2 rounded ${p === currentProfile ? 'bg-primary/20 border border-primary' : 'bg-panel-light'}`}>
-                    <span className={`font-medium ${p === currentProfile ? 'text-primary' : 'text-white'}`}>{p.toUpperCase()}</span>
-                    <div className="flex gap-2">
-                      {p !== currentProfile && (
-                        <button onClick={() => setCurrentProfile(p)} className="text-xs text-slate-400 hover:text-white">
-                          Switch
-                        </button>
-                      )}
-                      {profiles.length > 1 && p !== currentProfile && (
+                    {editingProfile === p ? (
+                      <div className="flex gap-2 flex-1 mr-2">
+                        <input
+                          type="text"
+                          value={editProfileName}
+                          onChange={e => setEditProfileName(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ''))}
+                          className="input-tactical text-sm py-1 px-2 flex-1"
+                          maxLength={20}
+                          autoFocus
+                        />
                         <button
-                          onClick={() => setProfiles(profiles.filter(x => x !== p))}
-                          className="text-xs text-red-400 hover:text-red-300"
+                          onClick={() => {
+                            if (editProfileName && !profiles.includes(editProfileName)) {
+                              const newProfiles = profiles.map(x => x === p ? editProfileName : x);
+                              setProfiles(newProfiles);
+                              if (currentProfile === p) setCurrentProfile(editProfileName);
+                              setEditingProfile(null);
+                              setEditProfileName('');
+                            }
+                          }}
+                          className="text-xs text-green-400 hover:text-green-300"
+                          disabled={!editProfileName || (editProfileName !== p && profiles.includes(editProfileName))}
                         >
-                          Delete
+                          Save
                         </button>
-                      )}
-                    </div>
+                        <button
+                          onClick={() => { setEditingProfile(null); setEditProfileName(''); }}
+                          className="text-xs text-slate-400 hover:text-white"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <span className={`font-medium ${p === currentProfile ? 'text-primary' : 'text-white'}`}>{p.toUpperCase()}</span>
+                        <div className="flex gap-2">
+                          {p !== currentProfile && (
+                            <button onClick={() => setCurrentProfile(p)} className="text-xs text-slate-400 hover:text-white">
+                              Switch
+                            </button>
+                          )}
+                          <button
+                            onClick={() => { setEditingProfile(p); setEditProfileName(p); }}
+                            className="text-xs text-primary hover:text-primary/80"
+                          >
+                            Edit
+                          </button>
+                          {profiles.length > 1 && (
+                            <button
+                              onClick={() => {
+                                if (p === currentProfile) {
+                                  const newProfiles = profiles.filter(x => x !== p);
+                                  setCurrentProfile(newProfiles[0]);
+                                  setProfiles(newProfiles);
+                                } else {
+                                  setProfiles(profiles.filter(x => x !== p));
+                                }
+                              }}
+                              className="text-xs text-red-400 hover:text-red-300"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
                 ))}
               </div>
