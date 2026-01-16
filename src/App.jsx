@@ -593,48 +593,83 @@ export default function ScoutingTool() {
   };
 
   const filteredPlayers = useMemo(() => {
-    return playersData
-      .filter(p => {
-        // If showUnavailable is ON, ONLY show unavailable players
-        if (showUnavailable) {
-          if (playerCategories[p.name] !== 'UNAVAILABLE') return false;
-        } else {
-          // Hide unavailable players from normal view
-          if (playerCategories[p.name] === 'UNAVAILABLE' && filter.category !== 'UNAVAILABLE') return false;
-        }
+    let result = [...playersData];
 
-        if (filter.region !== 'ALL' && p.region !== filter.region) return false;
-        if (filter.role !== 'ALL') {
-          if (!p.role.includes(filter.role)) return false;
-        }
-        if (filter.tier !== 'ALL' && p.tier !== filter.tier) return false;
-        if (filter.team !== 'ALL' && p.team !== filter.team) return false;
-        if (filter.starOnly && !p.star) return false;
-        if (filter.category !== 'ALL') {
-          if (filter.category === 'UNCATEGORIZED') {
-            if (playerCategories[p.name]) return false;
-          } else {
-            if (playerCategories[p.name] !== filter.category) return false;
-          }
-        }
-        // Stat range filters
-        if (statFilters.minAvg && p.avg < parseFloat(statFilters.minAvg)) return false;
-        if (statFilters.maxAvg && p.avg > parseFloat(statFilters.maxAvg)) return false;
-        if (statFilters.minTrend && p.trend < parseFloat(statFilters.minTrend)) return false;
-        if (statFilters.maxTrend && p.trend > parseFloat(statFilters.maxTrend)) return false;
+    // Handle unavailable toggle
+    if (showUnavailable) {
+      result = result.filter(p => playerCategories[p.name] === 'UNAVAILABLE');
+    } else if (filter.category !== 'UNAVAILABLE') {
+      result = result.filter(p => playerCategories[p.name] !== 'UNAVAILABLE');
+    }
 
-        if (searchTerm && !p.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-            !p.team.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'avg') return b.avg - a.avg;
-        if (sortBy === 'peak') return b.peak - a.peak;
-        if (sortBy === 'trend') return b.trend - a.trend;
-        if (sortBy === 'name') return a.name.localeCompare(b.name);
-        if (sortBy === 'team') return a.team.localeCompare(b.team);
-        return 0;
-      });
+    // Region filter
+    if (filter.region !== 'ALL') {
+      result = result.filter(p => p.region === filter.region);
+    }
+
+    // Role filter
+    if (filter.role !== 'ALL') {
+      result = result.filter(p => p.role === filter.role || p.role.includes(filter.role));
+    }
+
+    // Tier filter
+    if (filter.tier !== 'ALL') {
+      result = result.filter(p => p.tier === filter.tier);
+    }
+
+    // Team filter
+    if (filter.team !== 'ALL') {
+      result = result.filter(p => p.team === filter.team);
+    }
+
+    // Star filter
+    if (filter.starOnly) {
+      result = result.filter(p => p.star === true);
+    }
+
+    // Category filter
+    if (filter.category !== 'ALL') {
+      if (filter.category === 'UNCATEGORIZED') {
+        result = result.filter(p => !playerCategories[p.name]);
+      } else {
+        result = result.filter(p => playerCategories[p.name] === filter.category);
+      }
+    }
+
+    // Stat range filters
+    if (statFilters.minAvg) {
+      result = result.filter(p => p.avg >= parseFloat(statFilters.minAvg));
+    }
+    if (statFilters.maxAvg) {
+      result = result.filter(p => p.avg <= parseFloat(statFilters.maxAvg));
+    }
+    if (statFilters.minTrend) {
+      result = result.filter(p => p.trend >= parseFloat(statFilters.minTrend));
+    }
+    if (statFilters.maxTrend) {
+      result = result.filter(p => p.trend <= parseFloat(statFilters.maxTrend));
+    }
+
+    // Search filter
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase();
+      result = result.filter(p =>
+        p.name.toLowerCase().includes(term) ||
+        p.team.toLowerCase().includes(term)
+      );
+    }
+
+    // Sort
+    result.sort((a, b) => {
+      if (sortBy === 'avg') return b.avg - a.avg;
+      if (sortBy === 'peak') return b.peak - a.peak;
+      if (sortBy === 'trend') return b.trend - a.trend;
+      if (sortBy === 'name') return a.name.localeCompare(b.name);
+      if (sortBy === 'team') return a.team.localeCompare(b.team);
+      return 0;
+    });
+
+    return result;
   }, [filter, statFilters, sortBy, searchTerm, playerCategories, showUnavailable]);
 
   const stats = useMemo(() => {
