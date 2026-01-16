@@ -1121,7 +1121,7 @@ export default function ScoutingTool() {
                           )}
                           <button
                             onClick={() => { setEditingProfile(p); setEditProfileName(p); }}
-                            className="text-xs text-yellow-400 hover:text-yellow-300 flex items-center gap-1"
+                            className="px-2 py-1 text-xs bg-yellow-500/20 border border-yellow-500 text-yellow-400 rounded hover:bg-yellow-500/30 flex items-center gap-1"
                           >
                             <span className="material-symbols-outlined text-sm">edit</span>
                             Edit
@@ -1137,7 +1137,7 @@ export default function ScoutingTool() {
                                   setProfiles(profiles.filter(x => x !== p));
                                 }
                               }}
-                              className="text-xs text-red-400 hover:text-red-300"
+                              className="px-2 py-1 text-xs bg-red-500/20 border border-red-500 text-red-400 rounded hover:bg-red-500/30"
                             >
                               Delete
                             </button>
