@@ -367,12 +367,35 @@ export default function ScoutingTool() {
   const [showFilters, setShowFilters] = useState(false);
   const [showUnavailable, setShowUnavailable] = useState(false);
   const [showStars, setShowStars] = useState(false);
-  const [currentProfile, setCurrentProfile] = useState(() => localStorage.getItem('scoutingProfile') || 'redeem');
-  const [profiles, setProfiles] = useState(() => JSON.parse(localStorage.getItem('scoutingProfiles') || '["redeem"]'));
+  const [currentProfile, setCurrentProfile] = useState(() => localStorage.getItem('scoutingProfile') || 'default');
+  const [profiles, setProfiles] = useState(() => JSON.parse(localStorage.getItem('scoutingProfiles') || '["default"]'));
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [newProfileName, setNewProfileName] = useState('');
   const [editingProfile, setEditingProfile] = useState(null);
   const [editProfileName, setEditProfileName] = useState('');
+  const [showProfileSelector, setShowProfileSelector] = useState(false);
+  const [radarClickCount, setRadarClickCount] = useState(0);
+  const radarClickTimeout = React.useRef(null);
+
+  // Secret radar click handler - triple click to unlock redeem profile
+  const handleRadarClick = () => {
+    setRadarClickCount(prev => {
+      const newCount = prev + 1;
+      if (newCount >= 3) {
+        setShowProfileSelector(true);
+        setCurrentProfile('redeem');
+        if (!profiles.includes('redeem')) {
+          setProfiles(prev => [...prev, 'redeem']);
+        }
+        return 0;
+      }
+      return newCount;
+    });
+
+    // Reset click count after 500ms of no clicks
+    if (radarClickTimeout.current) clearTimeout(radarClickTimeout.current);
+    radarClickTimeout.current = setTimeout(() => setRadarClickCount(0), 500);
+  };
 
   // Save profile to localStorage when it changes
   useEffect(() => {
@@ -998,7 +1021,7 @@ export default function ScoutingTool() {
       <div className="text-center mb-8 relative z-10">
         <div className="flex items-center justify-center gap-4 mb-2">
           <div className="flex items-center gap-4">
-            <span className="material-symbols-outlined text-primary text-6xl">radar</span>
+            <span className="material-symbols-outlined text-primary text-6xl cursor-pointer select-none" onClick={handleRadarClick}>radar</span>
             <h1 className="text-5xl font-bold tracking-wider">
               <span className="text-white">R6</span>
               <span className="text-primary text-glow"> SCOUT</span>
@@ -1015,24 +1038,26 @@ export default function ScoutingTool() {
         <p className="text-slate-500 text-sm tracking-wide">{playersData.length} OPERATORS | {stats.stars} ELITE | FULL INTEL</p>
         <p className="text-slate-600 text-xs mt-1 tracking-wider">KEYS: 1-5 CATEGORIZE | R ROSTER | ESC CLOSE</p>
 
-        {/* Profile Selector */}
-        <div className="mt-3 flex items-center justify-center gap-2">
-          <span className="text-slate-500 text-xs">PROFILE:</span>
-          <select
-            value={currentProfile}
-            onChange={e => setCurrentProfile(e.target.value)}
-            className="input-tactical text-sm py-1 px-3"
-          >
-            {profiles.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
-          </select>
-          <button
-            onClick={() => setShowProfileModal(true)}
-            className="btn-tactical text-xs py-1 px-2"
-            title="Manage profiles"
-          >
-            <span className="material-symbols-outlined text-sm">add</span>
-          </button>
-        </div>
+        {/* Profile Selector - Hidden until secret radar click */}
+        {showProfileSelector && (
+          <div className="mt-3 flex items-center justify-center gap-2">
+            <span className="text-slate-500 text-xs">PROFILE:</span>
+            <select
+              value={currentProfile}
+              onChange={e => setCurrentProfile(e.target.value)}
+              className="input-tactical text-sm py-1 px-3"
+            >
+              {profiles.map(p => <option key={p} value={p}>{p.toUpperCase()}</option>)}
+            </select>
+            <button
+              onClick={() => setShowProfileModal(true)}
+              className="btn-tactical text-xs py-1 px-2"
+              title="Manage profiles"
+            >
+              <span className="material-symbols-outlined text-sm">add</span>
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Profile Modal */}
