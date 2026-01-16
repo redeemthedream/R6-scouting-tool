@@ -1343,7 +1343,7 @@ export default function ScoutingTool() {
                       <button onClick={() => toggleRoster(p)} className="absolute top-2 right-2 text-red-400 hover:text-red-300">
                         <span className="material-icons text-sm">close</span>
                       </button>
-                      <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}</div>
+                      <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1 px-1 py-0.5 rounded text-[9px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}</div>
                       <div className="text-xs text-gray-500 mt-1">{p.role}</div>
                       <div className={`text-sm ${getRatingColor(p.avg)} px-2 py-1 rounded mt-2 inline-block`}>{p.avg.toFixed(2)}</div>
                     </div>
@@ -1406,7 +1406,7 @@ export default function ScoutingTool() {
                       <th className="p-3 text-left text-primary">Stat</th>
                       {compareList.map(p => (
                         <th key={p.name} className="p-3 text-center text-white">
-                          {showStars && p.star ? '⭐ ' : ''}{p.name}
+                          {showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}
                           <button onClick={() => toggleCompare(p)} className="ml-2 text-red-400 hover:text-red-300">
                             <span className="material-icons text-sm align-middle">close</span>
                           </button>
@@ -1596,7 +1596,7 @@ export default function ScoutingTool() {
                   {players.sort((a,b) => b.avg - a.avg).map(p => (
                     <div key={p.name} className="tactical-panel tactical-panel-hover p-4 flex justify-between items-center cursor-pointer" onClick={() => setSelectedPlayer(p)}>
                       <div>
-                        <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}</div>
+                        <div className="font-bold text-white">{showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}</div>
                         <div className="text-sm text-gray-500">{p.team} - {p.role}</div>
                       </div>
                       <div className="text-right">
@@ -1677,7 +1677,7 @@ export default function ScoutingTool() {
                         <button onClick={() => toggleRoster(p)} className={`w-6 h-6 rounded text-xs font-bold transition-all ${roster.find(x => x.name === p.name) ? 'bg-primary/20 border border-primary text-primary' : 'bg-panel-light border border-panel-border hover:border-primary/50'}`} title="Add to Roster">+</button>
                       </div>
                     </td>
-                    <td className="p-2 font-bold text-white whitespace-nowrap">{showStars && p.star ? '⭐ ' : ''}{p.name}</td>
+                    <td className="p-2 font-bold text-white whitespace-nowrap">{showStars && p.star ? '⭐ ' : ''}{p.name}{p.tier === 'T2' && <span className="ml-1.5 px-1.5 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span>}</td>
                     <td className="p-2 text-gray-400 text-xs">{p.team}</td>
                     <td className="p-2 text-center"><span className={`px-1.5 py-0.5 rounded text-xs font-medium badge-${p.region.toLowerCase()}`}>{p.region}</span></td>
                     <td className="p-2 text-center hidden sm:table-cell"><span className={`px-1.5 py-0.5 rounded text-xs font-medium whitespace-nowrap ${getRoleClass(p.role)}`}>{p.role}</span></td>
@@ -1713,7 +1713,7 @@ export default function ScoutingTool() {
                   <span className="text-gray-500">|</span>
                   <span className="text-gray-400">{selectedPlayer.team}</span>
                   <span className="text-gray-500">|</span>
-                  <span className="text-gray-500">{selectedPlayer.tier}</span>
+                  {selectedPlayer.tier === 'T2' ? <span className="px-1.5 py-0.5 rounded text-xs font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/50">LCQ</span> : <span className="text-gray-500">{selectedPlayer.tier}</span>}
                 </div>
                 <p className="text-primary mt-1 font-medium">{selectedPlayer.role}</p>
               </div>
